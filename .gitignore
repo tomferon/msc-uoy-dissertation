@@ -5,3 +5,7 @@
 *.pdf
 *.synctex.gz
 .direnv
+*.bbl
+*.bcf
+*.blg
+*.run.xml
