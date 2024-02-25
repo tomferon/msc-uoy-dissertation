@@ -29,15 +29,45 @@ FIXME: Quick intro to the topic and explanation of what is coming.
 
 This section establishes the preliminaries of stochastic calculus required by further sections without proofs. See \textcite{capinski_stochastic_2012} and \textcite{capinski_blackscholes_2012} for further details.
 
+In the following, we implicitly assume that we work in a probability space $(\Omega, \mathcal{F}, P)$ unless stated otherwise. We also restrict ourselves to processes defined on a time interval $[0,T]$ for some $T$ as it is sufficient in this context. When relevant, we further assume that we work with a filtration $(\mathcal{F}_t)_{t \in [0,T]}$.
+
 \begin{definition}
-  A stochastic process is FIXME
+  A \textbf{stochastic process} is a measurable function $X : [0,T] \times \Omega \to \mathbb{R}^d$ with respect to the $\sigma$-field $\mathcal{B}([0,T]) \times \mathcal{F}$.
 \end{definition}
 
-FIXME: Definition of adaptedness
+Note that $X(t)$ for $t \in [0,T]$ denotes the random variable $\omega \mapsto X(t,\omega)$.
 
-FIXME: Definition of martingale
+\begin{definition}
+  A \textbf{filtration} is a family $(\mathcal{F}_t)_{t \in [0,T]}$ of sub-$\sigma$-fields of $\mathcal{F}$ such that $\mathcal{F}_s \subseteq \mathcal{F}_t$ for all $0 \le s < t \le T$.
+\end{definition}
 
-FIXME: Definition of Wiener process
+\begin{definition}
+  A stochastic process $X$ is said to be \textbf{adapted} to a filtration $(\mathcal{F}_t)_{t \in [0,T]}$ if for all $t \in [0,T]$, $X(t)$ is $\mathcal{F}_t$-measurable.
+\end{definition}
+
+\begin{definition}
+  A stochastic process $X$ is said to be a \textbf{martingale} for a filtration $\mathcal{F}_t$ if $X(t)$ is integrable for each $t \in [0,T]$ and
+
+  \begin{align*}
+    \mathbb{E}(X(t) \mid \mathcal{F}_s) = X(s)
+  \end{align*}
+
+  for all $0 \le s < t \le T$.
+\end{definition}
+
+A very important stochastic process is the Wiener process. Here, we give an axiomatic definition. For a construction of such a process and thus a proof of existence, see \textcite{capinski_stochastic_2012}.
+
+\begin{definition}
+  A \textbf{Wiener process}, also called Brownian motion, is a stochastic process $(W(t))_{t \in [0,T]}$ that satisfies
+
+  \begin{itemize}
+    \item $W(0) = 0$ almost surely,
+    \item for all $0 \le s < t \le T$, the increment $W(t) - W(s)$ follows a normal distribution with mean 0 and variance $t - s$,
+    \item for all $0 \le t_1 < t_2 < cdots < t_m$, the increments $W(t_k) - W(t_{k-1}), k=2,\ldots,m$ are independent,
+    \item almost all paths are continuous, i.e. $t \mapsto W(t,\omega)$ are continuous functions for almost all $\omega \in \Omega$.
+  \end{itemize}
+\end{definition}
+
 
 FIXME: Definition of stochastic integral
 
