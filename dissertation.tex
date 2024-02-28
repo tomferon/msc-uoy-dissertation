@@ -11,7 +11,10 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage{amsthm}
-\newtheorem{definition}{Definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
@@ -68,18 +71,126 @@ A very important stochastic process is the Wiener process. Here, we give an axio
   \end{itemize}
 \end{definition}
 
+We define the \textit{stochastic integral} on so-called simple processes in $\mathcal{S}^2$ and then extend it to a larger class of processes $\mathcal{M}^2$ as defined below. Note that $\mathcal{S}^2 \subset \mathcal{M}^2$.
 
-FIXME: Definition of stochastic integral
+\begin{align*}
+  \mathcal{S}^2 &= \{ (t,\omega) \mapsto \xi_0 \mathbf{1}_0 + \sum_{k=0}^{n-1} \xi_k(\omega) \mathbf{1}_{(t_k,t_{k+1}]}(t)\\
+    &\ \ \ \ \ : n > 0, 0 = t_0 < t_1 < \cdots < t_n = T,\\
+    &\ \ \ \ \ \ \ \xi_k \text{ is } \mathcal{F}_{t_k}\text{-measurable and } \mathbb{E}(\xi_k^2) < \infty \text{ for } k = 0,1,\ldots,n-1 \},\\
+  \mathcal{M}^2 &= \left\{ f : [0,T] \times \Omega \to \mathbb{R} : f \text{ is adpated }, \mathbb{E}\left(\int_0^T f(t)^2 \mathrm{d}t \right) < \infty \right\}.
+\end{align*}
 
-FIXME: Definition of It\^o process
+\begin{definition}
+  The \textbf{stochastic integral}, also called It\^o integral, of a process $f \in \mathcal{S}^2$ is
 
-FIXME: Definition of stochastic differential equation
+  \begin{align*}
+    \int_0^T f(t) \mathrm{d}W(t) = \sum_{k=0}^{n-1} \xi_k (W(t_{k+1}) - W(t_k)).
+  \end{align*}
+\end{definition}
 
-FIXME: Explanation of notation as stochastic differentials
+\begin{proposition}\label{eq:s2-m2-conv}
+  For all $f \in \mathcal{M}^2$, there exists a sequence $(f_n)_{n \ge 1}$ in $\mathcal{S}^2$ that converges to $f$ in $L^2([0,T] \times \Omega)$.
+\end{proposition}
 
-FIXME: Uniqueness of characteristics of It\^o processes
+This proposition allows us to extend the stochastic integral to $\mathcal{M}^2$ as follows.
 
-FIXME: It\^o formula
+\begin{definition}
+  The \textbf{stochatic integral} of $f \in \mathcal{M}^2$ is
+
+  \begin{align*}
+    \int_0^T f(t) \mathrm{d}W(t) = \lim_{n \to \infty} \int_0^T f_n(t) \mathrm{d}W(t).
+  \end{align*}
+\end{definition}
+
+It can be shown that the limit in this definition exists and does not in fact depend on which specific sequence $(f_n)$ convergent to $f$ we choose. This together with \eqref{eq:s2-m2-conv} ensures that the stochastic integral is well-defined on $\mathcal{M}^2$. See \textcite{capinski_stochastic_2012}.
+
+Furthermore, for all $f \in \mathcal{M}^2$, there exists a continuous martingale $M$ such that for all $t$,
+
+\begin{align*}
+  P\left(M(t) = \int_0^T \mathbf{1}_{[0,t]}(s) f(s) \mathrm{d}W(s)\right) = 1.
+\end{align*}
+
+This allows to see stochastic integrals as processes defining
+
+\begin{align*}
+  \int_0^t f(s) \mathrm{d}W(s) = M(t).
+\end{align*}
+
+FIXME: The above is not unique but all such martingales are versions of one another.
+
+\begin{definition}
+  An \textbf{It\^o process} is a stochastic process $X$ of the form
+
+  \begin{align}\label{eq:def-ito-process}
+    X(t) = X(0) + \int_0^t a(s) \mathrm{d}s + \int_0^t b(s) \mathrm{d}W(s),
+  \end{align}
+
+  for $t \in [0,T]$ where $a,b$ are called the \textbf{characteristics} of $X$.
+\end{definition}
+
+For convenience, we will also write \eqref{eq:def-ito-process} using the following notation, its \textbf{stochastic differential}:
+
+\begin{align}\label{eq:stoch-diff-notation}
+  \mathrm{d}X(t) = a(t) \mathrm{d}t + b(t) \mathrm{d}W(t).
+\end{align}
+
+FIXME: Uniqueness of characteristics
+
+Consider a so-called \textbf{stochastic differential equation}, or \textbf{SDE} for short, as follows.
+
+\begin{align}\label{eq:sde-init-value}
+  \mathrm{d}X(t) &= a(t,X(t)) \mathrm{d}t + b(t,X(t)) \mathrm{d}W(t), \text{ for } t \in (0,T],\\
+  X(0) &= X_0\notag
+\end{align}
+
+where $X_0$ is a given square-integrable random variable.
+
+Under certain conditions, we know that it has a unique solution, i.e. we have both existence and uniqueness of a solution. See \textcite{capinski_stochastic_2012} for a proof.
+
+\begin{theorem}\label{eq:sde-solution}
+  Provided that both the coefficients $a(t,x)$ and $b(t,x)$ satisfy the following conditions.
+
+  \begin{itemize}
+    \item Linear growth in the first variable: there exists $C > 0$ such that
+
+      \begin{align*}
+        |a(t,x)| + |b(t,x)| \le C (1 + |x|), \text{ for } t \in [0,T], x \in \mathbb{R}.
+      \end{align*}
+
+    \item Lipschitz continuity in the second variable: there exists $K > 0$ such that
+
+      \begin{align*}
+        |a(t,x) - a(x,y)| + |b(t,x) - b(t,y)| \le K |x-y|, \text{ for } t \in [0,T], x,y \in \mathbb{R}.
+      \end{align*}
+  \end{itemize}
+
+  Then \eqref{eq:sde-init-value} has a unique solution with continuous paths such that
+
+  \begin{align*}
+    \mathbb{E}\left(\int_0^T X(t)^2 \mathrm{d}t\right) < \infty.
+  \end{align*}
+\end{theorem}
+
+We now introduce two ways to derive new SDEs from old ones, both in their unidimensional and multidimensional versions. The first, the It\^o formula, allows us to find a SDE satisfied by $F(t,X(t))$ for some function $F(t,x)$ given the SDE satisfied by $X(t)$. The second, the It\^o product rule, gives us a SDE satisfied by the product $X(t)Y(t)$ from SDEs that $X(t)$ and $Y(t)$ satisfy.
+
+\begin{theorem}
+  (\textbf{It\^o formula}) If $F : [0,T] \times \mathbb{R} \to \mathbb{R}$ is in $C^{1,2}$ and $X$ is an It\^o process, i.e.
+
+  \begin{align*}
+    \mathrm{d}X(t) &= a(t) \mathrm{d}t + b(t) \mathrm{d}W(t)
+  \end{align*}
+
+  with $\int_0^T |a(t)| \mathrm{d}t < \infty$ almost surely and $b \in \mathcal{M}^2$.
+
+  Then $F(t,X(t))$ is an It\^o process with stochastic differential
+
+  \begin{align*}
+    \mathrm{d}F(t,X(t)) &= \left(F_t(t,X(t)) + F_x(t,X(t)) a(t) + \frac{1}{2} F_{xx}(t,X(t)) b(t)^2 \right) \mathrm{d}t\\
+    &\ \ \ \ + F_x(t,X(t)) b(t) \mathrm{d}W(t).
+  \end{align*}
+\end{theorem}
+
+FIXME: Check that no processes are in $\mathcal{P}^2$ for the simplication on $b(t,x)$ above.
 
 % FIXME: Solution to dS = u S dt + s S dW
 
@@ -145,7 +256,7 @@ The solution to \eqref{eq:multi-bs-eq} is
   S_i(t) &= S_i(0) \exp \left( \int_0^t \mu_i(t) \mathrm{d}t - \frac{1}{2} \sum_{j=1}^{d} \int_0^d c_{ij}^2(t) \mathrm{d}t + \sum_{j=1}^d \int_0^t c_{ij}(t) \mathrm{d}W_j(t) \right).
 \end{align*}
 
-This can be verified using the multi-dimensional It\^o formula. Uniqueness follows from \eqref{eq:ito-uniqueness-md} since we assume
+This can be verified using the multidimensional It\^o formula. Uniqueness follows from \eqref{eq:ito-uniqueness-md} since we assume
 
 FIXME: \^{} Prove it or at least verify it for $d=2$?
 
@@ -176,7 +287,7 @@ First, notice that for all $i=1,\ldots,d$,
 
 where we assume that we have some $\alpha_j(t)$ are such that $\sum_{j=1}^d \alpha_j(t) = 1$ for all $t$. We will find the values for $\alpha_j(t)$ in the rest of this section. These coefficients serve to ``spread'' the term $(\mu_i(t) - r) S_i(t) \mathrm{d}t$ over each of the Wiener processes $W_j(t)$.
 
-In order to apply the multi-dimensional Girsanov theorem, we want the terms $\alpha_j(t) \frac{\mu_i(t) - r}{c_{ij}(t)}$ to not depend on $i$. Thus, let
+In order to apply the multidimensional Girsanov theorem, we want the terms $\alpha_j(t) \frac{\mu_i(t) - r}{c_{ij}(t)}$ to not depend on $i$. Thus, let
 
 \begin{align*}
   \theta_j(t) = \alpha_j(t) \frac{\mu_i(t) - r}{c_{ij}(t)}.
@@ -207,7 +318,7 @@ Consider the process
 
 FIXME: Use prop 6.16 from BS book to show it's a martingale.
 
-By \eqref{eq:exp-sums-martingale}, $M(t)$ is a martingale (FIXME: check conditions on $\theta$?). Thus, by the multi-dimensional Girsanov theorem, we obtain a probability $Q$ with density $\frac{\mathrm{d}Q}{\mathrm{P}} = M(T)$ such that $\mathrm{d}W^Q_j(t) = \theta_j(t) \mathrm{d}t + \mathrm{d}W_j(t)$ is a Wiener process under $Q$ for all $j$.
+By \eqref{eq:exp-sums-martingale}, $M(t)$ is a martingale (FIXME: check conditions on $\theta$?). Thus, by the multidimensional Girsanov theorem, we obtain a probability $Q$ with density $\frac{\mathrm{d}Q}{\mathrm{P}} = M(T)$ such that $\mathrm{d}W^Q_j(t) = \theta_j(t) \mathrm{d}t + \mathrm{d}W_j(t)$ is a Wiener process under $Q$ for all $j$.
 
 This in turn implies that
 
