@@ -35,7 +35,7 @@ This section establishes the preliminaries of stochastic calculus required by fu
 In the following, we implicitly assume that we work in a probability space $(\Omega, \mathcal{F}, P)$ unless stated otherwise. We also restrict ourselves to processes defined on a time interval $[0,T]$ for some $T$ as it is sufficient in this context. When relevant, we further assume that we work with a filtration $(\mathcal{F}_t)_{t \in [0,T]}$.
 
 \begin{definition}
-  A \textbf{stochastic process} is a measurable function $X : [0,T] \times \Omega \to \mathbb{R}^d$ with respect to the $\sigma$-field $\mathcal{B}([0,T]) \times \mathcal{F}$.
+  A \textbf{stochastic process} is a measurable function $X : [0,T] \times \Omega \to \mathbb{R}$ with respect to the $\sigma$-field $\mathcal{B}([0,T]) \times \mathcal{F}$.
 \end{definition}
 
 Note that $X(t)$ for $t \in [0,T]$ denotes the random variable $\omega \mapsto X(t,\omega)$.
@@ -171,9 +171,9 @@ Under certain conditions, we know that it has a unique solution, i.e. we have bo
   \end{align*}
 \end{theorem}
 
-We now introduce two ways to derive new SDEs from old ones, both in their unidimensional and multidimensional versions. The first, the It\^o formula, allows us to find a SDE satisfied by $F(t,X(t))$ for some function $F(t,x)$ given the SDE satisfied by $X(t)$. The second, the It\^o product rule, gives us a SDE satisfied by the product $X(t)Y(t)$ from SDEs that $X(t)$ and $Y(t)$ satisfy.
+We now introduce two ways to derive new SDEs from old ones, both with their multidimensional versions. The first, the It\^o formula, allows us to find a SDE satisfied by $F(t,X(t))$ for some function $F(t,x)$ given the SDE satisfied by $X(t)$. The second, the It\^o product rule, gives us a SDE satisfied by the product $X(t)Y(t)$ from SDEs that $X(t)$ and $Y(t)$ satisfy.
 
-\begin{theorem}
+\begin{theorem}\label{eq:ito-formula}
   (\textbf{It\^o formula}) If $F : [0,T] \times \mathbb{R} \to \mathbb{R}$ is in $C^{1,2}$ and $X$ is an It\^o process, i.e.
 
   \begin{align*}
@@ -194,9 +194,20 @@ FIXME: Check that no processes are in $\mathcal{P}^2$ for the simplication on $b
 
 % FIXME: Solution to dS = u S dt + s S dW
 
-FIXME: Multi-dimensional It\^o processes
+FIXME: Definition of multidimensional It\^o processes.
 
-FIXME: Multi-dimensional It\^o formula
+We also have a similar result for functions of many It\^o processes.
+
+\begin{theorem}\label{eq:ito-formula-multi}
+  (\textbf{Multidimensional It\^o formula}) If $F : [0,T] \times \mathbb{R}^d \to \mathbb{R}$ of class $C^1$ in the first variable and $C^2$ in the others, and $\mathbf{X}(t)$ is an $d$-dimensional It\^o process driven by $n$ independent Wiener processes. Then $F(t,\mathbf{X}(t)) = F(t,X_1(t),X_2(t),\ldots,X_d(t))$ is an It\^o process with stochastic differential
+
+  \begin{align*}
+    \mathrm{d}F(t,\mathbf{X}(t))
+    &= F_t(t,\mathbf{X}(t)) \mathrm{d}t + \sum_{i=1}^d F_{x_i}(t,\mathbf{X}(t)) a_i(t) \mathrm{d}t\\
+    &\ \ \ \ + \sum_{i=1}^d \left(F_{x_i}(t,\mathbf{X}(t)) \sum_{j=1}^n b_{ij}(t) \mathrm{d}W_j(t) \right)\\
+    &\ \ \ \ + \frac{1}{2} \sum_{j=1}^n \sum_{i,l=1}^d F_{x_i x_l}(t,\mathbf{X}(t)) b_{ij}(t)b_{lj}(t) \mathrm{d}t.
+  \end{align*}
+\end{theorem}
 
 FIXME: Uniqueness of characteristics of multi-dimensional It\^o processes
 
