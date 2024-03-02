@@ -35,7 +35,7 @@ This section establishes the preliminaries of stochastic calculus required by fu
 In the following, we implicitly assume that we work in a probability space $(\Omega, \mathcal{F}, P)$ unless stated otherwise. We also restrict ourselves to processes defined on a time interval $[0,T]$ for some $T$ as it is sufficient in this context. When relevant, we further assume that we work with a filtration $(\mathcal{F}_t)_{t \in [0,T]}$.
 
 \begin{definition}
-  A \textbf{stochastic process} is a measurable function $X : [0,T] \times \Omega \to \mathbb{R}$ with respect to the $\sigma$-field $\mathcal{B}([0,T]) \times \mathcal{F}$.
+  A \textbf{stochastic process} is a measurable function $X : [0,T] \times \Omega \to \mathbb{R}^d$ with respect to the $\sigma$-field $\mathcal{B}([0,T]) \times \mathcal{F}$.
 \end{definition}
 
 Note that $X(t)$ for $t \in [0,T]$ denotes the random variable $\omega \mapsto X(t,\omega)$.
@@ -66,12 +66,16 @@ A very important stochastic process is the Wiener process. Here, we give an axio
   \begin{itemize}
     \item $W(0) = 0$ almost surely,
     \item for all $0 \le s < t \le T$, the increment $W(t) - W(s)$ follows a normal distribution with mean 0 and variance $t - s$,
-    \item for all $0 \le t_1 < t_2 < cdots < t_m$, the increments $W(t_k) - W(t_{k-1}), k=2,\ldots,m$ are independent,
+    \item for all $0 \le t_1 < t_2 < \cdots < t_m$, the increments $W(t_k) - W(t_{k-1}), k=2,\ldots,m$ are independent,
     \item almost all paths are continuous, i.e. $t \mapsto W(t,\omega)$ are continuous functions for almost all $\omega \in \Omega$.
   \end{itemize}
 \end{definition}
 
-We define the \textit{stochastic integral} on so-called simple processes in $\mathcal{S}^2$ and then extend it to a larger class of processes $\mathcal{M}^2$ as defined below. Note that $\mathcal{S}^2 \subset \mathcal{M}^2$.
+\begin{definition}
+  A \textbf{$d$-dimensional Wiener process} is a stochastic process $\mathbf{W}(t) = (W_1(t), W_2(t), \ldots, W_d(t))$ where $W_j(t), j=1,\ldots,n$ are independent Wiener processes.
+\end{definition}
+
+We define the \textit{stochastic integral} on so-called simple processes in $\mathcal{S}^2$ and then extend it to a larger class of processes $\mathcal{M}^2$ as defined below. Note that $\mathcal{S}^2 \subset \mathcal{M}^2$. A complete development of stochastic integrals on $\mathcal{S}^2 \subset \mathcal{M}^2 \subset \mathcal{P}^2$ with their properties can be found in \textcite{capinski_stochastic_2012}.
 
 \begin{align*}
   \mathcal{S}^2 &= \{ (t,\omega) \mapsto \xi_0 \mathbf{1}_0 + \sum_{k=0}^{n-1} \xi_k(\omega) \mathbf{1}_{(t_k,t_{k+1}]}(t)\\
@@ -95,7 +99,7 @@ We define the \textit{stochastic integral} on so-called simple processes in $\ma
 This proposition allows us to extend the stochastic integral to $\mathcal{M}^2$ as follows.
 
 \begin{definition}
-  The \textbf{stochatic integral} of $f \in \mathcal{M}^2$ is
+  The \textbf{stochastic integral} of $f \in \mathcal{M}^2$ is
 
   \begin{align*}
     \int_0^T f(t) \mathrm{d}W(t) = \lim_{n \to \infty} \int_0^T f_n(t) \mathrm{d}W(t).
@@ -190,16 +194,30 @@ We now introduce two ways to derive new SDEs from old ones, both with their mult
   \end{align*}
 \end{theorem}
 
-FIXME: Check that no processes are in $\mathcal{P}^2$ for the simplication on $b(t,x)$ above.
+FIXME: Check that no processes are in $\mathcal{P}^2$ for the simplication on $b(t,x)$ above. This check would also affect the following definitions and theorems.
 
 % FIXME: Solution to dS = u S dt + s S dW
 
-FIXME: Definition of multidimensional It\^o processes.
+To generalise to higher dimensions, we first need to define multidimensional It\^o processes.
 
-We also have a similar result for functions of many It\^o processes.
+\begin{definition}
+  A \textbf{multidimensional It\^o process} is a stochastic process $\mathbf{X}(t) = (X_1(t), X_2(t), \ldots, X_d(t))$ that satisfy
+
+  \begin{align*}
+    \mathrm{d}X_i(t) = a_i(t) \mathrm{d}t + \sum_{j=1}^n b_{ij}(t) \mathrm{d}W_j(t), \text{ for } i=1,\ldots,d
+  \end{align*}
+
+  where $W_j(t), j=1,\ldots,n$ are $n$ Wiener processes, $a_i(t), i=1,\ldots,d$ are stochastic processes such that $\int_0^T |a_i(t)| \mathrm{d}t < \infty$ and $b_{ij} \in \mathcal{M}^2$ for $i=1,\ldots,d$ and $j=1,\ldots,n$.
+\end{definition}
+
+FIXME: Check whether the multidimensional It\^o processes can be defined such that $d=n$ and simplify the following theorems.
+
+FIXME: Uniqueness of characteristics of multi-dimensional It\^o processes (BS, theorem 6.9)
+
+We can now state the multidimensional It\^o formula. A proof can be found in \textcite{capinski_blackscholes_2012}.
 
 \begin{theorem}\label{eq:ito-formula-multi}
-  (\textbf{Multidimensional It\^o formula}) If $F : [0,T] \times \mathbb{R}^d \to \mathbb{R}$ of class $C^1$ in the first variable and $C^2$ in the others, and $\mathbf{X}(t)$ is an $d$-dimensional It\^o process driven by $n$ independent Wiener processes. Then $F(t,\mathbf{X}(t)) = F(t,X_1(t),X_2(t),\ldots,X_d(t))$ is an It\^o process with stochastic differential
+  (\textbf{Multidimensional It\^o formula}) If $F : [0,T] \times \mathbb{R}^d \to \mathbb{R}$ of class $C^1$ in the first variable and $C^2$ in the others, and $\mathbf{X}(t)$ is a $d$-dimensional It\^o process driven by $n$ independent Wiener processes. Then $F(t,\mathbf{X}(t)) = F(t,X_1(t),X_2(t),\ldots,X_d(t))$ is an It\^o process with stochastic differential
 
   \begin{align*}
     \mathrm{d}F(t,\mathbf{X}(t))
@@ -209,23 +227,45 @@ We also have a similar result for functions of many It\^o processes.
   \end{align*}
 \end{theorem}
 
-FIXME: Uniqueness of characteristics of multi-dimensional It\^o processes
+This formula can be used to prove the following lemma which will come handy later on. See \textcite{capinski_blackscholes_2012}.
 
-FIXME: Prove that the following is a martingale using the multi-dimensional It\^o formula.
+\begin{lemma}\label{eq:exp-sums-martingale}
+  If $\theta_j(t), j=1,\ldots,n$ are deterministic and $W_j(t), j=1,\ldots,d$ are independent Wiener processes, then the stochastic process
 
-\begin{align}\label{eq:exp-sums-martingale}
-  M(t) = \exp \left( - \sum_{j=1}^{d} \theta_j(s) \mathrm{d}W_j(s) - \frac{1}{2} \sum_{j=1}^{d} \theta_j(s)^2 \mathrm{d}s \right).
-\end{align}
+  \begin{align*}
+    M(t) = \exp \left( - \sum_{j=1}^{d} \theta_j(s) \mathrm{d}W_j(s) - \frac{1}{2} \sum_{j=1}^{d} \theta_j(s)^2 \mathrm{d}s \right).
+  \end{align*}
 
-FIXME: It\^o product rule
+  is a martingale.
+\end{lemma}
 
-FIXME: Physical v risk-neutral probability
+We now turn our attention to product of It\^o processes starting with the unidimensional case. See \textcite{capinski_stochastic_2012} for a proof where it is referred to as integration by parts.
 
-FIXME: Pricing with risk-neutral probability
+\begin{theorem}
+  Given two It\^o processes $X$ and $Y$ satisfying
 
-FIXME: Girsanov theorem
+  \begin{align*}
+    \mathrm{d}X(t) &= a_X(t) \mathrm{d}t + b_X(t) \mathrm{d}W(t),\\
+    \mathrm{d}Y(t) &= a_Y(t) \mathrm{d}t + b_Y(t) \mathrm{d}W(t),
+  \end{align*}
 
-FIXME: Multi-dimensional Girsanov theorem
+  then the product $XY$ is an It\^o process satisfying
+
+  \begin{align*}
+    \mathrm{d}[X(t) Y(t)]
+    &= a_X(t) Y(t) \mathrm{d}t + b_X(t) Y(t) \mathrm{d}W(t)\\
+    &\ \ \ \ + a_Y(t) X(t) \mathrm{d}t + b_Y(t) X(t) \mathrm{d}W(t)\\
+    &\ \ \ \ + b_X(t) b_Y(t) \mathrm{d}t.
+  \end{align*}
+\end{theorem}
+
+FIXME: Multidimensional It\^o product rule? If not needed, then some paragraph above needs to be changed to remove its mention.
+
+For pricing purposes and since the physical (real) probability $P$ is unknown, we will want to construct a risk-neutral probability $Q$ such that the discounted prices of assets form a martingale under $Q$, i.e. $\mathbb{E}_Q(e^{-rt}S(t) \mid \mathcal{F}_s) = e^{-rs}S(s)$ for $s < t$. The following theorem will allow us to construct such a measure and a Wiener process with respect to it. A proof can be found in \textcite{capinski_blackscholes_2012}.
+
+\begin{theorem}
+  (\textbf{Girsanov theorem}) FIXME (p 167)
+\end{theorem}
 
 FIXME: Martingale representation theorem
 
