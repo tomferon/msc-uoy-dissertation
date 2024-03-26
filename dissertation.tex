@@ -229,7 +229,7 @@ A very important stochastic process is the Wiener process. Here, we give an axio
 
 %%%%%%%%%%%%%
 \begin{definition}
-  The \textbf{stochastic integral}, also called It\^o integral, of a process $X \in \mathcal{S}^2$ is defined as
+  The \textbf{stochastic integral}, also called It\^o integral, of a process $X \in \mathcal{S}^2$ over $[0,T]$ is defined as
   \begin{align*}
     \int_0^T X(t) \mathrm{d}W(t) = \sum_{k=0}^{n-1} \xi_k (W(t_{k+1}) - W(t_k)).
   \end{align*}
@@ -251,7 +251,7 @@ A very important stochastic process is the Wiener process. Here, we give an axio
 \end{proposition}
 
 \begin{definition}
-  The \textbf{stochastic integral} of $X \in \mathcal{M}^2$ is
+  The \textbf{stochastic integral} of $X \in \mathcal{M}^2$ over $[0,T]$ is defined as
   \begin{align*}
     \int_0^T X(t) \mathrm{d}W(t) = \lim_{n \to \infty} \int_0^T X_n(t) \mathrm{d}W(t).
   \end{align*}
@@ -264,7 +264,38 @@ The limit in this definition exists and does not in fact depend on which specifi
 %%%%%%%%%%%%%
 ensures that the stochastic integral is well-defined on $\mathcal{M}^2$. See \cite{oksendal_stochastic_2003}, Definition 3.1.6.
 
-FIXME: Define $\mathcal{P}^2$
+\begin{proposition}(\cite{capinski_stochastic_2012}, Theorem 3.15)\label{prop:stochastic-integral-martingale}
+  For all $X \in \mathcal{M}^2$, there exists a martingale $M : [0,T] \times \Omega \to \mathbb{R}$ with continuous paths such that
+  \begin{align*}
+    M(t) = \int_0^T \mathbf{1}_{[0,t]}(s) X(s) \mathrm{d}W(s)
+  \end{align*}
+  almost surely for all $t \in [0,T]$.
+\end{proposition}
+
+\begin{definition}
+  The \textbf{stochastic integral} of $X \in \mathcal{M}^2$ is defined as the process
+  \begin{align*}
+    \int_0^t X(s) \mathrm{d}W(s) = M(t)
+  \end{align*}
+  for $t \in [0,T]$ where $M$ is the martingale given by \ref{prop:stochastic-integral-martingale}.
+\end{definition}
+
+\begin{definition}
+  The set $\mathcal{P}^2$ is defined as the set of $\mathcal{F}^W_t$-adapted processes $X$ such that
+  \begin{align*}
+    \int_0^T X(t)^2 \mathrm{d}t < \infty
+  \end{align*}
+  almost surely.
+\end{definition}
+
+\begin{proposition}
+  Let $X \in \mathcal{P}^2$ and let $(X_n)_{n \ge 1}$ be the sequence given by
+  \begin{align*}
+    X_n(t) = \int ...
+  \end{align*}
+
+  FIXME
+\end{proposition}
 
 FIXME: Extension of the integral on $\mathcal{P}^2$.
 
@@ -289,7 +320,7 @@ FIXME: $b \in \mathcal{P}^2$ in the following:
   \begin{align}\label{eq:def-ito-process}
     X(t) = X(0) + \int_0^t a(s) \mathrm{d}s + \int_0^t b(s) \mathrm{d}W(s), t \in [0,T]
   \end{align}
-  for some $a, b : [0,T] \times \Omega \to \mathbb{R}$, called the \textbf{characteristics} of the It\^o process, such that $a$ is $\mathcal{F}^W_t$-adapted and satisfies $\int_0^T |a(s)| \mathrm{d}s < \infty$ almost surely, and $b \in \mathcal{M}^2$.
+  for some $a, b : [0,T] \times \Omega \to \mathbb{R}$, called the \textbf{characteristics} of the It\^o process, such that $a$ is $\mathcal{F}^W_t$-adapted and satisfies $\int_0^T |a(s)| \mathrm{d}s < \infty$ almost surely, and $b \in \mathcal{P}^2$.
   %%%%%%%%%%%%%
 \comment{The definition is incomplete. We must specify the conditions required by $a,b$.}
 %%%%%%%%%%%%%
