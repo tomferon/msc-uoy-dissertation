@@ -42,7 +42,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
 \numberwithin{equation}{section}
 \numberwithin{figure}{section}
-\theoremstyle{plain}
+\newtheoremstyle{bolddesc}{}{}{\itshape}{}{\bfseries}{.}{ }
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+\theoremstyle{bolddesc}
 \newtheorem{theorem}{\protect\theoremname}[section]
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{\protect\definitionname}
@@ -258,7 +260,7 @@ A very important stochastic process is the Wiener process. Here, we give an axio
   for a sequence $(X_n)$ in $\mathcal{S}^2$ that converges to $X$ in $L^2([0,T] \times \Omega)$.
 \end{definition}
 
-The limit in this definition exists and does not in fact depend on which specific sequence $(X_n)$ convergent to $X$ we choose. This together with \ref{prop:s2-m2-conv}
+The limit in this definition exists and does not in fact depend on which specific sequence $(X_n)$ convergent to $X$ we choose. This together with proposition \ref{prop:s2-m2-conv}
 %%%%%%%%%%%%%
 \comment{Proposition \ref{prop:s2-m2-conv} (here you are referencing a proposition not an equation)}
 %%%%%%%%%%%%%
@@ -274,10 +276,10 @@ ensures that the stochastic integral is well-defined on $\mathcal{M}^2$. See \ci
 
 \begin{definition}
   The \textbf{stochastic integral} of $X \in \mathcal{M}^2$ is defined as the process
-  \begin{align*}
+  \begin{align}\label{eq:stochastic-integral-process}
     \int_0^t X(s) \mathrm{d}W(s) = M(t)
-  \end{align*}
-  for $t \in [0,T]$ where $M$ is the martingale given by \ref{prop:stochastic-integral-martingale}.
+  \end{align}
+  for $t \in [0,T]$ where $M$ is the martingale given by proposition \ref{prop:stochastic-integral-martingale}.
 \end{definition}
 
 \begin{definition}
@@ -288,16 +290,30 @@ ensures that the stochastic integral is well-defined on $\mathcal{M}^2$. See \ci
   almost surely.
 \end{definition}
 
-\begin{proposition}
-  Let $X \in \mathcal{P}^2$ and let $(X_n)_{n \ge 1}$ be the sequence given by
+\begin{proposition}(\cite{capinski_stochastic_2012}, Proposition 4.14 and Theorem 4.16)\label{prop:p2-localising-sequence}
+  Let $X \in \mathcal{P}^2$ and let $(X_n)_{n \ge 1}$ be the sequence of stochastic processes given by
   \begin{align*}
-    X_n(t) = \int ...
+    X_n(t) = \mathbf{1}_{[0,\tau_n]}(t) X(t)
   \end{align*}
-
-  FIXME
+  with
+  \begin{align*}
+    \tau_n = \inf \left\{ t \in [0,T] : \int_0^t X(s)^2 \mathrm{d}s \ge n \right\}
+  \end{align*}
+  where we take $\inf \emptyset = T$.
+  Then $X_n \in \mathcal{M}^2$ for all $n$ and the sequence of continuous martingales
+  \begin{align*}
+    M_n(t) = \int_0^t X_n(s) \mathrm{d}W(s)
+  \end{align*}
+  as in \eqref{eq:stochastic-integral-process} converges almost surely to a stochastic process $Y$ with continuous paths.
 \end{proposition}
 
-FIXME: Extension of the integral on $\mathcal{P}^2$.
+\begin{definition}
+  The \textbf{stochastic integral} of $X \in \mathcal{P}^2$ is the process
+  \begin{align*}
+    \int_0^t X(s) \mathrm{d}W(s) = \lim_{n \to \infty} M_n(t) = Y(t)
+  \end{align*}
+  with $M_n$ and $Y$ as in proposition \ref{prop:p2-localising-sequence}.
+\end{definition}
 
 %%%%%%%%%%%%%
 \comment{Better to formulate this as a theorem and give a citation:}
@@ -310,10 +326,6 @@ FIXME: Extension of the integral on $\mathcal{P}^2$.
 %%%%%%%%%%%%%
 \comment{I am not quite sure if I understand the below FIXMEs. }
 %%%%%%%%%%%%%
-
-FIXME: Multidimensional It\^o integrals.
-
-FIXME: $b \in \mathcal{P}^2$ in the following:
 
 \begin{definition}
   An \textbf{It\^o process} is a stochastic process $X : [0,T] \times \Omega \to \mathbb{R}$ of the form
@@ -374,11 +386,14 @@ For convenience, we will also write \eqref{eq:def-ito-process}
 \comment{``to derive new SDEs from old ones" does not sound accurate.}
 %%%%%%%%%%%%%
 
-\begin{theorem}(\cite{capinski_stochastic_2012}, Theorem 4.22)\label{thm:ito-formula}
+By $C^{1,2}$, we denote the class of functions $f : \mathbb{R}^2 \to \mathbb{R}$ that are continuously differentiable in the first argument and twice-continuously differentiable in the second, i.e. both $f_x(x,y)$ and $f_{yy}(x,y)$ exist and are continuous.
+
+\begin{theorem}[It\^o formula]
+  (\cite{capinski_stochastic_2012}, Theorem 4.22)\label{thm:ito-formula}
 %%%%%%%%%%%%%
 \comment{citation missing}
 %%%%%%%%%%%%%
-  (\textbf{It\^o formula}) If $F : [0,T] \times \mathbb{R} \to \mathbb{R}$ is in $C^{1,2}$
+  If $F : [0,T] \times \mathbb{R} \to \mathbb{R}$ is in $C^{1,2}$
   %%%%%%%%%%%%%
 \comment{we could explain what is $C^{1,2}$}
 %%%%%%%%%%%%%
@@ -397,24 +412,20 @@ For convenience, we will also write \eqref{eq:def-ito-process}
 \end{theorem}
 
 \begin{definition}
-  A \textbf{multidimensional It\^o process} is a stochastic process $\mathbf{X}(t) = (X_1(t), X_2(t), \ldots, X_d(t))$ that satisfy
-
+  A \textbf{multidimensional It\^o process} is a stochastic process $\mathbf{X}(t) = (X_1(t), X_2(t), \ldots, X_d(t))$ that satisfies
   \begin{align*}
     \mathrm{d}X_i(t) = a_i(t) \mathrm{d}t + \sum_{j=1}^n b_{ij}(t) \mathrm{d}W_j(t), \text{ for } i=1,\ldots,d
   \end{align*}
-
-  where $W_j(t), j=1,\ldots,n$ are $n$ Wiener processes, $a_i(t), i=1,\ldots,d$ are stochastic processes such that $\int_0^T |a_i(t)| \mathrm{d}t < \infty$ and $b_{ij} \in \mathcal{M}^2$ for $i=1,\ldots,d$ and $j=1,\ldots,n$.
+  where $W_j(t), j=1,\ldots,n$ are $n$ Wiener processes, $a_i(t), i=1,\ldots,d$ are stochastic processes such that $\int_0^T |a_i(t)| \mathrm{d}t < \infty$ and $b_{ij} \in \mathcal{P}^2$ for $i=1,\ldots,d$ and $j=1,\ldots,n$.
 \end{definition}
 
-FIXME: Check whether the multidimensional It\^o processes can be defined such that $d=n$ and simplify the following theorems.
-
-FIXME: Uniqueness of characteristics of multi-dimensional It\^o processes (BS, theorem 6.9)
-
-We can now state the multidimensional It\^o formula. A proof can be found in \textcite{capinski_blackscholes_2012}.
-
-\begin{theorem}\label{thm:ito-formula-multi}
-  (\textbf{Multidimensional It\^o formula}) If $F : [0,T] \times \mathbb{R}^d \to \mathbb{R}$ of class $C^1$ in the first variable and $C^2$ in the others, and $\mathbf{X}(t)$ is a $d$-dimensional It\^o process driven by $n$ independent Wiener processes. Then $F(t,\mathbf{X}(t)) = F(t,X_1(t),X_2(t),\ldots,X_d(t))$ is an It\^o process with stochastic differential
-
+\begin{theorem}[Multidimensional It\^o formula]
+  (\cite{capinski_blackscholes_2012}, Theorem 6.10)\label{thm:ito-formula-multi}
+  Let $F : [0,T] \times \mathbb{R}^d \to \mathbb{R}$ and let $\mathbf{X}(t)$ be a $d$-dimensional It\^o process driven by $n$ independent Wiener processes. For short, we write
+  \begin{align*}
+    F(t,\mathbf{X}(t)) = F(t,X_1(t),X_2(t),\ldots,X_d(t)).
+  \end{align*}
+  If $F$ is continuously differentiable in the first argument and twice-continuously differentiable in the others, then $F(t,\mathbf{X}(t))$ is an It\^o process with stochastic differential
   \begin{align*}
     \mathrm{d}F(t,\mathbf{X}(t))
     &= F_t(t,\mathbf{X}(t)) \mathrm{d}t + \sum_{i=1}^d F_{x_i}(t,\mathbf{X}(t)) a_i(t) \mathrm{d}t\\
@@ -426,88 +437,59 @@ We can now state the multidimensional It\^o formula. A proof can be found in \te
 %%%%%%%%%%%%%
 \end{theorem}
 
-This formula can be used to prove the following lemma which will come handy later on. See \textcite{capinski_blackscholes_2012}.
-
-\begin{lemma}\label{thm:exp-sums-martingale}
-  If $\theta_j(t), j=1,\ldots,n$ are deterministic and $W_j(t), j=1,\ldots,d$ are independent Wiener processes, then the stochastic process
-
-  \begin{align*}
-    M(t) = \exp \left( \sum_{j=1}^{d} \theta_j(s) \mathrm{d}W_j(s) - \frac{1}{2} \sum_{j=1}^{d} \theta_j(s)^2 \mathrm{d}s \right).
-  \end{align*}
-
-  is a martingale.
-\end{lemma}
-
-We now turn our attention to product of It\^o processes starting
+\tomcomment{[deleted]}
 %%%%%%%%%%%%%
 \comment{Why ``starting''? There does not seem to be the multidimensional one later on. }
 %%%%%%%%%%%%%
- with the unidimensional case. See \textcite{capinski_stochastic_2012} for a proof where it is referred to as integration by parts.
-
-\begin{theorem}
-  Given two It\^o processes $X$ and $Y$ satisfying
-
-  \begin{align*}
-    \mathrm{d}X(t) &= a_X(t) \mathrm{d}t + b_X(t) \mathrm{d}W(t),\\
-    \mathrm{d}Y(t) &= a_Y(t) \mathrm{d}t + b_Y(t) \mathrm{d}W(t),
-  \end{align*}
-
-  then the product $XY$ is an It\^o process satisfying
-
-  \begin{align*}
-    \mathrm{d}[X(t) Y(t)]
-    &= a_X(t) Y(t) \mathrm{d}t + b_X(t) Y(t) \mathrm{d}W(t)\\
-    &\ \ \ \ + a_Y(t) X(t) \mathrm{d}t + b_Y(t) X(t) \mathrm{d}W(t)\\
-    &\ \ \ \ + b_X(t) b_Y(t) \mathrm{d}t.
-  \end{align*}
-\end{theorem}
-
-FIXME: Multidimensional It\^o product rule? If not needed, then some paragraph above needs to be changed to remove its mention.
+\tomcomment{[deleted]}
 
 %%%%%%%%%%%%%
 \comment{We need some introduction and setup to the financial statements that follow. So far we discussed stochastic processes and change of topic is somewhat sudden.}
 %%%%%%%%%%%%%
-
-For pricing purposes and since the physical (real) probability $P$ is unknown, we will want to construct a risk-neutral probability $Q$ such that the discounted prices of assets form a martingale under $Q$, i.e. $\mathbb{E}_Q(e^{-rt}S(t) \mid \mathcal{F}_s) = e^{-rs}S(s)$ for $s < t$. The following theorem will allow us to construct such a measure and a Wiener process with respect to it. A proof can be found in \textcite{capinski_blackscholes_2012}.
+\tomcomment{[deleted]}
 
 %%%%%%%%%%%%%
 \comment{I in fact think that the Girsanov theorem is a mathematical statement, which does not necessarily require a financial introduction.}
 %%%%%%%%%%%%%
 
-\begin{theorem}\label{thm:girsanov}
-  (\textbf{Girsanov theorem}) Let $\mathbf{W}$ be a $d$-dimensional Wiener process and $\theta_j, j=1,\ldots,d$ be $\mathcal{F}^\mathbf{W}_t$-adapted processes such that
-
+\begin{theorem}[Girsanov theorem]\label{thm:girsanov}
+  (\cite{capinski_blackscholes_2012}, Theorem 6.15)
+  Let $\mathbf{W}$ be a $d$-dimensional Wiener process and $\theta_j, j=1,\ldots,d$ be $\mathcal{F}^\mathbf{W}_t$-adapted processes such that
   \begin{align*}
     M(t) = \exp \left( - \sum_{j=1}^d \int_0^t \theta_j(s) \mathrm{d}W_j(s) - \frac{1}{2} \sum_{j=1}^d \int_0^t \theta_j(s)^2 \mathrm{d}s \right)
   \end{align*}
-
   is a martingale under $P$ and let $Q$ be the measure with density $\frac{\mathrm{d}Q}{\mathrm{d}P} = M(T)$, i.e.
-
   \begin{align*}
-    Q(A) = \int_A M(T) \mathrm{d}P.
+    Q(A) = \int_A M(T) \mathrm{d}P
   \end{align*}
-
+  for all $A \in \mathcal{F}$.
   Then the process $\mathbf{W}^Q(t) = (W^Q_1(t), W^Q_2(t), \ldots, W^Q_d(t))$ with
-
   \begin{align*}
     W^Q_j(t) = \int_0^t \theta_j(s) \mathrm{d}s + W_j(t)
   \end{align*}
-
   is a $d$-dimensional Wiener process under $Q$.
 \end{theorem}
 
-In order to construct replicating strategies in the multi-asset Black-Scholes model, we will need one more theorem that allows us to represent a martingale in terms of a stochastic integral. See \textcite{shreve_stochastic_2004}.
+\begin{lemma}(\cite{capinski_blackscholes_2012}, Proposition 6.16)\label{lem:exp-sums-martingale}
+  If $\theta_j(t), j=1,\ldots,n$ are deterministic and $W_j(t), j=1,\ldots,d$ are independent Wiener processes, then the stochastic process
+  \begin{align*}
+    M(t) = \exp \left( - \sum_{j=1}^{d} \theta_j(s) \mathrm{d}W_j(s) - \frac{1}{2} \sum_{j=1}^{d} \theta_j(s)^2 \mathrm{d}s \right)
+  \end{align*}
+  is a martingale.
+\end{lemma}
+
+\tomcomment{[deleted]}
 %%%%%%%%%%%%%
 \comment{Such statements, without preparation, are not helpful. I would skip this. This does not look necessary.}
 %%%%%%%%%%%%%
 
-\begin{theorem}
-  (\textbf{Martingale representation theorem}) Let $\mathbf{W}(t)$ be a $d$-dimensional Wiener process and $M(t)$ be a martingale. Then there is an adapted
+\begin{theorem}[Martingale representation theorem]
+  (\cite{shreve_stochastic_2004}, Theorem 5.4.2)
+  Let $\mathbf{W}(t)$ be a $d$-dimensional Wiener process and $M(t)$ be a martingale. Then there is an $\mathcal{F}^\mathbf{W}_t$-adapted
   %%%%%%%%%%%%%
 \comment{adapted to which filtration? (The filtration could be specified at the beginning.)}
 %%%%%%%%%%%%%
    $d$-dimensional process $\mathbf{\Gamma}(t)$ such that
-
   \begin{align*}
     M(t) = M(0) + \sum_{j=1}^{d} \int_0^t \Gamma_j(s) \mathrm{d}W_j(s).
   \end{align*}
@@ -515,16 +497,13 @@ In order to construct replicating strategies in the multi-asset Black-Scholes mo
 
 \begin{lemma}\label{lem:ito-integral-girsanov}
   Consider two probability measures $P, Q$ on the same probability space. Let $W$ be a Wiener process under $P$, $W^Q$ a Wiener process under $Q$ and $X$ an It\^o process such that
-
   \begin{align*}
     \mathrm{d}X(t) &= a(t) \mathrm{d}t + b(t) \mathrm{d}W(t),\\
     \mathrm{d}W^Q(t) &= \theta(t) \mathrm{d}t + \mathrm{d}W(t).\\
   \end{align*}
-
   Then
-
   \begin{align*}
-    \int_0^t X(s) \mathrm{d}W^Q(s) = \int_0^t a(s) \theta(s) \mathrm{d}s + \int_0^t b(s) \mathrm{d}W(s).
+    \int_0^t X(s) \mathrm{d}W^Q(s) = \int_0^t X(s) \theta(s) \mathrm{d}s + \int_0^t X(s) \mathrm{d}W(s).
   \end{align*}
 %%%%%%%%%%%%%
 \comment{Are you sure that above is true? To me it would seem that
@@ -540,9 +519,7 @@ This looks incorrect, since then we would have $WdW=dW$. I think that what you h
 %%%%%%%%%%%%%
   \begin{proof}
     FIXME: Find reference to proof somewhere out there? or write a proof properly + address [0,t] v [0,T].
-
     If $(X_n)$ is a sequence of simple functions that converges in $L^2$ to $X$, then
-
     \begin{align*}
       \int_0^T X_n(s) \theta(s) \mathrm{d}s + \int_0^T X_n(s) \mathrm{d}W(s)
       &= \sum_{i=0}^N \left( \int_{t_i}^{t_{i+1}} \xi_{n,i} \theta(s) \mathrm{d}s + \xi_{n,i} (W(t_{i+1}) - W(t_i)) \right)\\
@@ -559,58 +536,85 @@ This looks incorrect, since then we would have $WdW=dW$. I think that what you h
 
 % Introduce the multidimensional Black-Scholes model. Use [1] as a reference.
 
-The unidimensional Black-Scholes consist of one risk-free asset with price $A(t)$ and one risky asset with price $S(t)$ at time $t$ satisfying the following stochastic differential equations.
+\tomcomment{[deleted]}
 %%%%%%%%%%%%%
 \comment{sentence should not stop here.}
 %%%%%%%%%%%%%
+\tomcomment{[deleted]}
 
-\begin{align*}
-  \mathrm{d}A(t) &= r A(t) \mathrm{d}t,\\
-  \mathrm{d}S(t) &= \mu S(t) \mathrm{d}t + \sigma S(t) \mathrm{d}W(t),
-\end{align*}
 %%%%%%%%%%%%%
 \comment{why are we discussing the one dimensional model? The section title talks of the multi-asset Black-Scholes model. }
 %%%%%%%%%%%%%
 
-where $r$ is the risk-free rate, $W$ is a Wiener process with respect to the physical probability, $\mu$ is the drift and $\sigma$ the volatility.
-
-In this section, we expand this model in two ways to arrive at the multi-asset Black-Scholes model with variable coefficients. First, we extend to $d$ risky assets $S_j(t), j =  1, \ldots, d$, each driven by $d$ independent Wiener process $W_i(t), i = 1, \ldots, d$. Second, the coefficients are now functions of time. The dynamics of risky assets becomes
+\tomcomment{[deleted]}
 %%%%%%%%%%%%%
 \comment{``becomes''? How? from where does the below follow? Is this not simply assumed?}
 %%%%%%%%%%%%%
 
+In this section, we discuss a market model -- often referred to as the \textit{multi-asset Black-Scholes model with variable coefficients} -- consisting of one risk-free asset with price $A(t)$ satisfying
+\begin{align*}
+  \mathrm{d}A(t) &= r(t) A(t) \mathrm{d}t
+\end{align*}
+where $r(t)$ is the continuous risk-free rate, and many risky assets with prices $S_i(t), i=1,\ldots,d$ satisfying
 \begin{align}
-  \mathrm{d}A(t) &= r(t) A(t) \mathrm{d}t\notag\\
-  \mathrm{d}S_i(t) &= \mu_i(t) S_i(t) \mathrm{d}t + \sum_{j=1}^{d} c_{ij}(t) S_i(t) \mathrm{d}W_j(t), \text{ for } i = 1,\ldots,d.\label{eq:multi-bs-eq}
+  \mathrm{d}S_i(t) &= \mu_i(t) S_i(t) \mathrm{d}t + \sum_{j=1}^{d} c_{ij}(t) S_i(t) \mathrm{d}W_j(t), \text{ for } i = 1,\ldots,d\label{eq:multi-bs-eq}
 \end{align}
+where $W_j(t), j=1,\ldots,d$ are independent Wiener processes with respect to the (physical) probability $P$. Some further assumptions are made by the model.
 
-Some further assumptions are required on the coefficients: $\mu_i(t), c_{ij}(t)$ are adapted to the filtration generated by the Wiener processes, have continuous paths and are bounded by a deterministic constant. We'll also assume that the matrix of volatily coefficients $\mathbf{C}(t) = [c_{ij}(t)]_{i,j=1,\ldots,d}$ is invertible.
+\begin{assumption}\label{ass:drift-vol-regularity}
+  The processes $\mu_i$ and $c_{ij}$  for all $i,j=1,\ldots,d$ are $\mathcal{F}^\mathbf{W}_t$-adapted with continuous paths and are bounded by a deterministic constant.
+\end{assumption}
 
-FIXME: Justificiation of $d$ Wiener processes for $d$ assets?
+\begin{assumption}\label{ass:vol-matrix-invertible}
+  The matrix of volatily coefficients $\mathbf{C}(t) = [c_{ij}(t)]_{i,j=1,\ldots,d}$ is invertible.
+\end{assumption}
 
-FIXME: Comment about the fact that assumptions are justified in the following development + references to where.
+% FIXME: Justificiation of $d$ Wiener processes for $d$ assets?
 
-FIXME: Are they?
-
-FIXME: Recap of what will be done
-
-\subsection{Solution}
+\tomcomment{[deleted section title]}
 %%%%%%%%%%%%%
 \comment{strange section title.}
 %%%%%%%%%%%%%
 
-The solution to \eqref{eq:multi-bs-eq} is
 %%%%%%%%%%%%%
 \comment{this should be stated as a lemma and we should either provide a reference of give the proof.}
 %%%%%%%%%%%%%
 
-\begin{align*}
-  S_i(t) &= S_i(0) \exp \left( \int_0^t \mu_i(s) \mathrm{d}s - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}^2(s) \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right).
-\end{align*}
+\begin{theorem}
+  Equation \eqref{eq:multi-bs-eq} has solution
+  \begin{align*}
+    S_i(t) &= S_i(0) \exp \left( \int_0^t \mu_i(s) \mathrm{d}s - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right)
+  \end{align*}
+  for all $i=1,\ldots,d$.
 
-This can be verified using the multidimensional It\^o formula. Uniqueness follows from \eqref{eq:ito-uniqueness-md} since we assume
+  \begin{proof}
+    Let $i = 1,\ldots,d$. By the multidimensional It\^o formula (theorem \ref{thm:ito-formula-multi}) with $F(t,x) = \ln x$ so that $F_t(t,x) = 0, F_x(t,x) = \frac{1}{x}$ and $F_{xx} = \frac{-1}{x^2}$, we have
+    \begin{align*}
+      \mathrm{d}F(t,S_i(t))
+      &= F_t(t,S_i(t)) \mathrm{d}t + F_x(t,S_i(t)) \mu_i(t) S_i(t) \mathrm{d}t\\
+      &\ \ \ \ \ + F_x(t,S_i(t)) \sum_{j=1}^d c_{ij}(t) S_i(t) \mathrm{d}W_j(t)\\
+      &\ \ \ \ \ + \frac{1}{2} \sum_{j=1}^d F_{xx}(t,S_i(t)) (c_{ij}(t) S_i(t))^2 \mathrm{d}t\\
+      &= 0 \mathrm{d}t + \frac{1}{S_i(t)} \mu_i(t) S_i(t) \mathrm{d}t\\
+      &\ \ \ \ \ + \frac{1}{S_i(t)} \sum_{j=1}^d c_{ij}(t) S_i(t) \mathrm{d}W_j(t)\\
+      &\ \ \ \ \ + \frac{1}{2} \sum_{j=1}^d \frac{-1}{S_i(t)^2} c_{ij}(t)^2 S_i(t)^2 \mathrm{d}t\\
+      &= \mu_i(t) \mathrm{d}t
+      - \frac{1}{2} \sum_{j=1}^d c_{ij}(t)^2 \mathrm{d}t
+      + \sum_{j=1}^d c_{ij}(t) \mathrm{d}W_j(t).
+    \end{align*}
 
-FIXME: \^{} Prove it
+    That is,
+    \begin{align*}
+      \ln \frac{S_i(t)}{S_i(0)}
+      &= \int_0^t \mu_i(s) \mathrm{d}s
+      - \frac{1}{2} \sum_{j=1}^d \int_0^t c_{ij}(s)^2 \mathrm{d}s
+      + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W_j(s).
+    \end{align*}
+
+    Applying the exponential function to both sides yields the required solution.
+  \end{proof}
+\end{theorem}
+
+% FIXME: Uniqueness?
 
 \pagebreak
 \subsection{Risk-neutral probability}
@@ -687,7 +691,7 @@ But then, by lemma \ref{lem:ito-integral-girsanov}
   &= S_i(0) \exp \left( \int_0^t r(s) \mathrm{d}s - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}^2(s) \mathrm{d}s  + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W^Q_j(s) \right).
 \end{align*}
 
-Therefore, the discounted asset prices are martingales under $Q$ by lemma \ref{thm:exp-sums-martingale} and since
+Therefore, the discounted asset prices are martingales under $Q$ by lemma \ref{lem:exp-sums-martingale} and since
 
 \begin{align*}
   \tilde{S}_i(t)
