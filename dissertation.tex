@@ -328,32 +328,48 @@ ensures that the stochastic integral is well-defined on $\mathcal{M}^2$. See \ci
 %%%%%%%%%%%%%
 
 \begin{definition}
-  An \textbf{It\^o process} is a stochastic process $X : [0,T] \times \Omega \to \mathbb{R}$ of the form
-  \begin{align}\label{eq:def-ito-process}
-    X(t) = X(0) + \int_0^t a(s) \mathrm{d}s + \int_0^t b(s) \mathrm{d}W(s), t \in [0,T]
+  An \textbf{It\^o process} is a stochastic process\\ $\mathbf{X}(t) = (X_1(t), X_2(t), \ldots, X_d(t))$ of the form
+  \begin{align}\label{eq:ito-process}
+    X_i(t) = X_i(0) + \int_0^t a_i(s) \mathrm{d}s + \sum_{j=1}^n \int_0^t b_{ij}(s) \mathrm{d}W_j(s), \text{ for } i=1,\ldots,d
   \end{align}
-  for some $a, b : [0,T] \times \Omega \to \mathbb{R}$, called the \textbf{characteristics} of the It\^o process, such that $a$ is $\mathcal{F}^W_t$-adapted and satisfies $\int_0^T |a(s)| \mathrm{d}s < \infty$ almost surely, and $b \in \mathcal{P}^2$.
+  where $W_j(t), j=1,\ldots,n$ are $n$ Wiener processes with $\mathbf{W}(t) = (W_1(t),\ldots,W_n(t))$, $a_i(t), i=1,\ldots,d$ are $\mathcal{F}^\mathbf{W}_t$-adapted stochastic processes such that $\int_0^T |a_i(t)| \mathrm{d}t < \infty$ and $b_{ij} \in \mathcal{P}^2$ for $i=1,\ldots,d$ and $j=1,\ldots,n$.
+\end{definition}
+
   %%%%%%%%%%%%%
 \comment{The definition is incomplete. We must specify the conditions required by $a,b$.}
 %%%%%%%%%%%%%
-\end{definition}
 
-For convenience, we will also write \eqref{eq:def-ito-process}
+Taking $\mathbf{a}(t) = (a_1(t),\ldots,a_d(t))$ and $\mathbf{B}(t) = [b_{ij}(t)]_{i=1,\ldots,d;j=1,\ldots,n}$ and
+\begin{align*}
+  \int_0^t \mathbf{B}(s) \cdot \mathrm{d}\mathbf{W}(s) = \left[
+    \sum_{j=1}^{n} \int_0^t b_{ij}(s) \mathrm{d}W_j(s)
+  \right]_{i=1,\ldots,d},
+\end{align*}
+we can write \eqref{eq:ito-process} as
 %%%%%%%%%%%%%
 \comment{broken label }
 %%%%%%%%%%%%%
- using the following terser notation, its \textbf{stochastic differential}:
 \begin{align*}
-  \mathrm{d}X(t) = a(t) \mathrm{d}t + b(t) \mathrm{d}W(t).
+  \mathbf{X}(t) = \mathbf{X}(0) + \int_0^t \mathbf{a}(s) \mathrm{d}s + \int_0^t \mathbf{B}(s) \cdot \mathrm{d}\mathbf{W}(s)
 \end{align*}
+or to be even terser, in its so-called \textbf{stochastic differential} notation:
+\begin{align*}
+  \mathrm{d}\mathbf{X}(t) = \mathbf{a}(t) \mathrm{d}t + \mathbf{B}(t) \cdot \mathrm{d}\mathbf{W}(t).
+\end{align*}
+
+When $d=n=1$, we simply write
+\begin{align*}
+  \mathrm{d}X(t) = a(t) \mathrm{d}t + b(t) \mathrm{d}W(t)
+\end{align*}
+and we call $a, b$ the \textbf{characteristics} of the It\^o process.
 
 \begin{definition}
   A \textbf{stochastic differential equation} (or \textbf{SDE} for short) is an equation of the form
   \begin{align}\label{eq:sde-init-value}
-    X(t) = X(0) + \int_0^t u(s, X(s)) \mathrm{d}s + \int_0^t v(s, X(s)) \mathrm{d}W(s), &&
-    X(0) = x_0
+    \mathbf{X}(t) &= \mathbf{X}(0) + \int_0^t u(s, \mathbf{X}(s)) \mathrm{d}s + \int_0^t v(s, \mathbf{X}(s)) \cdot \mathrm{d}\mathbf{W}(s),\\
+    \mathbf{X}(0) &= \mathbf{x}_0\notag
   \end{align}
-  for some $u, v : \mathbb{R}^2 \to \mathbb{R}$ and $x_0 \in \mathbb{R}$.
+  for some $u : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^d$, $v : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^{d \times n}$ and $\mathbf{x}_0 \in \mathbb{R}^d$.
 \end{definition}
 
 \tomcomment{[deleted]}
@@ -362,23 +378,22 @@ For convenience, we will also write \eqref{eq:def-ito-process}
 \comment{What do we mean by ``consider''? Are we defining what is an SDE or should the reader know this. This is unclear from the context.}
 %%%%%%%%%%%%%
 
-\begin{theorem}(\cite{capinski_stochastic_2012}, Theorem 5.8)\label{thm:sde-solution}
-  Provided that both the coefficients $u(t,x)$ and $v(t,x)$ satisfy the following conditions.
+\begin{theorem}(\cite{capinski_blackscholes_2012}, Theorem 6.9)\label{thm:sde-solution}
+  Provided that both the coefficients $u(t,\mathbf{x})$ and $v(t,\mathbf{x})$ satisfy the following conditions where $\|\cdot\|$ denotes the Euclidean norm in the relevant space.
   \begin{itemize}
-    \item Linear growth in the first variable: there exists $C > 0$ such that
+    \item Linear growth: there exists $C > 0$ such that
       \begin{align*}
-        |u(t,x)| + |v(t,x)| \le C (1 + |x|), \text{ for } t \in [0,T], x \in \mathbb{R}.
+        \|u(t,\mathbf{x})\| + \|v(t,\mathbf{x})\| \le C (1 + \|\mathbf{x}\|)
       \end{align*}
+      for $t \in [0,T]$ and $\mathbf{x} \in \mathbb{R}^d$.
 
-    \item Lipschitz continuity in the second variable: there exists $K > 0$ such that
+    \item Lipschitz continuity: there exists $K > 0$ such that
       \begin{align*}
-        |u(t,x) - u(x,y)| + |v(t,x) - v(t,y)| \le K |x-y|, \text{ for } t \in [0,T], x,y \in \mathbb{R}.
+        \|u(t,\mathbf{x}) - u(t,\mathbf{y})\| + \|v(t,\mathbf{x}) - v(t,\mathbf{y})\| \le K \|\mathbf{x}-\mathbf{y}\|
       \end{align*}
+      for $t \in [0,T]$ and $\mathbf{x},\mathbf{y} \in \mathbb{R}^d$.
   \end{itemize}
-  Then \eqref{eq:sde-init-value} has a unique solution with continuous paths such that
-  \begin{align*}
-    \mathbb{E}\left(\int_0^T X(t)^2 \mathrm{d}t\right) < \infty.
-  \end{align*}
+  Then \eqref{eq:sde-init-value} has a unique solution.
 \end{theorem}
 
 \tomcomment{[deleted]}
@@ -386,40 +401,20 @@ For convenience, we will also write \eqref{eq:def-ito-process}
 \comment{``to derive new SDEs from old ones" does not sound accurate.}
 %%%%%%%%%%%%%
 
-By $C^{1,2}$, we denote the class of functions $f : \mathbb{R}^2 \to \mathbb{R}$ that are continuously differentiable in the first argument and twice-continuously differentiable in the second, i.e. both $f_x(x,y)$ and $f_{yy}(x,y)$ exist and are continuous.
-
-\begin{theorem}[It\^o formula]
-  (\cite{capinski_stochastic_2012}, Theorem 4.22)\label{thm:ito-formula}
+\tomcomment{[deleted]}
 %%%%%%%%%%%%%
 \comment{citation missing}
 %%%%%%%%%%%%%
-  If $F : [0,T] \times \mathbb{R} \to \mathbb{R}$ is in $C^{1,2}$
+\tomcomment{[deleted]}
   %%%%%%%%%%%%%
 \comment{we could explain what is $C^{1,2}$}
 %%%%%%%%%%%%%
-   and $X$ is an It\^o process with characteristics $a$ and $b$, i.e.
-  \begin{align*}
-    \mathrm{d}X(t) &= a(t) \mathrm{d}t + b(t) \mathrm{d}W(t).
-  \end{align*}
-  Then $F(t,X(t))$ is an It\^o process with stochastic differential
-  \begin{align*}
-    \mathrm{d}F(t,X(t)) &= \left(F_t(t,X(t)) + F_x(t,X(t)) a(t) + \frac{1}{2} F_{xx}(t,X(t)) b(t)^2 \right) \mathrm{d}t\\
-    &\ \ \ \ + F_x(t,X(t)) b(t) \mathrm{d}W(t).
-  \end{align*}
+\tomcomment{[deleted]}
   %%%%%%%%%%%%%
 \comment{the statement as made here requires the Ito processes to involve Ito integrals in $\mathcal{P}^2$.}
 %%%%%%%%%%%%%
-\end{theorem}
 
-\begin{definition}
-  A \textbf{multidimensional It\^o process} is a stochastic process $\mathbf{X}(t) = (X_1(t), X_2(t), \ldots, X_d(t))$ that satisfies
-  \begin{align*}
-    \mathrm{d}X_i(t) = a_i(t) \mathrm{d}t + \sum_{j=1}^n b_{ij}(t) \mathrm{d}W_j(t), \text{ for } i=1,\ldots,d
-  \end{align*}
-  where $W_j(t), j=1,\ldots,n$ are $n$ Wiener processes, $a_i(t), i=1,\ldots,d$ are stochastic processes such that $\int_0^T |a_i(t)| \mathrm{d}t < \infty$ and $b_{ij} \in \mathcal{P}^2$ for $i=1,\ldots,d$ and $j=1,\ldots,n$.
-\end{definition}
-
-\begin{theorem}[Multidimensional It\^o formula]
+\begin{theorem}[It\^o formula]
   (\cite{capinski_blackscholes_2012}, Theorem 6.10)\label{thm:ito-formula-multi}
   Let $F : [0,T] \times \mathbb{R}^d \to \mathbb{R}$ and let $\mathbf{X}(t)$ be a $d$-dimensional It\^o process driven by $n$ independent Wiener processes. For short, we write
   \begin{align*}
@@ -602,7 +597,7 @@ where $W_j(t), j=1,\ldots,d$ are independent Wiener processes with respect to th
       + \sum_{j=1}^d c_{ij}(t) \mathrm{d}W_j(t).
     \end{align*}
 
-    That is,
+    Expanding the stochastic differential notation into its integral form and since $\ln S_i(t) - \ln S_i(0) = \ln \frac{S_i(t)}{S_i(0)}$, we obtain
     \begin{align*}
       \ln \frac{S_i(t)}{S_i(0)}
       &= \int_0^t \mu_i(s) \mathrm{d}s
@@ -611,12 +606,13 @@ where $W_j(t), j=1,\ldots,d$ are independent Wiener processes with respect to th
     \end{align*}
 
     Applying the exponential function to both sides yields the required solution.
+
+    Moreover, by \ref{ass:drift-vol-regularity}, both $\mathbf{\mu}$ and $\mathbf{C}$ have continuous paths that are bounded on the closed bounded interval $[0,T]$. Therefore, they are both FIXME
   \end{proof}
 \end{theorem}
 
 % FIXME: Uniqueness?
 
-\pagebreak
 \subsection{Risk-neutral probability}
 
 FIXME: It also has to be equivalent to $P$ which it is since Girsanov implies $Q \ll P$ implies $P \sim Q$.
