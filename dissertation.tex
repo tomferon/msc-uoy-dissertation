@@ -339,9 +339,9 @@ ensures that the stochastic integral is well-defined on $\mathcal{M}^2$. See \ci
 \comment{The definition is incomplete. We must specify the conditions required by $a,b$.}
 %%%%%%%%%%%%%
 
-Taking $\mathbf{a}(t) = (a_1(t),\ldots,a_d(t))$ and $\mathbf{B}(t) = [b_{ij}(t)]_{i=1,\ldots,d;j=1,\ldots,n}$ and
+Taking $\mathbf{a}(t) = (a_1(t),\ldots,a_d(t))$, $\mathbf{B}(t) = [b_{ij}(t)]_{i=1,\ldots,d;j=1,\ldots,n}$ and
 \begin{align*}
-  \int_0^t \mathbf{B}(s) \cdot \mathrm{d}\mathbf{W}(s) = \left[
+  \int_0^t \mathbf{B}(s) \mathrm{d}\mathbf{W}(s) = \left[
     \sum_{j=1}^{n} \int_0^t b_{ij}(s) \mathrm{d}W_j(s)
   \right]_{i=1,\ldots,d},
 \end{align*}
@@ -350,11 +350,11 @@ we can write \eqref{eq:ito-process} as
 \comment{broken label }
 %%%%%%%%%%%%%
 \begin{align*}
-  \mathbf{X}(t) = \mathbf{X}(0) + \int_0^t \mathbf{a}(s) \mathrm{d}s + \int_0^t \mathbf{B}(s) \cdot \mathrm{d}\mathbf{W}(s)
+  \mathbf{X}(t) = \mathbf{X}(0) + \int_0^t \mathbf{a}(s) \mathrm{d}s + \int_0^t \mathbf{B}(s) \mathrm{d}\mathbf{W}(s)
 \end{align*}
 or to be even terser, in its so-called \textbf{stochastic differential} notation:
 \begin{align*}
-  \mathrm{d}\mathbf{X}(t) = \mathbf{a}(t) \mathrm{d}t + \mathbf{B}(t) \cdot \mathrm{d}\mathbf{W}(t).
+  \mathrm{d}\mathbf{X}(t) = \mathbf{a}(t) \mathrm{d}t + \mathbf{B}(t) \mathrm{d}\mathbf{W}(t).
 \end{align*}
 
 When $d=n=1$, we simply write
@@ -366,7 +366,7 @@ and we call $a, b$ the \textbf{characteristics} of the It\^o process.
 \begin{definition}
   A \textbf{stochastic differential equation} (or \textbf{SDE} for short) is an equation of the form
   \begin{align}\label{eq:sde-init-value}
-    \mathbf{X}(t) &= \mathbf{X}(0) + \int_0^t u(s, \mathbf{X}(s)) \mathrm{d}s + \int_0^t v(s, \mathbf{X}(s)) \cdot \mathrm{d}\mathbf{W}(s),\\
+    \mathbf{X}(t) &= \mathbf{X}(0) + \int_0^t u(s, \mathbf{X}(s)) \mathrm{d}s + \int_0^t v(s, \mathbf{X}(s)) \mathrm{d}\mathbf{W}(s),\\
     \mathbf{X}(0) &= \mathbf{x}_0\notag
   \end{align}
   for some $u : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^d$, $v : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^{d \times n}$ and $\mathbf{x}_0 \in \mathbb{R}^d$.
@@ -415,7 +415,7 @@ and we call $a, b$ the \textbf{characteristics} of the It\^o process.
 %%%%%%%%%%%%%
 
 \begin{theorem}[It\^o formula]
-  (\cite{capinski_blackscholes_2012}, Theorem 6.10)\label{thm:ito-formula-multi}
+  (\cite{capinski_blackscholes_2012}, Theorem 6.10)\label{thm:ito-formula}
   Let $F : [0,T] \times \mathbb{R}^d \to \mathbb{R}$ and let $\mathbf{X}(t)$ be a $d$-dimensional It\^o process driven by $n$ independent Wiener processes. For short, we write
   \begin{align*}
     F(t,\mathbf{X}(t)) = F(t,X_1(t),X_2(t),\ldots,X_d(t)).
@@ -430,6 +430,34 @@ and we call $a, b$ the \textbf{characteristics} of the It\^o process.
   %%%%%%%%%%%%%
 \comment{again, likely we need Ito integral on $\mathcal{P}^2$.}
 %%%%%%%%%%%%%
+\end{theorem}
+
+\begin{definition}
+  Given two It\^o processes $X, Y$ such that $Y$ has stochastic differential
+  \begin{align*}
+    \mathrm{d}Y(t) &= a_Y(t) \mathrm{d}t + b_Y(t) \mathrm{d}W(t),
+  \end{align*}
+  the \textbf{stochastic integral} of $X$ with respect to $Y$ is defined as
+  \begin{align*}
+    \int_0^t X(s) \mathrm{d}Y(s) = \int_0^t X(s) a_Y(s) \mathrm{d}s + \int_0^t X(s) b_Y(s) \mathrm{d}W(s).
+  \end{align*}
+  We also write
+  \begin{align*}
+    X(t) \mathrm{d}Y(t) = X(t) a_Y(t) \mathrm{d}t + X(t) b_Y(t) \mathrm{d}W(t).
+  \end{align*}
+\end{definition}
+
+\begin{theorem}[It\^o product rule]\label{thm:ito-product-rule}
+  (\cite{capinski_stochastic_2012}, Theorem 4.36)
+  Given two It\^o processes $X, Y$ with stochastic differential
+  \begin{align*}
+    \mathrm{d}X(t) &= a_X(t) \mathrm{d}t + b_X(t) \mathrm{d}W(t),\\
+    \mathrm{d}Y(t) &= a_Y(t) \mathrm{d}t + b_Y(t) \mathrm{d}W(t),
+  \end{align*}
+  their product $XY$ is an It\^o process with stochastic differential
+  \begin{align*}
+    \mathrm{d}[XY](t) = X(t) \mathrm{d}Y(t) + Y(t) \mathrm{d}X(t) + b_X(t) b_Y(t) \mathrm{d}t.
+  \end{align*}
 \end{theorem}
 
 \tomcomment{[deleted]}
@@ -451,7 +479,7 @@ and we call $a, b$ the \textbf{characteristics} of the It\^o process.
   (\cite{capinski_blackscholes_2012}, Theorem 6.15)
   Let $\mathbf{W}$ be a $d$-dimensional Wiener process and $\theta_j, j=1,\ldots,d$ be $\mathcal{F}^\mathbf{W}_t$-adapted processes such that
   \begin{align*}
-    M(t) = \exp \left( - \sum_{j=1}^d \int_0^t \theta_j(s) \mathrm{d}W_j(s) - \frac{1}{2} \sum_{j=1}^d \int_0^t \theta_j(s)^2 \mathrm{d}s \right)
+    M(t) = \exp \left( - \frac{1}{2} \sum_{j=1}^d \int_0^t \theta_j(s)^2 \mathrm{d}s - \sum_{j=1}^d \int_0^t \theta_j(s) \mathrm{d}W_j(s) \right)
   \end{align*}
   is a martingale under $P$ and let $Q$ be the measure with density $\frac{\mathrm{d}Q}{\mathrm{d}P} = M(T)$, i.e.
   \begin{align*}
@@ -465,18 +493,24 @@ and we call $a, b$ the \textbf{characteristics} of the It\^o process.
   is a $d$-dimensional Wiener process under $Q$.
 \end{theorem}
 
-\begin{lemma}(\cite{capinski_blackscholes_2012}, Proposition 6.16)\label{lem:exp-sums-martingale}
-  If $\theta_j(t), j=1,\ldots,n$ are deterministic and $W_j(t), j=1,\ldots,d$ are independent Wiener processes, then the stochastic process
-  \begin{align*}
-    M(t) = \exp \left( - \sum_{j=1}^{d} \theta_j(s) \mathrm{d}W_j(s) - \frac{1}{2} \sum_{j=1}^{d} \theta_j(s)^2 \mathrm{d}s \right)
-  \end{align*}
-  is a martingale.
-\end{lemma}
-
 \tomcomment{[deleted]}
 %%%%%%%%%%%%%
 \comment{Such statements, without preparation, are not helpful. I would skip this. This does not look necessary.}
 %%%%%%%%%%%%%
+
+\begin{theorem}[Novikov condition]\label{thm:novikov}
+  (\cite{karatzas_brownian_1998}, Corollary 5.13)
+  If $a_j(t), j=1,\ldots,n$ are $\mathcal{F}^\mathbf{W}_t$-adapted stochastic processes satisfying
+  \begin{align*}
+    \mathbb{E}\left(\exp \left(\frac{1}{2} \sum_{j=1}^d \int_0^T a_j(t)^2 \mathrm{d}t\right)\right) < \infty,
+  \end{align*}
+  then
+  \begin{align*}
+    M(t) = \exp \left( - \frac{1}{2} \sum_{j=1}^{d} \int_0^t a_j(s)^2 \mathrm{d}s - \sum_{j=1}^{d} \int_0^t a_j(s) \mathrm{d}W_j(s) \right)
+  \end{align*}
+  is a martingale.
+
+\end{theorem}
 
 \begin{theorem}[Martingale representation theorem]
   (\cite{shreve_stochastic_2004}, Theorem 5.4.2)
@@ -490,16 +524,7 @@ and we call $a, b$ the \textbf{characteristics} of the It\^o process.
   \end{align*}
 \end{theorem}
 
-\begin{lemma}\label{lem:ito-integral-girsanov}
-  Consider two probability measures $P, Q$ on the same probability space. Let $W$ be a Wiener process under $P$, $W^Q$ a Wiener process under $Q$ and $X$ an It\^o process such that
-  \begin{align*}
-    \mathrm{d}X(t) &= a(t) \mathrm{d}t + b(t) \mathrm{d}W(t),\\
-    \mathrm{d}W^Q(t) &= \theta(t) \mathrm{d}t + \mathrm{d}W(t).\\
-  \end{align*}
-  Then
-  \begin{align*}
-    \int_0^t X(s) \mathrm{d}W^Q(s) = \int_0^t X(s) \theta(s) \mathrm{d}s + \int_0^t X(s) \mathrm{d}W(s).
-  \end{align*}
+\tomcomment{[deleted]}
 %%%%%%%%%%%%%
 \comment{Are you sure that above is true? To me it would seem that
 \[XdW^Q = X\theta dt + X dW.\]
@@ -510,21 +535,6 @@ but yours gives
 \[WdW^Q =  0 dt + 1 dW = dW.\]
 This looks incorrect, since then we would have $WdW=dW$. I think that what you have stated here is not true.
 }
-
-%%%%%%%%%%%%%
-  \begin{proof}
-    FIXME: Find reference to proof somewhere out there? or write a proof properly + address [0,t] v [0,T].
-    If $(X_n)$ is a sequence of simple functions that converges in $L^2$ to $X$, then
-    \begin{align*}
-      \int_0^T X_n(s) \theta(s) \mathrm{d}s + \int_0^T X_n(s) \mathrm{d}W(s)
-      &= \sum_{i=0}^N \left( \int_{t_i}^{t_{i+1}} \xi_{n,i} \theta(s) \mathrm{d}s + \xi_{n,i} (W(t_{i+1}) - W(t_i)) \right)\\
-      &= \sum_{i=0}^N \xi_{n,i} \left( \int_{t_i}^{t_{i+1}} \theta(s) \mathrm{d}s + \int_{t_i}^{t_{i+1}} \mathrm{d}W(s) \right)\\
-      &= \sum_{i=0}^N \xi_{n,i} (W^Q(t_{i+1}) - W^Q(t_i))\\
-      &= \int_0^T X_n(s) \mathrm{d}W^Q(s)\\
-      &\underset{L^2}{\longrightarrow} \int_0^T X(s) \mathrm{d}W^Q(s)
-    \end{align*}
-  \end{proof}
-\end{lemma}
 
 \pagebreak
 \section{Multi-asset Black-Scholes model}
@@ -552,16 +562,18 @@ In this section, we discuss a market model -- often referred to as the \textit{m
 \end{align*}
 where $r(t)$ is the continuous risk-free rate, and many risky assets with prices $S_i(t), i=1,\ldots,d$ satisfying
 \begin{align}
-  \mathrm{d}S_i(t) &= \mu_i(t) S_i(t) \mathrm{d}t + \sum_{j=1}^{d} c_{ij}(t) S_i(t) \mathrm{d}W_j(t), \text{ for } i = 1,\ldots,d\label{eq:multi-bs-eq}
+  \mathrm{d}S_i(t) &= \mu_i(t) S_i(t) \mathrm{d}t + \sum_{j=1}^{d} c_{ij}(t) S_i(t) \mathrm{d}W_j(t), \text{ for } i = 1,\ldots,d.\label{eq:multi-bs-eq}
 \end{align}
-where $W_j(t), j=1,\ldots,d$ are independent Wiener processes with respect to the (physical) probability $P$. Some further assumptions are made by the model.
+for $\mathbf{W}(t) = (W_1(t), \ldots, W_d(t))$ a Wiener process with respect to the probability $P$ in the filtered probability space $(\Omega, \mathcal{F}, \mathcal{F}^\mathbf{W}_t, P)$.
+
+Some further assumptions are made by the model.
 
 \begin{assumption}\label{ass:drift-vol-regularity}
-  The processes $\mu_i$ and $c_{ij}$  for all $i,j=1,\ldots,d$ are $\mathcal{F}^\mathbf{W}_t$-adapted with continuous paths and are bounded by a deterministic constant.
+  The processes $r$, $\mu_i$ and $c_{ij}$ for all $i,j=1,\ldots,d$ are $\mathcal{F}^\mathbf{W}_t$-adapted with continuous paths and are bounded by a deterministic constant.
 \end{assumption}
 
 \begin{assumption}\label{ass:vol-matrix-invertible}
-  The matrix of volatily coefficients $\mathbf{C}(t) = [c_{ij}(t)]_{i,j=1,\ldots,d}$ is invertible.
+  The matrix of volatily coefficients $\mathbf{C}(t)= [c_{ij}(t)]_{i,j=1,\ldots,d}$ is invertible.
 \end{assumption}
 
 % FIXME: Justificiation of $d$ Wiener processes for $d$ assets?
@@ -575,15 +587,15 @@ where $W_j(t), j=1,\ldots,d$ are independent Wiener processes with respect to th
 \comment{this should be stated as a lemma and we should either provide a reference of give the proof.}
 %%%%%%%%%%%%%
 
-\begin{theorem}
-  Equation \eqref{eq:multi-bs-eq} has solution
+\begin{theorem}\label{thm:bs-solution}
+  Equation \eqref{eq:multi-bs-eq} has the unique solution
   \begin{align*}
     S_i(t) &= S_i(0) \exp \left( \int_0^t \mu_i(s) \mathrm{d}s - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right)
   \end{align*}
   for all $i=1,\ldots,d$.
 
   \begin{proof}
-    Let $i = 1,\ldots,d$. By the multidimensional It\^o formula (theorem \ref{thm:ito-formula-multi}) with $F(t,x) = \ln x$ so that $F_t(t,x) = 0, F_x(t,x) = \frac{1}{x}$ and $F_{xx} = \frac{-1}{x^2}$, we have
+    Let $i = 1,\ldots,d$. By the It\^o formula (theorem \ref{thm:ito-formula}) with $F(t,x) = \ln x$ so that $F_t(t,x) = 0, F_x(t,x) = \frac{1}{x}$ and $F_{xx} = \frac{-1}{x^2}$, we have
     \begin{align*}
       \mathrm{d}F(t,S_i(t))
       &= F_t(t,S_i(t)) \mathrm{d}t + F_x(t,S_i(t)) \mu_i(t) S_i(t) \mathrm{d}t\\
@@ -607,140 +619,129 @@ where $W_j(t), j=1,\ldots,d$ are independent Wiener processes with respect to th
 
     Applying the exponential function to both sides yields the required solution.
 
-    Moreover, by \ref{ass:drift-vol-regularity}, both $\mathbf{\mu}$ and $\mathbf{C}$ have continuous paths that are bounded on the closed bounded interval $[0,T]$. Therefore, they are both FIXME
+    Equation \eqref{eq:multi-bs-eq} can be expressed as
+    \begin{align*}
+      \mathrm{d}\mathbf{S}(t) = u(t,\mathbf{S}(t)) \mathrm{d}t + v(t,\mathbf{S}(t)) \mathrm{d}\mathbf{W}(t)
+    \end{align*}
+    with $u(t,\mathbf{x}) = [\mu_i(t) x_i]_{i=1,\ldots,d}$ and $v(t, \mathbf{x}) = [c_{ij}(t) x_i]_{i,j=1,\ldots,d}$.
+    Since, by \ref{ass:drift-vol-regularity}, $\mu_i$ and $c_{ij}$ are bounded by a deterministic constant for all $i,j=1,\ldots,d$, both $u$ and $v$ are Lipschitz with linear growth with respect to $\mathbf{x}$. Therefore, by theorem \ref{thm:sde-solution}, the solution is unique.
   \end{proof}
 \end{theorem}
 
-% FIXME: Uniqueness?
-
 \subsection{Risk-neutral probability}
 
-FIXME: It also has to be equivalent to $P$ which it is since Girsanov implies $Q \ll P$ implies $P \sim Q$.
-
-We want to find a probability measure under which the discounted stock prices form martingales. This will in turn allow us to express derivative prices in terms of conditional expectations.
-
-Very briefly, this is achieved in the unidimensional Black-Scholes model with constant coefficients by noticing that its solution satisfies
-%%%%%%%%%%%%%
-\comment{why are we discussing the one dimensional model? This is a section on the multidimensional model.}
-%%%%%%%%%%%%%
-\begin{align*}
-  S(t)
-  &= S(0) \exp \left( \mu t - \frac{1}{2} \sigma^2 t + \sigma W(t) \right)\\
-  &= S(0) \exp \left( r t - \frac{1}{2} \sigma^2 t + \sigma \left( \frac{\mu - r}{\sigma} t + W(t) \right) \right)\\
-  &= S(0) \exp \left( r t - \frac{1}{2} \sigma^2 t + \sigma W^Q(t) \right)
-\end{align*}
-
-where $W^Q(t) = \int_0^t \frac{\mu-r}{\sigma} \mathrm{d}s + W(t)$ is a Wiener process under the probability $Q$ given by the Girsanov theorem \ref{thm:girsanov} with $d=1$, $a_1(t) = \frac{\mu - r}{\sigma}$. Under this probability, the discounted stock prices then form a martingale so $Q$ is the risk-neutral probability.
-
-We will use a similar technique to obtain a risk-neutral probability for the multi-asset Black-Scholes model with variable coefficients.
-
-First, notice that, for all $i=1,\ldots,d$, if we can find $\theta_j(t), j=1,\ldots,d$ such that
-%%%%%%%%%%%%%
-\comment{how can we notice this? Is the existence of such $\theta$ evident?}
-%%%%%%%%%%%%%
-
-\begin{align}\label{eq:bs-theta}
-  \mu_i(t) - r(t) = \sum_{j=1}^d c_{ij}(t) \theta_j(t)
-\end{align}
-
-then
+We want to find a probability measure equivalent to the physical probability $P$ under which the discounted stock prices form martingales. This will in turn allow us to express derivative prices in terms of conditional expectations.
 
 %%%%%%%%%%%%%
 \comment{it is unclear where the discussion is heading. We should state the result and prove it. Moreover, the formulae spill onto the margin.}
 %%%%%%%%%%%%%
 
-\begin{align*}
-  S_i(t)
-  &= S_i(0) \exp \left( \int_0^t \mu_i(s) \mathrm{d}s - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}^2(s) \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right)\\
-  &= S_i(0) \exp \left( \int_0^t r(s) \mathrm{d}s - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}^2(s) \mathrm{d}s  + \int_0^t (\mu_i(s) - r(s)) \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right)\\
-  &= S_i(0) \exp \left( \int_0^t r(s) \mathrm{d}s - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}^2(s) \mathrm{d}s  + \int_0^t \left(\sum_{j=1}^d c_{ij}(s) \theta_j(s)\right) \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right)\\
-  &= S_i(0) \exp \left( \int_0^t r(s) \mathrm{d}s - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}^2(s) \mathrm{d}s  + \sum_{j=1}^d \left( \int_0^t c_{ij}(s) \theta_j(s) \mathrm{d}s + \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right)\right).
-\end{align*}
+\begin{definition}
+  The \textbf{discounted stock prices} are given by
+  \begin{align*}
+    \tilde{S}_i(t) = e^{- \int_0^t r(s)\mathrm{d}s} S_i(t)
+  \end{align*}
+  for all $i=1,\ldots,d$.
+\end{definition}
 
-Furthermore, if
+\begin{lemma}\label{lem:bs-exponential-martingale}
+  If $a_j(t), j=1,\ldots,n$ are $\mathcal{F}^\mathbf{W}_t$-adapted stochastic processes bounded by a deterministic constant $K > 0$, then the stochastic process
+  \begin{align*}
+    M(t) = \exp \left( - \frac{1}{2} \sum_{j=1}^{d} \int_0^t a_j(s)^2 \mathrm{d}s - \sum_{j=1}^{d} \int_0^t a_j(s) \mathrm{d}W_j(s) \right)
+  \end{align*}
+  is a martingale.
 
-\begin{align*}
-  M(t) = \exp \left( - \sum_{j=1}^d \int_0^t \theta_j(s) \mathrm{d}W_j(s) - \frac{1}{2} \sum_{j=1}^d \int_0^t \theta_j(s)^2 \mathrm{d}s \right)
-\end{align*}
-
-is a martingale under $P$, then by the Girsanov theorem \ref{thm:girsanov}
-%%%%%%%%%%%%%
-\comment{incorrect referencing style. This is not an equation.}
-%%%%%%%%%%%%%
-, the processes
-
-\begin{align*}
-  W^Q_j(t) = \int_0^t \theta_j(s) \mathrm{d}s + W_j(t)
-\end{align*}
-
-are Wiener processes under the measure $Q$ with density $\frac{\mathrm{d}Q}{\mathrm{d}P} = M(T)$.
-
-But then, by lemma \ref{lem:ito-integral-girsanov}
-%%%%%%%%%%%%%
-\comment{incorrect referencing style. This is not an equation.}
-%%%%%%%%%%%%%
-,
-
-\begin{align*}
-  S_i(t)
-  &= S_i(0) \exp \left( \int_0^t r(s) \mathrm{d}s - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}^2(s) \mathrm{d}s  + \sum_{j=1}^d \left( \int_0^t c_{ij}(s) \theta_j(s) \mathrm{d}s + \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right)\right)\\
-  &= S_i(0) \exp \left( \int_0^t r(s) \mathrm{d}s - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}^2(s) \mathrm{d}s  + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W^Q_j(s) \right).
-\end{align*}
-
-Therefore, the discounted asset prices are martingales under $Q$ by lemma \ref{lem:exp-sums-martingale} and since
-
-\begin{align*}
-  \tilde{S}_i(t)
-  &= e^{-\int_0^t r(s) \mathrm{d}s} S_i(t)
-  = S_i(0) \exp \left( - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}^2(s) \mathrm{d}s  + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W^Q_j(s) \right).
-\end{align*}
-
-In order words, $Q$ is a risk-neutral probability. In summary,
+  \begin{proof}
+    The Novikov condition holds since
+    \begin{align*}
+      \mathbb{E}\left(\exp \left(\frac{1}{2} \sum_{j=1}^d \int_0^T a_j(t)^2 \mathrm{d}t\right)\right)
+      &\le \mathbb{E}\left(\exp \left(\frac{1}{2} \sum_{j=1}^d \int_0^T K^2 \mathrm{d}t\right)\right)\\
+      &= \exp \left(\frac{1}{2} \sum_{j=1}^d \int_0^T K^2 \mathrm{d}t\right)\\
+      &= \exp \left(\frac{1}{2} d K^2 T \right) < \infty.
+    \end{align*}
+    Hence, by theorem \ref{thm:novikov}, $M(t)$ is a martingale.
+  \end{proof}
+\end{lemma}
 
 \begin{theorem}
-  Let $\theta_j(t), j=1,\ldots,d$
-  %%%%%%%%%%%%%
-\comment{be }
-%%%%%%%%%%%%%
-  such that
+  Let $\mathbf{\theta}(t) = [\theta_j(t)]_{j=1,\ldots,d}$ be given by
+  \begin{align}\label{eq:bs-def-theta}
+    \mathbf{\theta}(t) = \mathbf{C}^{-1}(t) [\mu(t) - r(t)]
+  \end{align}
+  and let
+  \begin{align*}
+    M(t) = \exp \left( - \frac{1}{2} \sum_{j=1}^d \int_0^t \theta_j(s)^2 \mathrm{d}s - \sum_{j=1}^d \int_0^t \theta_j(s) \mathrm{d}W_j(s) \right).
+  \end{align*}
+  Then the measure $Q$ with density $\frac{\mathrm{d}Q}{\mathrm{d}P} = M(T)$ is a risk-neutral probability, i.e. it is equivalent to $P$ and the processes $\tilde{S}_i, i=1,\ldots,d$ are martingales under $Q$.
 
-  \begin{itemize}
-    \item $\mu_i(t) - r(t) = \sum_{j=1}^d c_{ij}(t) \theta_j(t)$ and
-    \item $M(t) = \exp \left( - \sum_{j=1}^d \int_0^t \theta_j(s) \mathrm{d}W_j(s) - \frac{1}{2} \sum_{j=1}^d \int_0^t \theta_j(s)^2 \mathrm{d}s \right)$ is a martingale under the physical probability $P$.
-  \end{itemize}
+  \begin{proof}
+    For all $i=1,\ldots,d$, by theorem \ref{thm:bs-solution},
+    \begin{align*}
+      \tilde{S}_i(t)
+      &= \exp\left(- \int_0^t r(s)\mathrm{d}s\right) S_i(t)\\
+      &= S_i(0) \exp \left( \int_0^t (\mu_i(s) - r(s)) \mathrm{d}s \right.\\
+      &\hspace*{60pt} \left. - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right).
+    \end{align*}
 
-  Then the measure $Q$ with density $\frac{\mathrm{d}Q}{\mathrm{d}P} = M(T)$ is a risk-neutral probability, i.e. the processes $\tilde{S}_i, i=1,\ldots,d$ are martingales under $Q$.
+    By \eqref{eq:bs-def-theta}, we have
+    \begin{align*}
+      \mathbf{\mu}(t) - r(t) = \mathbf{C}(t) \mathbf{\theta}(t)
+    \end{align*}
+    which in turn implies that
+    \begin{align*}
+      \mu_i(t) - r(t) = \sum_{j=1}^d c_{ij}(t) \theta_j(t)
+    \end{align*}
+    for all $i=1,\ldots,d$.
+
+    Substituting this into the previous equation and by linearity of the integral, we obtain
+    \begin{align}
+      \tilde{S}_i(t)
+      &= S_i(0) \exp \left( \sum_{j=1}^d \int_0^t c_{ij}(t) \theta_j(t) \mathrm{d}s \right.\notag\\
+      &\hspace*{60pt} \left. - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right)\notag\\
+      &= S_i(0) \exp \left( - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s \right.\notag\\
+      &\hspace*{60pt} \left. + \sum_{j=1}^d \left[\int_0^t c_{ij}(t) \theta_j(t) \mathrm{d}s + \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right]\right).\label{eq:bs-risk-neutral-before-product-rule}
+    \end{align}
+
+    Equation \eqref{eq:bs-theta} together with assumption \ref{ass:drift-vol-regularity} implies that $\mathbf{\theta}(t)$ is $\mathcal{F}^\mathbf{W}_t$-adapted and bounded by a deterministic constant. This in turn implies that $M(t)$ is a martingale by lemma \ref{lem:bs-exponential-martingale}. Therefore, by the Girsanov theorem \ref{thm:girsanov}, the process $\mathbf{W}^Q(t) = (W^Q_1(t), \ldots, W^Q_d(t))$ with
+    \begin{align*}
+      \mathrm{d}W^Q_j(t) = \theta_j(t) \mathrm{d}t + \mathrm{d}W(t)
+    \end{align*}
+    is a Wiener process under Q.
+
+    By the It\^o product rule (theorem \ref{thm:ito-product-rule}), we have that for all $j=1,\ldots,d$,
+    \begin{align*}
+      \int_0^t c_{ij}(t) \theta_j(t) \mathrm{d}s + \int_0^t c_{ij}(s) \mathrm{d}W_j(s)
+      = c_{ij}(t) \mathrm{d}W^Q(t).
+    \end{align*}
+
+    Substituting in equation \eqref{eq:bs-risk-neutral-before-product-rule}, we obtain
+    \begin{align*}
+      \tilde{S}_i(t)
+      &= S_i(0) \exp \left( - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s
+      + \sum_{j=1}^d \int_0^t c_{ij}(t) \mathrm{d}W^Q_j(s)\right).
+    \end{align*}
+
+    By lemma \ref{lem:bs-exponential-martingale} and assumption \ref{ass:drift-vol-regularity}, $\tilde{S}_i(t)$ is thus a martingale under $Q$ for all $i=1,\ldots,d$ as required.
+  \end{proof}
 \end{theorem}
 
-Moreover, we can prove that the model assumption that $\mathbf{C}(t)$ is invertible implies the existence of $\theta_j(t), j=1,\ldots,d$ satisfying \eqref{eq:bs-theta}
+\tomcomment{[deleted]}
+%%%%%%%%%%%%%
+\comment{how can we notice this? Is the existence of such $\theta$ evident?}
+%%%%%%%%%%%%%
+\tomcomment{[deleted]}
+%%%%%%%%%%%%%
+\comment{incorrect referencing style. This is not an equation.}
+%%%%%%%%%%%%%
+\tomcomment{[deleted]}
+%%%%%%%%%%%%%
+\comment{incorrect referencing style. This is not an equation.}
+%%%%%%%%%%%%%
+\tomcomment{[deleted]}
 %%%%%%%%%%%%%
 \comment{above we have written as if this was obvious.}
 %%%%%%%%%%%%%
-.
-
-\begin{proposition}
-  If $\mathbf{C}(t)$ is invertible for all $t$, then there exists a unique process $\mathbf{\theta}(t) = (\theta_1(t), \ldots, \theta_d(t))$ such that
-
-  \begin{align*}
-    \mu_i(t) - r(t) = \sum_{j=1}^d c_{ij}(t) \theta_j(t)
-  \end{align*}
-
-  for all $j=1,\ldots,d$.
-
-  \begin{proof}
-    Indeed, notice that the equation can be rewritten in vector form as
-
-    \begin{align*}
-      \mathbf{C}(t) \mathbf{\theta}(t) = \mathbf{\mu}(t) - r(t).
-    \end{align*}
-
-    It follows at once that
-
-    \begin{align*}
-      \mathbf{\theta}(t) = \mathbf{C}^{-1}(t) (\mathbf{\mu}(t) - r(t)).
-    \end{align*}
-  \end{proof}
-\end{proposition}
+\tomcomment{[deleted]}
 
 %%%%%%%%%%%%%
 \comment{what follows seems unfinished so I will stop here. Here are some final remarks:
@@ -752,8 +753,6 @@ Moreover, we can prove that the model assumption that $\mathbf{C}(t)$ is inverti
 \end{itemize}
 }
 %%%%%%%%%%%%%
-
-FIXME: Corollary with C(t) invertible and the drift and volatility coefficients deterministic. Use previous theorem with lemma from preliminaries.
 
 \subsection{Strategies}
 
