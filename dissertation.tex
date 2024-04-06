@@ -12,6 +12,7 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{xcolor}
+\usepackage{mathtools}
 
 \usepackage[backend=biber]{biblatex}
 \addbibresource{bibliography.bib}
@@ -672,7 +673,7 @@ We want to find a probability measure equivalent to the physical probability $P$
   \begin{align*}
     M(t) = \exp \left( - \frac{1}{2} \sum_{j=1}^d \int_0^t \theta_j(s)^2 \mathrm{d}s - \sum_{j=1}^d \int_0^t \theta_j(s) \mathrm{d}W_j(s) \right).
   \end{align*}
-  Then the measure $Q$ with density $\frac{\mathrm{d}Q}{\mathrm{d}P} = M(T)$ is a risk-neutral probability, i.e. it is equivalent to $P$ and the processes $\tilde{S}_i, i=1,\ldots,d$ are martingales under $Q$.
+  If $M(t)$ is a martingale under $P$, then the measure $Q$ with density $\frac{\mathrm{d}Q}{\mathrm{d}P} = M(T)$ is a risk-neutral probability, i.e. it is equivalent to $P$ and the processes $\tilde{S}_i, i=1,\ldots,d$ are martingales under $Q$.
 
   \begin{proof}
     For all $i=1,\ldots,d$, by theorem \ref{thm:bs-solution},
@@ -702,7 +703,7 @@ We want to find a probability measure equivalent to the physical probability $P$
       &\hspace*{60pt} \left. + \sum_{j=1}^d \left[\int_0^t c_{ij}(t) \theta_j(t) \mathrm{d}s + \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right]\right).\label{eq:bs-risk-neutral-before-product-rule}
     \end{align}
 
-    Equation \eqref{eq:bs-theta} together with assumption \ref{ass:drift-vol-regularity} implies that $\mathbf{\theta}(t)$ is $\mathcal{F}^\mathbf{W}_t$-adapted and bounded by a deterministic constant. This in turn implies that $M(t)$ is a martingale by lemma \ref{lem:bs-exponential-martingale}. Therefore, by the Girsanov theorem \ref{thm:girsanov}, the process $\mathbf{W}^Q(t) = (W^Q_1(t), \ldots, W^Q_d(t))$ with
+    Since we assume that $M(t)$ is a martingale then the Girsanov theorem \ref{thm:girsanov} implies that the process $\mathbf{W}^Q(t) = (W^Q_1(t), \ldots, W^Q_d(t))$ with
     \begin{align*}
       \mathrm{d}W^Q_j(t) = \theta_j(t) \mathrm{d}t + \mathrm{d}W(t)
     \end{align*}
@@ -721,7 +722,7 @@ We want to find a probability measure equivalent to the physical probability $P$
       + \sum_{j=1}^d \int_0^t c_{ij}(t) \mathrm{d}W^Q_j(s)\right).
     \end{align*}
 
-    By lemma \ref{lem:bs-exponential-martingale} and assumption \ref{ass:drift-vol-regularity}, $\tilde{S}_i(t)$ is thus a martingale under $Q$ for all $i=1,\ldots,d$ as required.
+    By lemma \ref{lem:bs-exponential-martingale} with $a_j(t) \coloneq - c_{ij}(t)$ and assumption \ref{ass:drift-vol-regularity}, $\tilde{S}_i(t)$ is thus a martingale under $Q$ for all $i=1,\ldots,d$ as required.
   \end{proof}
 \end{theorem}
 
