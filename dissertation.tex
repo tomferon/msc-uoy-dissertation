@@ -43,20 +43,22 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
 \numberwithin{equation}{section}
 \numberwithin{figure}{section}
-\newtheoremstyle{bolddesc}{}{}{\itshape}{}{\bfseries}{.}{ }
+\newtheoremstyle{bolddescit}{}{}{\itshape}{}{\bfseries}{.}{ }
   {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
-\theoremstyle{bolddesc}
+\newtheoremstyle{bolddesc}{}{}{}{}{\bfseries}{.}{ }
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+\theoremstyle{bolddescit}
 \newtheorem{theorem}{\protect\theoremname}[section]
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{\protect\definitionname}
 \theoremstyle{definition}
 \newtheorem{example}[theorem]{\protect\examplename}
 \theoremstyle{plain}
-\newtheorem{assumption}[theorem]{\protect\assumptionname}
-\theoremstyle{plain}
 \newtheorem{lemma}[theorem]{\protect\lemmaname}
 \theoremstyle{plain}
 \newtheorem{corollary}[theorem]{\protect\corollaryname}
+\theoremstyle{bolddesc}
+\newtheorem{assumption}[theorem]{\protect\assumptionname}
 \theoremstyle{plain}
 \newtheorem{proposition}[theorem]{\protect\propositionname}
 \theoremstyle{remark}
@@ -559,7 +561,7 @@ This looks incorrect, since then we would have $WdW=dW$. I think that what you h
 
 In this section, we discuss a market model -- often referred to as the \textit{multi-asset Black-Scholes model with variable coefficients} -- consisting of one risk-free asset with price $A(t)$ satisfying
 \begin{align*}
-  \mathrm{d}A(t) &= r(t) A(t) \mathrm{d}t
+  \mathrm{d}A(t) = r(t) A(t) \mathrm{d}t, && A(0) = 1
 \end{align*}
 where $r(t)$ is the continuous risk-free rate, and many risky assets with prices $S_i(t), i=1,\ldots,d$ satisfying
 \begin{align}
@@ -576,8 +578,6 @@ Some further assumptions are made by the model.
 \begin{assumption}\label{ass:vol-matrix-invertible}
   The matrix of volatily coefficients $\mathbf{C}(t)= [c_{ij}(t)]_{i,j=1,\ldots,d}$ is invertible.
 \end{assumption}
-
-% FIXME: Justificiation of $d$ Wiener processes for $d$ assets?
 
 \tomcomment{[deleted section title]}
 %%%%%%%%%%%%%
@@ -703,7 +703,7 @@ We want to find a probability measure equivalent to the physical probability $P$
       &\hspace*{60pt} \left. + \sum_{j=1}^d \left[\int_0^t c_{ij}(t) \theta_j(t) \mathrm{d}s + \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right]\right).\label{eq:bs-risk-neutral-before-product-rule}
     \end{align}
 
-    Since we assume that $M(t)$ is a martingale then the Girsanov theorem \ref{thm:girsanov} implies that the process $\mathbf{W}^Q(t) = (W^Q_1(t), \ldots, W^Q_d(t))$ with
+    Since we assume that $M(t)$ is a martingale, then the Girsanov theorem \ref{thm:girsanov} implies that the process $\mathbf{W}^Q(t) = (W^Q_1(t), \ldots, W^Q_d(t))$ with
     \begin{align*}
       \mathrm{d}W^Q_j(t) = \theta_j(t) \mathrm{d}t + \mathrm{d}W(t)
     \end{align*}
@@ -723,6 +723,14 @@ We want to find a probability measure equivalent to the physical probability $P$
     \end{align*}
 
     By lemma \ref{lem:bs-exponential-martingale} with $a_j(t) \coloneq - c_{ij}(t)$ and assumption \ref{ass:drift-vol-regularity}, $\tilde{S}_i(t)$ is thus a martingale under $Q$ for all $i=1,\ldots,d$ as required.
+
+    Moreover, since
+    \begin{align*}
+      Q(A) = \int_A M(T) \mathrm{d}P
+    \end{align*}
+    for all $A \in \mathcal{F}$, then $P(A) = 0$ implies that $Q(A) = 0$. But since $M(T) > 0$, then $Q(A) = 0$ also implies that $P(A) = 0$. That is, the measures $P$ and $Q$ are equivalent.
+
+    In conclusion, we have constructed a measure $Q$ that is indeed a risk-neutral probability for the model.
   \end{proof}
 \end{theorem}
 
@@ -757,31 +765,192 @@ We want to find a probability measure equivalent to the physical probability $P$
 
 \subsection{Strategies}
 
-FIXME: Definition of contigent claim
+\begin{definition}
+  A (European) \textbf{derivative security} with expiry time $T$ is a security whose value is a stochastic process $H : [0,T] \times \Omega \to \mathbb{R}$ and such that $H(T) = H$ for some $\mathcal{F}^\mathbf{W}_T$-measurable random variable $H$ called the \textbf{payoff} of the derivative.
+\end{definition}
 
-FIXME: Definition of strategy
+\begin{definition}
+  The \textbf{discounted process} of a process $X$ is defined as
+  \begin{align*}
+    \tilde{X}(t) = e^{-\int_0^t r(s) \mathrm{d}s} X(t).
+  \end{align*}
+\end{definition}
 
-FIXME: Self-financing condition
+\begin{definition}
+  The \textbf{extended market} for a derivative $H$ consists of the assets $A$ and $S_i, i=1,\ldots,d$ as described above (the basic market) as well as the derivative $H$.
+\end{definition}
 
-FIXME: Definition of martingale strategy
+\begin{definition}
+  A \textbf{strategy} is defined as an $\mathcal{F}^\mathbf{W}_t$-adapted process of the form\\ $(x_1(t),\ldots,x_d(t),y(t))$ for $t \in [0,T]$ or simply $(x_1,\ldots,x_d,y)$ for short.
+\end{definition}
 
-FIXME: Definition of admissible strategy
+\begin{definition}
+  The \textbf{value (process)} of a strategy $(x_1,\ldots,x_d,y)$ is
+  \begin{align*}
+    V_{(x_1,\ldots,x_d,y)}(t) = \sum_{i=1}^d x_i(t) S_i(t) + y(t) A(t).
+  \end{align*}
+  When there is no ambiguity, we simply denote it by $V(t)$.
+\end{definition}
 
-FIXME: Explanation as to why we need admissiblity?
+\begin{definition}
+  An \textbf{extended strategy}, or a strategy in the extended market, is defined as an $\mathcal{F}^\mathbf{W}_t$-adapted process of the form $(x_1,\ldots,x_d,y,z)$. Its value is
+  \begin{align*}
+    V_{(x_1,\ldots,x_d,y,z)}(t)
+    = \sum_{i=1}^d x_i(t) S_i(t) + y(t) A(t) + z(t) H(t).
+  \end{align*}
+\end{definition}
 
-FIXME: Definition of replicating strategy
+\begin{definition}
+  We say that a strategy is \textbf{self-financing} if it is an It\^o process satisfying
+  \begin{align*}
+    \mathrm{d}V(t) = \sum_{i=1}^d x_i(t) \mathrm{d}S_i(t) + y(t) \mathrm{d}A(t).
+  \end{align*}
+\end{definition}
 
-FIXME: Representation of contigent claims as processes assumed to be It\^o
+\begin{definition}
+  We say that an extended strategy is \textbf{self-financing} if it is an It\^o process satisfying
+  \begin{align*}
+    \mathrm{d}V(t) = \sum_{i=1}^d x_i(t) \mathrm{d}S_i(t) + y(t) \mathrm{d}A(t) + z(t) \mathrm{d}H(t).
+  \end{align*}
+\end{definition}
 
-\subsection{Completeness}
+The following definitions apply to strategies as well as extended strategies.
 
-FIXME: Completeness of the model. (Is it though?)
+\begin{definition}
+  We say that a strategy is \textbf{admissible} if
+  \begin{itemize}
+    \item there exists a constant $L > 0$ such that its value process satisfies
+      \begin{align*}
+        V(t) \ge -L
+      \end{align*}
+      for all $t \in [0,T]$, almost surely and
+    \item its discounted price $\tilde{V}$ is a martingale under $Q$.
+  \end{itemize}
+\end{definition}
+
+% FIXME: Explanation as to why we need admissiblity?
+
+\begin{definition}
+  An \textbf{arbitrage opportunity} is an admissible self-financing strategy such that
+  \begin{itemize}
+    \item $V(0) = 0$,
+    \item $V(T) \ge 0$ almost surely and
+    \item $V(T) > 0$ with positive probability.
+  \end{itemize}
+\end{definition}
+
+\begin{remark}
+  In these definitions, we do not have to specify under which probability statements hold \textit{almost surely} or \textit{with positive probability}. This is because $P$ and $Q$ are equivalent so saying that a proposition holds almost surely / with positive probability under $P$ is equivalent to saying that it holds under $Q$.
+\end{remark}
+
+\begin{assumption}[No arbitrage principle]
+  There exist no arbitrage opportunities in the extended market.
+\end{assumption}
+
+\begin{assumption}
+  The \textbf{price process} of a derivative security with payoff $H$ is an It\^o process $H : [0,T] \times \Omega \to \mathbb{R}$ such that $H(T) = H$ and such that there are no arbitrage opportunities in the extended market.
+\end{assumption}
 
 \subsection{Pricing of derivatives}
 
-FIXME: Pricing with risk-neutral expectations + comment about unknown joint distribution
+\tomcomment{Everything after this point is still work in progress.}
 
-FIXME: Black-Scholes PDE
+\begin{definition}
+  We say that an admissible self-financing strategy (in the basic market) \textbf{replicates} a derivative with payoff $H$ if $V(T) = H$.
+\end{definition}
+
+\begin{assumption}\label{ass:bs-repl-strat-derivative-prices}
+  If a derivate with payoff $H$ is replicable by a strategy with value process $V$, then $V(t) = H(t)$ for all $t \in [0,T]$.
+\end{assumption}
+
+FIXME: Conditions for replicability?
+
+\begin{theorem}
+  If $(x_1, \ldots, x_d, y)$ is a replicating strategy with value $V$ for a derivative with payoff $H$, then
+  \begin{align}\label{eq:bs-derivative-pricing}
+    \tilde{H}(t) = \mathbb{E}_Q(\tilde{H}(T) \mid \mathcal{F}^\mathbf{W}_t)
+  \end{align}
+  for all $t \in [0,T]$.
+
+  \begin{proof}
+    By assumption \ref{ass:bs-repl-strat-derivative-prices}, we have that $H(t) = V(t)$ for all $t \in [0,T]$. Multiplying both sides by the discounting factor $\exp\left(-\int_0^t r(s) \mathrm{d}s\right)$, we also have that $\tilde{H}(t) = \tilde{V}(t)$ for all $t \in [0,T]$.
+
+    Since $(x_1, \ldots, x_d, y)$ is a replicating strategy, it is admissible by definition. This in turn implies that its discounted value $\tilde{V}$ is a Q-martingale. Therefore,
+    \begin{align*}
+      \tilde{H}(t) = \tilde{V}(t)
+      = \mathbb{E}_Q(\tilde{V}(T) \mid \mathcal{F}^\mathbf{W}_t)
+      = \mathbb{E}_Q(\tilde{H}(T) \mid \mathcal{F}^\mathbf{W}_t).
+    \end{align*}
+  \end{proof}
+\end{theorem}
+
+Alternatively, we can write equation \eqref{eq:bs-derivative-pricing} as
+\begin{align*}
+  H(t) = \mathbb{E}_Q\left(e^{-\int_t^T r(s) \mathrm{d}s} H(T) \mid \mathcal{F}^\mathbf{W}_t\right)
+\end{align*}
+for all $t \in [0,T]$. In particular at time 0, since $\mathcal{F}^\mathbf{W}_0$ is the trivial $\sigma$-field, we have
+\begin{align*}
+  H(0) = \mathbb{E}_Q\left(\tilde{H}(T)\right)
+  = \mathbb{E}_Q\left(e^{-\int_0^T r(s) \mathrm{d}s} H(T)\right).
+\end{align*}
+
+\subsection{European options}
+
+\begin{definition}
+  The \textbf{positive part function} $(\cdot)^+ : \mathbb{R} \to \mathbb{R}$ is given by
+  \begin{align*}
+    x^+ = \left\{\begin{array}{ll}
+      0 & \text{if } x < 0,\\
+      x & \text{if } x \ge 0.
+    \end{array}\right.
+  \end{align*}
+\end{definition}
+
+\begin{definition}
+  European \textbf{call and put options} with expiry time $T$, strike price $K > 0$ and underlying $U$ a replicable $\mathcal{F}^\mathbf{W}_t$-adapted process, are derivative securities with payoffs
+  \begin{align*}
+    H_\text{call} = (U(T) - K)^+, && H_\text{put} = (K - U(T))^+.
+  \end{align*}
+\end{definition}
+
+We need to make the following further assumption on the risk-free rate. Informally, we can assume that bonds with maturity $T$ are traded at all time $t$.
+
+\begin{assumption}\label{ass:bs-bond-prices}
+  The process $\exp\left(-\int_t^T r(s) \mathrm{d}s\right)$ is $\mathcal{F}^\mathbf{W}_t$-adapted.
+\end{assumption}
+
+\begin{theorem}[Put-call parity]
+  Let $C(t)$ and $P(t)$ be the price processes of European call and put options respectively with expiry time $T$, strike prike $K$ and underlying $U$. Then
+  \begin{align}\label{eq:put-call-parity}
+    C(t) - P(t) = U(t) - e^{-\int_t^T r(s) \mathrm{d}s} K
+  \end{align}
+  for all $t \in [0,T]$.
+
+  \begin{proof}
+    Taking $(x_1^U,\ldots,x_d^U,y^U)$ the strategy with value $V^U$ replicating the underlying $U$.
+
+    A portfolio consisting of one long such call option and one short such put option is equivalent to a derivative with payoff
+    \begin{align*}
+      (U(T) - K)^+ - (K - U(T))^+
+      &= U(T) - K.
+    \end{align*}
+
+    We thus can replicate it by the strategy $(x_1,\ldots,x_d,y)$ where
+    \begin{align*}
+      x_i(t) &= x_i^U(t), \text{ for } i=1,\ldots,d,\\
+      y(t) &= y^U(t) - \frac{K}{A(T)}.
+    \end{align*}
+    Here, we use assumption \ref{ass:bs-bond-prices} to ensure that $y(t)$ is $\mathcal{F}^\mathcal{W}_t$-adapted. The strategy's value at time $T$ is
+    \begin{align*}
+      V(T) = \sum_{i=1}^d x_i^U(t) S_i(t) + y^U(t) A(t) - \frac{K}{A(T)} A(T).
+      = U(T) - K
+    \end{align*}
+
+    Hence, assumption \ref{ass:bs-repl-strat-derivative-prices} implies that equation \eqref{eq:put-call-parity} indeed holds.
+  \end{proof}
+\end{theorem}
+
+FIXME: European options are replicable => C(0) = E(exp(...) H)
 
 \pagebreak
 \section{The Fokker-Planck equation}
