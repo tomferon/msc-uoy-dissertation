@@ -221,6 +221,8 @@ A very important stochastic process is the Wiener process. Here, we give an axio
   For all $X \in \mathcal{M}^2$, there exists a sequence $(X_n)_{n \ge 1}$ in $\mathcal{S}^2$ that converges to $X$ in $L^2([0,T] \times \Omega)$.
 \end{theorem}
 
+% FIXME: Move comment after definition in a theorem here.
+
 \begin{definition}
   The \textbf{stochastic integral} of $X \in \mathcal{M}^2$ over $[0,T]$ is defined as
   \begin{align*}
@@ -238,6 +240,14 @@ The limit in this definition exists and does not in fact depend on which specifi
 \comment{Proposition \ref{thm:s2-m2-conv} (we should use capital letter.)}
 %%%%%%%%%%%%%
 ensures that the stochastic integral is well-defined on $\mathcal{M}^2$. See \cite{oksendal_stochastic_2003}, Definition 3.1.6.
+
+\begin{definition}
+  The \textbf{stochastic integral} of $X \in \mathcal{M}^2$ over $[a,b]$ for $0 \le a < b \le T$ is defined as
+  \begin{align*}
+    \int_a^b X(t) \mathrm{d}W(t)
+    = \int_0^T \mathbf{1}_{[a,b]} X(t) \mathrm{d}W(t).
+  \end{align*}
+\end{definition}
 
 \begin{proposition}(\cite{capinski_stochastic_2012}, Theorem 3.15)\label{prop:stochastic-integral-martingale}
   For all $X \in \mathcal{M}^2$, there exists a martingale $M : [0,T] \times \Omega \to \mathbb{R}$ with continuous paths such that
@@ -263,21 +273,39 @@ ensures that the stochastic integral is well-defined on $\mathcal{M}^2$. See \ci
   almost surely.
 \end{definition}
 
-\begin{proposition}(\cite{capinski_stochastic_2012}, Proposition 4.14 and Theorem 4.16)\label{prop:p2-localising-sequence}
-  Let $X \in \mathcal{P}^2$ and let $(X_n)_{n \ge 1}$ be the sequence of stochastic processes given by
+\begin{definition}
+  A \textbf{stopping time} with respect to the filtration $\mathcal{F}_t$ is a random variable $\tau$ such that the event $\{\tau \le t\}$ is in the $\sigma$-field $\mathcal{F}_t$ for all $t \in [0,T]$.
+\end{definition}
+
+\begin{definition}
+  Given $X \in \mathcal{P}^2$, a \textbf{localising sequence} for $X$ in $\mathcal{M}^2$ is a sequence of stopping times $(\tau_n)_{n \in \mathbb{N}}$ with respect to $\mathcal{F}^W_t$ such that
+  \begin{itemize}
+    \item $\tau_{n+1} \ge \tau_{n}$ for all $n$,
+    \item $\mathbf{1}_{[0,\tau_n]} X \in \mathcal{M}^2$ for all $n$, and
+    \item $P(\cup_{n} \{\tau_n = T\}) = 1$.
+  \end{itemize}
+\end{definition}
+
+\begin{theorem}\label{thm:p2-localising-sequence-limit}
+  (\cite{capinski_stochastic_2012}, Theorem 4.16)
+  Let $X \in \mathcal{P}^2$ and $(\tau_n)$ be any localising sequence for $X$ in $\mathcal{M}^2$. If $(X_n)_{n \ge 1}$ is the sequence of stochastic processes given by
   \begin{align*}
-    X_n(t) = \mathbf{1}_{[0,\tau_n]}(t) X(t)
+    X_n(t) = \mathbf{1}_{[0,\tau_n]}(t) X(t),
   \end{align*}
-  with
-  \begin{align*}
-    \tau_n = \inf \left\{ t \in [0,T] : \int_0^t X(s)^2 \mathrm{d}s \ge n \right\}
-  \end{align*}
-  where we take $\inf \emptyset = T$.
-  Then $X_n \in \mathcal{M}^2$ for all $n$ and the sequence of continuous martingales
+  so that $X_n \in \mathcal{M}^2$ for all $n$, then the sequence of continuous martingales
   \begin{align*}
     M_n(t) = \int_0^t X_n(s) \mathrm{d}W(s)
   \end{align*}
-  as in \eqref{eq:stochastic-integral-process} converges almost surely to a stochastic process $Y$ with continuous paths.
+  as in \eqref{eq:stochastic-integral-process} converges almost surely to a stochastic process $Y$ with continuous paths that does not depend on the choice of localising sequence $(\tau_n)$.
+\end{theorem}
+
+\begin{proposition}\label{prop:p2-localising-sequence-existence}
+  (\cite{capinski_stochastic_2012}, Proposition 4.14)
+  Let $X \in \mathcal{P}^2$. The sequence $(\tau_n)_{n \in \mathbb{N}}$ given by
+  \begin{align*}
+    \tau_n = \inf \left\{ t \in [0,T] : \int_0^t X(s)^2 \mathrm{d}s \ge n \right\}
+  \end{align*}
+  with $\inf \emptyset = T$ is a localising sequence for $X$ in $\mathcal{M}^2$.
 \end{proposition}
 
 \begin{definition}
@@ -285,14 +313,68 @@ ensures that the stochastic integral is well-defined on $\mathcal{M}^2$. See \ci
   \begin{align*}
     \int_0^t X(s) \mathrm{d}W(s) = \lim_{n \to \infty} M_n(t) = Y(t)
   \end{align*}
-  with $M_n$ and $Y$ as in Proposition \ref{prop:p2-localising-sequence}.
+  with $M_n$ and $Y$ as in Theorem \ref{thm:p2-localising-sequence-limit}.
 \end{definition}
+
+Note that Proposition \ref{prop:p2-localising-sequence-existence} ensures the existence of a localising sequence and Theorem \ref{thm:p2-localising-sequence-limit} states the limit does not depend on which localising sequence we choose, so the stochastic integral is well-defined for integrands in $\mathcal{P}^2$.
+
+\begin{theorem}\label{thm:stochastic-integral-split-m2}
+  (\cite{oksendal_stochastic_2003}, Theorem 3.2.1 (i))
+  Let $0 \le a < b < c \le T$ and $X \in \mathcal{M}^2$. Then
+  \begin{align*}
+    \int_a^c X(t) \mathrm{d}t = \int_a^b X(t) \mathrm{d}W(t) + \int_b^c X(t) \mathrm{d}W(t).
+  \end{align*}
+\end{theorem}
+
+\begin{theorem}\label{thm:stochastic-integral-split}
+  Let $0 \le a < b < c \le T$ and $X \in \mathcal{P}^2$. Then
+  \begin{align*}
+    \int_a^c X(t) \mathrm{d}t = \int_a^b X(t) \mathrm{d}W(t) + \int_b^c X(t) \mathrm{d}W(t).
+  \end{align*}
+
+  \begin{proof}
+    By Proposition \ref{prop:p2-localising-sequence-existence}, we have a localising sequence $(\tau_n)$ for $X$ in $\mathcal{M}^2$ and the sequence of processes $X_n(t) = \mathbf{1}_{[0,\tau_n]}$ is in $\mathcal{M}^2$. Since
+    \begin{align*}
+      \mathbb{E}\left(\int_0^T (\mathbf{1}_{[a,c]} X_n(t))^2 \mathrm{d}t\right)
+      &= \mathbb{E}\left(\int_0^T \mathbf{1}_{[a,c]} X_n(t)^2 \mathrm{d}t\right)\\
+      &\le \mathbb{E}\left(\int_0^T X_n(t)^2 \mathrm{d}t\right) < \infty,
+    \end{align*}
+    then $(\tau_n)$ is also a localising sequence for $\mathbf{1}_{[a,c]}X$ is $\mathcal{M}^2$.
+
+    Therefore,
+    \begin{align*}
+      \int_a^c X(t) \mathrm{d}W(t)
+      &= \int_0^T \mathbf{1}_{[a,c]} X(t) \mathrm{d}W(t)\\
+      &= \lim_{n \to \infty} \int_0^T \mathbf{1}_{[a,c]} X_n(t) \mathrm{d}W(t)\\
+      &= \lim_{n \to \infty} \int_a^c X_n(t) \mathrm{d}W(t)\\
+      &= \lim_{n \to \infty} \int_a^b X_n(t) \mathrm{d}W(t) + \lim_{n \to \infty} \int_b^c X_n(t) \mathrm{d}W(t) \tag{by Theorem \ref{thm:stochastic-integral-split-m2}}\\
+      &= \int_a^b X(t) \mathrm{d}W(t) + \int_b^c X(t) \mathrm{d}W(t).
+    \end{align*}
+  \end{proof}
+\end{theorem}
 
 %%%%%%%%%%%%%
 \comment{it would seem more natural to give first a definition of a one dimensional Ito process. Possibly setting up one dimensional versions first, and then multidimensional ones could be a choice. I understand though why you have decided to go for the general case first to make things shorter. So, this is just a choice that can be considered. }
 %%%%%%%%%%%%%
 
 For the rest of this section, we turn our attention to multidimensional stochastic processes.
+
+\begin{definition}
+  The \textbf{stochastic integral} of the $n \times d$ matrix $\mathbf{X} = [X_{ij}]$ of processes in $\mathcal{P}^2$ with respect to a $d$-dimensional Wiener process $\mathbf{W}$ is defined as
+  \begin{align*}
+    \int_0^t \mathbf{B}(s,\mathbf{X}(s)) \mathrm{d}\mathbf{W}(s) = \left[
+      \sum_{j=1}^{n} \int_0^t b_{ij}(s) \mathrm{d}W_j(s)
+    \right]_{n=1,\ldots,d}.
+  \end{align*}
+\end{definition}
+
+If $n=1$, we understand the integral to be the entry as defined above rather than a 1-component vector.
+
+Moreover, we can denote some sums of stochastic integrals with the notation
+\begin{align*}
+  \int_0^t \mathbf{X}(s) \cdot \mathrm{d}\mathbf{W}(s) = \sum_{j=1}^{d} \int_0^t X_j(s) \mathrm{d}W_j(s)
+\end{align*}
+for a stochastic process $\mathbf{X}(t) = (X_1(t), \ldots, X_d(t))$ with components in $\mathcal{P}^2$.
 
 \begin{definition}
   We say that a process $\mathbf{X}(t) = (X_1(t), X_2(t), \ldots, X_d(t))$ is an \textbf{It\^o process} if it has the form
@@ -305,13 +387,7 @@ For the rest of this section, we turn our attention to multidimensional stochast
   for $i=1,\ldots,d$ where $W_j(t), j=1,\ldots,n$ are $n$ Wiener processes with $\mathbf{W}(t) = (W_1(t),\ldots,W_n(t))$, $a_i(t), i=1,\ldots,d$ are $\mathcal{F}^\mathbf{W}_t$-adapted stochastic processes such that $\int_0^T |a_i(t)| \mathrm{d}t < \infty$ and $b_{ij} \in \mathcal{P}^2$ for $i=1,\ldots,d$ and $j=1,\ldots,n$.
 \end{definition}
 
-Taking $\mathbf{a}(t) = (a_1(t),\ldots,a_d(t))$, $\mathbf{B}(t) = [b_{ij}(t)]_{i=1,\ldots,d;j=1,\ldots,n}$ and
-\begin{align*}
-  \int_0^t \mathbf{B}(s) \mathrm{d}\mathbf{W}(s) = \left[
-    \sum_{j=1}^{n} \int_0^t b_{ij}(s) \mathrm{d}W_j(s)
-  \right]_{i=1,\ldots,d},
-\end{align*}
-we can write \eqref{eq:ito-process} as
+Taking $\mathbf{a}(t) = (a_1(t),\ldots,a_d(t))$, $\mathbf{B}(t) = [b_{ij}(t)]_{i=1,\ldots,d;j=1,\ldots,n}$, we can write \eqref{eq:ito-process} as
 \begin{align*}
   \mathbf{X}(t) = \mathbf{X}(0) + \int_0^t \mathbf{a}(s) \mathrm{d}s + \int_0^t \mathbf{B}(s) \mathrm{d}\mathbf{W}(s)
 \end{align*}
@@ -326,37 +402,35 @@ When $d=n=1$, we simply write
 \end{align*}
 and we call $a, b$ the \textbf{characteristics} of the It\^o process.
 
-Moreover, we can denote some sums of stochastic integrals with the notation
-\begin{align*}
-  \int_0^t \mathbf{X}(s) \cdot \mathrm{d}\mathbf{W}(s) = \sum_{j=1}^{d} \int_0^t X_j(s) \mathrm{d}W_j(s)
-\end{align*}
-for a stochastic process $\mathbf{X}(t) = (X_1(t), \ldots, X_d(t))$.
-
 \begin{definition}
   A \textbf{stochastic differential equation} (or \textbf{SDE} for short) is an equation of the form
   \begin{align}\label{eq:sde-init-value}
-    \mathbf{X}(t) &= \mathbf{X}(0) + \int_0^t u(s, \mathbf{X}(s)) \mathrm{d}s + \int_0^t v(s, \mathbf{X}(s)) \mathrm{d}\mathbf{W}(s),\\
-    \mathbf{X}(0) &= \mathbf{x}_0\notag
+    \mathbf{X}(t) &= \mathbf{X}(s) + \int_s^t a(u, \mathbf{X}(u)) \mathrm{d}u + \int_s^t b(u, \mathbf{X}(u)) \mathrm{d}\mathbf{W}(u),\\
+    \mathbf{X}(s) &= \mathbf{x},\notag
   \end{align}
-  for some $u : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^d$, $v : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^{d \times n}$ and $\mathbf{x}_0 \in \mathbb{R}^d$.
+  for some $a : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^d$, $b : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^{d \times n}$ and $\mathbf{x} \in \mathbb{R}^d$.
 \end{definition}
 
-\begin{theorem}(\cite{capinski_blackscholes_2012}, Theorem 6.9)\label{thm:sde-solution}
-  Provided that both the coefficients $u(t,\mathbf{x})$ and $v(t,\mathbf{x})$ satisfy the following conditions where $\|\cdot\|$ denotes the Euclidean norm in the relevant space.
+\begin{theorem}\label{thm:sde-solution}
+  (\cite{oksendal_stochastic_2003}, Theorem 5.2.1)
+  Provided that both the coefficients $a(t,\mathbf{x})$ and $b(t,\mathbf{x})$ satisfy the following conditions where $\|\cdot\|$ denotes the Euclidean norm in the relevant space.
   \begin{itemize}
     \item Linear growth: there exists $C > 0$ such that
       \begin{align*}
-        \|u(t,\mathbf{x})\| + \|v(t,\mathbf{x})\| \le C (1 + \|\mathbf{x}\|)
+        \|a(t,\mathbf{x})\| + \|b(t,\mathbf{x})\| \le C (1 + \|\mathbf{x}\|)
       \end{align*}
       for $t \in [0,T]$ and $\mathbf{x} \in \mathbb{R}^d$.
 
     \item Lipschitz continuity: there exists $K > 0$ such that
       \begin{align*}
-        \|u(t,\mathbf{x}) - u(t,\mathbf{y})\| + \|v(t,\mathbf{x}) - v(t,\mathbf{y})\| \le K \|\mathbf{x}-\mathbf{y}\|
+        \|a(t,\mathbf{x}) - a(t,\mathbf{y})\| + \|b(t,\mathbf{x}) - b(t,\mathbf{y})\| \le K \|\mathbf{x}-\mathbf{y}\|
       \end{align*}
       for $t \in [0,T]$ and $\mathbf{x},\mathbf{y} \in \mathbb{R}^d$.
   \end{itemize}
-  Then \eqref{eq:sde-init-value} has a unique solution.
+  Then \eqref{eq:sde-init-value} has a unique solution with continuous paths that is adapated to the filtration generated by $\mathbf{W}(t)$ for $t \ge s$ and such that
+  \begin{align*}
+    \mathbb{E}\left(\int_0^T\right) FIXME
+  \end{align*}
 \end{theorem}
 
 \begin{theorem}[It\^o Formula]
@@ -1072,41 +1146,66 @@ Note that this is well-defined since $U$ is clearly replicable by the constant s
 
 % Introduce the Fokker-Planck equation. Use [4] as a reference.
 
-FIXME: Intro citing \textcite{pavliotis_stochastic_2014}
-
-FIXME: We work in $(\Omega, \mathcal{F}, \mathcal{F}_t, P)$.
+This section is based on \textcite{pavliotis_stochastic_2014}. We work in a filtered probability space $(\Omega, \mathcal{F}, \mathcal{F}_t, P)$ without stating it explicitly as to not clutter the argument unecessarily.
 
 \begin{definition}
   A \textbf{Markov process} is a stochastic process $\mathbf{X}(t)$ that satisfies the \textit{Markov condition}
-
   \begin{align*}
     \mathbb{E}(f(\mathbf{X}(t)) \mid \mathcal{F}^\mathbf{X}_{s})
-    = \mathbb{E}(f(\mathbf{X}(t)) \mid \mathcal{F}_{\mathbf{X}(s)})
+    = \mathbb{E}(f(\mathbf{X}(t)) \mid \mathcal{F}_{\mathbf{X}(s)}),
   \end{align*}
-
-  for $0 \le s < t \le T$ and for all Borel bounded functions $f$.
+  for $0 \le s < t \le T$ and for all bounded Borel functions $f$.
 \end{definition}
 
-These processes are relevant to our discussion since It\^o processes -- and in particular Wiener processes -- are in fact Markov processes.
+\begin{definition}
+  An \textbf{It\^o diffusion (process)} is an It\^o process of the form
+  \begin{align*}
+    \mathbf{X}(t) &= \mathbf{X}(0) + \int_0^t a(s, \mathbf{X}(s)) \mathrm{d}s + \int_0^t b(s, \mathbf{X}(s)) \mathrm{d}\mathbf{W}(s),
+  \end{align*}
+  for some Borel functions $a : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^d$, $b : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^{d \times n}$ and $\mathbf{x}_0 \in \mathbb{R}^d$ satisfying the conditions of Theorem \ref{thm:sde-solution}.
+\end{definition}
 
-FIXME: It\^o processes are Markov processes
+\begin{theorem}
+  It\^o diffusions are Markov processes.
+
+  \begin{proof}
+    Let $\mathbf{X}$ be an It\^o diffusion and let $0 \le s < t \ge T$. We have
+    \begin{align*}
+      \mathbf{X}(s) &= \mathbf{X}(0) + \int_0^s a(u,\mathbf{X}(u)) \mathrm{d}u + \int_0^s b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u),\\
+      \mathbf{X}(t) &= \mathbf{X}(0) + \int_0^t a(u,\mathbf{X}(u)) \mathrm{d}u + \int_0^t b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u),
+    \end{align*}
+    for some functions $a,b$ as in the definition. By subtracting the second by the first, using Theorem \ref{thm:stochastic-integral-split}, we obtain
+    \begin{align*}
+      \mathbf{X}(t) &= \mathbf{X}(s) + \int_s^t a(u,\mathbf{X}(u)) \mathrm{d}u + \int_s^t b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u).
+    \end{align*}
+
+    Seeing the previous equation as an SDE with initial condition $\mathbf{X}(s) = \mathbf{x}$, we can see that Theorem \ref{thm:sde-solution} implies that there is a unique solution $\mathbf{X}(t,\omega)$ satisfying the SDE for that particular choice of $\mathbf{x} \in \mathbb{R}^d$. Let $\phi(\mathbf{x},t,\omega)$ denote these solutions as a function of $\mathbf{x}$.
+
+    By Theorem \ref{thm:sde-solution}, the solution is adapted to the filtration generated by $W(t)$ for $t \ge s$. In other words, it is independent from $\mathcal{F}^\mathbf{W}_s$.
+
+    Hence, for all bounded Borel function $f$,
+    \begin{align*}
+      \mathbb{E}(f(\phi()))
+    \end{align*}
+    \begin{align*}
+      \mathbb{E}(f(\mathbf{X}(t)) \mid \mathcal{F}^W_s) = FIXME
+    \end{align*}
+  \end{proof}
+\end{theorem}
 
 Informally, the future evolution of a Markov process only depends on its current state, independently from its past evolution.
 
 For $s < t$ and $\Gamma \in \mathcal{B}({\mathbb{R}^d})$ -- where $\mathcal{B}(\mathbb{R}^d)$ denotes the Borel subsets of $\mathbb{R}^d$ -- the Markov condition implies that
-
 \begin{align*}
   P(\mathbf{X}(t) \in \Gamma \mid \mathcal{F}^\mathbf{X}_s)
   &= \mathbb{E}(\mathbf{1}_\Gamma(\mathbf{X}(t)) \mid \mathcal{F}^\mathbf{X}_s)
   = \mathbb{E}(\mathbf{1}_\Gamma(\mathbf{X}(t)) \mid \mathcal{F}_{\mathbf{X}(s)})
-  = \phi(\mathbf{X}(s))
+  = \phi(\mathbf{X}(s)),
 \end{align*}
-
-for some Borel function $\phi$ by the Doob-Dynkin lemma. This justifies the following definition since it ensures that it exists.
+for some Borel function $\phi$ by the Doob-Dynkin Lemma (\cite{shreve_stochastic_2004}, Lemma 2.1.2). This justifies the following definition since it ensures that it exists.
 
 \begin{definition}
   Let $\mathbf{X}(t)$ be a $d$-dimensional Markov process. A \textbf{transition (probability) function} of $\mathbf{X}$ is a Borel function $\mu(\Gamma, t; \mathbf{x}, s)$ for $0 \le s < t \le T$, $\mathbf{x} \in \mathbb{R}^d$ and $\Gamma \in \mathcal{B}(\mathbb{R}^d)$ such that
-
   \begin{align*}
     \mu(\Gamma, t; \mathbf{X}(s), s) = P(\mathbf{X}(t) \in \Gamma \mid \mathcal{F}^\mathbf{X}_s).
   \end{align*}
@@ -1115,55 +1214,46 @@ for some Borel function $\phi$ by the Doob-Dynkin lemma. This justifies the foll
 Note that, viewing $\mu(\Gamma, t; \mathbf{x}, s)$ as a function of $\Gamma$ with the other arguments fixed, it forms a probability measure. In the rest of this section, we focus on such transition function that have a density, leading to the following definition.
 
 \begin{definition}
-  Let $\mathbf{X}(t)$ be a Markov process with transition function $\mu(\Gamma,t;\mathbf{x},s)$ that admits a density $\rho$ with respect to the Lebesgue measure, i.e.
-
+  Let $\mathbf{X}(t)$ be a Markov process such that it has a transition function $\mu(\Gamma,t;\mathbf{x},s)$ that admits a density $\rho$ with respect to the Lebesgue measure, i.e.
   \begin{align*}
     \mu(\Gamma,t;\mathbf{x},s) = \int_\Gamma \rho(\mathbf{y},t;\mathbf{x},s) \mathrm{d}\mathbf{y}
   \end{align*}
-
   for all $\Gamma \in \mathcal{B}(\mathbb{R}^d)$ and $0 \le s < t \le T$.
-
   We say that $\rho$ is a \textbf{transition (probability) density} of the Markov process.
 \end{definition}
 
-In order to prove the main result of this section, we will make use of the following property of the transition probability density. There exist several versions of this equation including one in terms of the transition function not requiring the existence of a density. However, we only state a single version here for brevity.
+In order to prove the main result of this section, we will make use of the following property of the transition probability density. There exist several versions of this equation including one in terms of the transition function that does not require the existence of a density. However, we only state a single version here for brevity.
 
-\begin{theorem}\label{thm:chapman-kolmogorov}
-  (\textbf{Chapman-Kolmogorov equation}) Let $\mathbf{X}(t)$ be a Markov process with transition probability density $\rho$. Then
-
+\begin{theorem}[Chapman-Kolmogorov Equation]\label{thm:fp-chapman-kolmogorov}
+  Let $\mathbf{X}(t)$ be a Markov process with transition probability density $\rho$. Then
   \begin{align*}
     \rho(\mathbf{y}, t; \mathbf{x}, s) = \int_{\mathbb{R}^d} \rho(\mathbf{y}, t; \mathbf{z}, u) \rho(\mathbf{z}, u; \mathbf{x}, s) \mathrm{d}\mathbf{z}
   \end{align*}
-
   for all $0 \le s < u < t \le T$ and for almost all $\mathbf{x} \in \mathrm{Im}(\mathbf{X}(s)), \mathbf{y} \in \mathbb{R}^d$.
 
   \begin{proof}
     Let $\Gamma \in \mathcal{B}(\mathbb{R}^d)$ and $0 \le s < u < t \le T$. Then
-
     \begin{align*}
       \int_\Gamma \rho(\mathbf{y},t;\mathbf{X}(s),s) \mathrm{d}\mathbf{y}
-      &= \mu(\Gamma,t;\mathbf{X}(s),s)\\
-      &= P(X(t) \in \Gamma \mid \mathcal{F}^\mathbf{X}_s)\\
-      &= \mathbf{E}(\mathbf{1}_\Gamma(\mathbf{X}(t)) \mid \mathcal{F}^\mathbf{X}_s)\\
-      &= \mathbb{E}(\mathbb{E}(\mathbf{1}_\Gamma(\mathbf{X}(t)) \mid \mathcal{F}^\mathbf{X}_u) \mid \mathcal{F}^\mathbf{X}_s)\\
-      &= \mathbb{E}(P(\mathbf{X}(t) \in \Gamma \mid \mathcal{F}^\mathbf{X}_u) \mid \mathcal{F}^\mathbf{X}_s)\\
+      &= \mu(\Gamma,t;\mathbf{X}(s),s)
+      = P(X(t) \in \Gamma \mid \mathcal{F}^\mathbf{X}_s)\\
+      &= \mathbb{E}(\mathbf{1}_\Gamma(\mathbf{X}(t)) \mid \mathcal{F}^\mathbf{X}_s)\\
+      &= \mathbb{E}(\mathbb{E}(\mathbf{1}_\Gamma(\mathbf{X}(t)) \mid \mathcal{F}^\mathbf{X}_u) \mid \mathcal{F}^\mathbf{X}_s) \tag{tower property}\\
       &= \mathbb{E}(\mu(\Gamma,t;\mathbf{X}(u),u) \mid \mathcal{F}^\mathbf{X}_s)\\
-      &= \mathbb{E}(\mu(\Gamma,t;\mathbf{X}(u),u) \mid \mathcal{F}_{\mathbf{X}(s)})\\
       &= \int_{\mathbb{R}^d} \mu(\Gamma,t;\mathbf{z},u) \mu(\mathrm{d}\mathbf{z},u;\mathbf{X}(s),s)\\
       &= \int_{\mathbb{R}^d} \mu(\Gamma,t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{z}\\
       &= \int_{\mathbb{R}^d} \int_\Gamma \rho(\mathbf{y},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{y} \mathrm{d}\mathbf{z}\\
-      &= \int_\Gamma \int_{\mathbb{R}^d} \rho(\mathbf{y},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{z} \mathrm{d}\mathbf{y}.
+      &= \int_\Gamma \int_{\mathbb{R}^d} \rho(\mathbf{y},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{z} \mathrm{d}\mathbf{y},
     \end{align*}
+    by Fubini's Theorem (\cite{kopp_probability_2013}, Theorem 3.18).
 
     Since this holds for all $\Gamma$, the integrand must be equal for almost $\mathbf{y}$, i.e.
-
     \begin{align*}
       \rho(\mathbf{y},t;\mathbf{X}(s),s)
       &= \int_{\mathbb{R}^d} \rho(\mathbf{y},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{z}.
     \end{align*}
 
     And since this itself holds for almost all $\omega \in \Omega$, then for almost all $\mathbf{x} \in \mathrm{Im}(\mathbf{X}(s))$ such that $\mathbf{x} = \mathbf{X}(s,\omega)$, we have
-
     \begin{align*}
       \rho(\mathbf{y},t;\mathbf{x},s)
       &= \int_{\mathbb{R}^d} \rho(\mathbf{y},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{x},s) \mathrm{d}\mathbf{z}.
@@ -1171,23 +1261,24 @@ In order to prove the main result of this section, we will make use of the follo
   \end{proof}
 \end{theorem}
 
-We can finally state and prove the main result of this section. Note that it is also called the \textit{forward Kolmogorov equation} in other resources.
+We can finally state and prove the main result of this section. Note that it is also called the \textit{Forward Kolmogorov Equation} in other resources.
 
-\begin{theorem}
-  (\textbf{Fokker-Planck equation}) Let $\mathbf{X}(t)$ be an It\^o process satisfying
-
+\begin{theorem}[Fokker-Planck Equation]\label{thm:fokker-planck}
+  Let $\mathbf{X}(t)$ be an It\^o process satisfying
   \begin{align*}
-    \mathrm{d}X_i(t) = a_i(t) \mathrm{d}t + \sum_{j=1}^d b_{ij}(t) \mathrm{d}W_j(t)
+    \mathrm{d}X_i(t) = a_i(t) \mathrm{d}t + \sum_{j=1}^d b_{ij}(t) \mathrm{d}W_j(t),
   \end{align*}
-
   for $i=1,\ldots,d$ and with transition probability density $\rho$. Then
-
   \begin{align*}
     \frac{\partial \rho}{\partial t} = - \frac{\partial}{\partial y} (a(t,y) \rho) + \frac{1}{2} \frac{\partial^2}{\partial y^2} (b(t,y) \rho).
   \end{align*}
 
-  (FIXME)
+  \begin{proof}
+    (FIXME)
+  \end{proof}
 \end{theorem}
+
+FIXME: Option prices are It\^o diffusions => they satisfy Fokker-Planck equation?
 
 \section{Dupire's equation}
 
