@@ -273,39 +273,21 @@ ensures that the stochastic integral is well-defined on $\mathcal{M}^2$. See \ci
   almost surely.
 \end{definition}
 
-\begin{definition}
-  A \textbf{stopping time} with respect to the filtration $\mathcal{F}_t$ is a random variable $\tau$ such that the event $\{\tau \le t\}$ is in the $\sigma$-field $\mathcal{F}_t$ for all $t \in [0,T]$.
-\end{definition}
-
-\begin{definition}
-  Given $X \in \mathcal{P}^2$, a \textbf{localising sequence} for $X$ in $\mathcal{M}^2$ is a sequence of stopping times $(\tau_n)_{n \in \mathbb{N}}$ with respect to $\mathcal{F}^W_t$ such that
-  \begin{itemize}
-    \item $\tau_{n+1} \ge \tau_{n}$ for all $n$,
-    \item $\mathbf{1}_{[0,\tau_n]} X \in \mathcal{M}^2$ for all $n$, and
-    \item $P(\cup_{n} \{\tau_n = T\}) = 1$.
-  \end{itemize}
-\end{definition}
-
-\begin{theorem}\label{thm:p2-localising-sequence-limit}
-  (\cite{capinski_stochastic_2012}, Theorem 4.16)
-  Let $X \in \mathcal{P}^2$ and $(\tau_n)$ be any localising sequence for $X$ in $\mathcal{M}^2$. If $(X_n)_{n \ge 1}$ is the sequence of stochastic processes given by
+\begin{proposition}(\cite{capinski_stochastic_2012}, Proposition 4.14 and Theorem 4.16)\label{prop:p2-localising-sequence}
+  Let $X \in \mathcal{P}^2$ and let $(X_n)_{n \ge 1}$ be the sequence of stochastic processes given by
   \begin{align*}
-    X_n(t) = \mathbf{1}_{[0,\tau_n]}(t) X(t),
+    X_n(t) = \mathbf{1}_{[0,\tau_n]}(t) X(t)
   \end{align*}
-  so that $X_n \in \mathcal{M}^2$ for all $n$, then the sequence of continuous martingales
-  \begin{align*}
-    M_n(t) = \int_0^t X_n(s) \mathrm{d}W(s)
-  \end{align*}
-  as in \eqref{eq:stochastic-integral-process} converges almost surely to a stochastic process $Y$ with continuous paths that does not depend on the choice of localising sequence $(\tau_n)$.
-\end{theorem}
-
-\begin{proposition}\label{prop:p2-localising-sequence-existence}
-  (\cite{capinski_stochastic_2012}, Proposition 4.14)
-  Let $X \in \mathcal{P}^2$. The sequence $(\tau_n)_{n \in \mathbb{N}}$ given by
+  with
   \begin{align*}
     \tau_n = \inf \left\{ t \in [0,T] : \int_0^t X(s)^2 \mathrm{d}s \ge n \right\}
   \end{align*}
-  with $\inf \emptyset = T$ is a localising sequence for $X$ in $\mathcal{M}^2$.
+  where we take $\inf \emptyset = T$.
+  Then $X_n \in \mathcal{M}^2$ for all $n$ and the sequence of continuous martingales
+  \begin{align*}
+    M_n(t) = \int_0^t X_n(s) \mathrm{d}W(s)
+  \end{align*}
+  as in \eqref{eq:stochastic-integral-process} converges almost surely to a stochastic process $Y$ with continuous paths.
 \end{proposition}
 
 \begin{definition}
@@ -313,45 +295,8 @@ ensures that the stochastic integral is well-defined on $\mathcal{M}^2$. See \ci
   \begin{align*}
     \int_0^t X(s) \mathrm{d}W(s) = \lim_{n \to \infty} M_n(t) = Y(t)
   \end{align*}
-  with $M_n$ and $Y$ as in Theorem \ref{thm:p2-localising-sequence-limit}.
+  with $M_n$ and $Y$ as in Proposition \ref{prop:p2-localising-sequence}.
 \end{definition}
-
-Note that Proposition \ref{prop:p2-localising-sequence-existence} ensures the existence of a localising sequence and Theorem \ref{thm:p2-localising-sequence-limit} states the limit does not depend on which localising sequence we choose, so the stochastic integral is well-defined for integrands in $\mathcal{P}^2$.
-
-\begin{theorem}\label{thm:stochastic-integral-split-m2}
-  (\cite{oksendal_stochastic_2003}, Theorem 3.2.1 (i))
-  Let $0 \le a < b < c \le T$ and $X \in \mathcal{M}^2$. Then
-  \begin{align*}
-    \int_a^c X(t) \mathrm{d}t = \int_a^b X(t) \mathrm{d}W(t) + \int_b^c X(t) \mathrm{d}W(t).
-  \end{align*}
-\end{theorem}
-
-\begin{theorem}\label{thm:stochastic-integral-split}
-  Let $0 \le a < b < c \le T$ and $X \in \mathcal{P}^2$. Then
-  \begin{align*}
-    \int_a^c X(t) \mathrm{d}t = \int_a^b X(t) \mathrm{d}W(t) + \int_b^c X(t) \mathrm{d}W(t).
-  \end{align*}
-
-  \begin{proof}
-    By Proposition \ref{prop:p2-localising-sequence-existence}, we have a localising sequence $(\tau_n)$ for $X$ in $\mathcal{M}^2$ and the sequence of processes $X_n(t) = \mathbf{1}_{[0,\tau_n]}$ is in $\mathcal{M}^2$. Since
-    \begin{align*}
-      \mathbb{E}\left(\int_0^T (\mathbf{1}_{[a,c]} X_n(t))^2 \mathrm{d}t\right)
-      &= \mathbb{E}\left(\int_0^T \mathbf{1}_{[a,c]} X_n(t)^2 \mathrm{d}t\right)\\
-      &\le \mathbb{E}\left(\int_0^T X_n(t)^2 \mathrm{d}t\right) < \infty,
-    \end{align*}
-    then $(\tau_n)$ is also a localising sequence for $\mathbf{1}_{[a,c]}X$ is $\mathcal{M}^2$.
-
-    Therefore,
-    \begin{align*}
-      \int_a^c X(t) \mathrm{d}W(t)
-      &= \int_0^T \mathbf{1}_{[a,c]} X(t) \mathrm{d}W(t)\\
-      &= \lim_{n \to \infty} \int_0^T \mathbf{1}_{[a,c]} X_n(t) \mathrm{d}W(t)\\
-      &= \lim_{n \to \infty} \int_a^c X_n(t) \mathrm{d}W(t)\\
-      &= \lim_{n \to \infty} \int_a^b X_n(t) \mathrm{d}W(t) + \lim_{n \to \infty} \int_b^c X_n(t) \mathrm{d}W(t) \tag{by Theorem \ref{thm:stochastic-integral-split-m2}}\\
-      &= \int_a^b X(t) \mathrm{d}W(t) + \int_b^c X(t) \mathrm{d}W(t).
-    \end{align*}
-  \end{proof}
-\end{theorem}
 
 %%%%%%%%%%%%%
 \comment{it would seem more natural to give first a definition of a one dimensional Ito process. Possibly setting up one dimensional versions first, and then multidimensional ones could be a choice. I understand though why you have decided to go for the general case first to make things shorter. So, this is just a choice that can be considered. }
@@ -405,10 +350,10 @@ and we call $a, b$ the \textbf{characteristics} of the It\^o process.
 \begin{definition}
   A \textbf{stochastic differential equation} (or \textbf{SDE} for short) is an equation of the form
   \begin{align}\label{eq:sde-init-value}
-    \mathbf{X}(t) &= \mathbf{X}(s) + \int_s^t a(u, \mathbf{X}(u)) \mathrm{d}u + \int_s^t b(u, \mathbf{X}(u)) \mathrm{d}\mathbf{W}(u),\\
-    \mathbf{X}(s) &= \mathbf{x},\notag
+    \mathbf{X}(t) &= \mathbf{X}(0) + \int_0^t a(s, \mathbf{X}(s)) \mathrm{d}s + \int_0^t b(s, \mathbf{X}(s)) \mathrm{d}\mathbf{W}(s),\\
+    \mathbf{X}(0) &= \mathbf{x}_0,\notag
   \end{align}
-  for some $a : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^d$, $b : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^{d \times n}$ and $\mathbf{x} \in \mathbb{R}^d$.
+  for some $a : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^d$, $b : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^{d \times n}$ and $\mathbf{x}_0 \in \mathbb{R}^d$.
 \end{definition}
 
 \begin{theorem}\label{thm:sde-solution}
@@ -427,10 +372,7 @@ and we call $a, b$ the \textbf{characteristics} of the It\^o process.
       \end{align*}
       for $t \in [0,T]$ and $\mathbf{x},\mathbf{y} \in \mathbb{R}^d$.
   \end{itemize}
-  Then \eqref{eq:sde-init-value} has a unique solution with continuous paths that is adapated to the filtration generated by $\mathbf{W}(t)$ for $t \ge s$ and such that
-  \begin{align*}
-    \mathbb{E}\left(\int_0^T\right) FIXME
-  \end{align*}
+  Then \eqref{eq:sde-init-value} has a unique solution in $\mathcal{M}^2$ with continuous paths.
 \end{theorem}
 
 \begin{theorem}[It\^o Formula]
@@ -508,12 +450,29 @@ and we call $a, b$ the \textbf{characteristics} of the It\^o process.
 \end{theorem}
 
 \begin{theorem}[Martingale Representation Theorem]\label{thm:martingale-representation}
-  (\cite{abed_martingale_2005}, Theorem 6)
-  Let $\mathbf{W}(t)$ be a $d$-dimensional Wiener process and $M(t)$ be a square-integrable martingale. Then there exists an $\mathcal{F}^\mathbf{W}_t$-adapted process $\mathbf{\Gamma}(t)$ such that
+  (\cite{oksendal_stochastic_2003}, Theorem 4.3.4)
+  Let $\mathbf{W}(t)$ be a $d$-dimensional Wiener process and $M(t)$ be a square-integrable martingale. Then there exists a unique $\mathcal{F}^\mathbf{W}_t$-adapted process $\mathbf{\Gamma}(t)$ such that
   \begin{align*}
     M(t) = M(0) + \int_0^t \mathbf{\Gamma}(s) \cdot \mathrm{d}\mathbf{W}(s)
   \end{align*}
   and such that $\Gamma_i \in \mathcal{M}^2$ for all $i=1,\ldots,d$.
+\end{theorem}
+
+\begin{theorem}\label{thm:cond-exp-measurable-independent}
+  (\cite{kopp_probability_2013}, Theorem 4.27)
+  Let $0 \le s < t \le T$ and $X, Y$ be two random variables such that
+  \begin{itemize}
+    \item $X$ is $\mathcal{F}^W_s$-measurable and
+    \item $Y$ is $\mathcal{F}^W_t$-measurable and independent from $\mathcal{F}^W_s$.
+  \end{itemize}
+  For any bounded Borel function $f : \mathbb{R}^2 \to \mathbb{R}$, we have
+  \begin{align*}
+    \mathbb{E}(f(X,Y) \mid \mathcal{F}^W_s) = g_f(X),
+  \end{align*}
+  almost surely, where $g_f : \mathbb{R} \to \mathbb{R}$ is a bounded Borel function given by
+  \begin{align*}
+    g_f(x) = \mathbb{E}(f(x,Y)).
+  \end{align*}
 \end{theorem}
 
 %%%%%%%%%%%%%
@@ -542,7 +501,7 @@ Some further assumptions are made by the model.
 \end{assumption}
 
 \begin{theorem}\label{thm:bs-solution}
-  Equation \eqref{eq:multi-bs-eq} has the unique solution
+  Equation \eqref{eq:multi-bs-eq} has solution
   \begin{align*}
     S_i(t) &= S_i(0) \exp \left( \int_0^t \mu_i(s) \mathrm{d}s - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right)
   \end{align*}
@@ -572,13 +531,6 @@ Some further assumptions are made by the model.
     \end{align*}
 
     Applying the exponential function to both sides yields the required solution.
-
-    Equation \eqref{eq:multi-bs-eq} can be expressed as
-    \begin{align*}
-      \mathrm{d}\mathbf{S}(t) = u(t,\mathbf{S}(t)) \mathrm{d}t + v(t,\mathbf{S}(t)) \mathrm{d}\mathbf{W}(t)
-    \end{align*}
-    with $u(t,\mathbf{x}) = [\mu_i(t) x_i]_{i=1,\ldots,d}$ and $v(t, \mathbf{x}) = [c_{ij}(t) x_i]_{i,j=1,\ldots,d}$.
-    Since, by Assumption \ref{ass:drift-vol-regularity}, $\mu_i$ and $c_{ij}$ are bounded by a deterministic constant for all $i,j=1,\ldots,d$, both $u$ and $v$ are Lipschitz with linear growth with respect to $\mathbf{x}$. Therefore, by Theorem \ref{thm:sde-solution}, the solution is unique.
   \end{proof}
 \end{theorem}
 
@@ -611,7 +563,7 @@ Some further assumptions are made by the model.
 \begin{definition}
   The \textbf{discounted stock prices} are given by
   \begin{align*}
-    \tilde{S}_i(t) = e^{- \int_0^t r(s)\mathrm{d}s} S_i(t)
+    \widetilde{S}_i(t) = e^{- \int_0^t r(s)\mathrm{d}s} S_i(t)
   \end{align*}
   for all $i=1,\ldots,d$.
 \end{definition}
@@ -644,7 +596,7 @@ Some further assumptions are made by the model.
   \begin{align*}
     M(t) = \exp \left( - \frac{1}{2} \sum_{j=1}^d \int_0^t \theta_j(s)^2 \mathrm{d}s - \sum_{j=1}^d \int_0^t \theta_j(s) \mathrm{d}W_j(s) \right).
   \end{align*}
-  If $M(t)$ is a martingale under $P$, then the measure $Q$ with density $\frac{\mathrm{d}Q}{\mathrm{d}P} = M(T)$ is a risk-neutral probability, i.e. it is equivalent to $P$ and the processes $\tilde{S}_i, i=1,\ldots,d$ are martingales under $Q$.
+  If $M(t)$ is a martingale under $P$, then the measure $Q$ with density $\frac{\mathrm{d}Q}{\mathrm{d}P} = M(T)$ is a risk-neutral probability, i.e. it is equivalent to $P$ and the processes $\widetilde{S}_i, i=1,\ldots,d$ are martingales under $Q$.
   %%%%%%%%%%%%%
 \comment{we should not be making definitions inside of a statement of a theorem.}
 %%%%%%%%%%%%%
@@ -652,7 +604,7 @@ Some further assumptions are made by the model.
   \begin{proof}
     For all $i=1,\ldots,d$, by Theorem \ref{thm:bs-solution},
     \begin{align*}
-      \tilde{S}_i(t)
+      \widetilde{S}_i(t)
       &= \exp\left(- \int_0^t r(s)\mathrm{d}s\right) S_i(t)\\
       &= S_i(0) \exp \left( \int_0^t (\mu_i(s) - r(s)) \mathrm{d}s \right.\\
       &\hspace*{60pt} \left. - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right).
@@ -670,7 +622,7 @@ Some further assumptions are made by the model.
 
     Substituting this into the previous equation and by linearity of the integral, we obtain
     \begin{align}
-      \tilde{S}_i(t)
+      \widetilde{S}_i(t)
       &= S_i(0) \exp \left( \sum_{j=1}^d \int_0^t c_{ij}(t) \theta_j(t) \mathrm{d}s \right.\notag\\
       &\hspace*{60pt} \left. - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right)\notag\\
       &= S_i(0) \exp \left( - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s \right.\notag\\
@@ -691,12 +643,12 @@ Some further assumptions are made by the model.
 
     Substituting in equation \eqref{eq:bs-risk-neutral-before-product-rule}, we obtain
     \begin{align}\label{eq:bs-discounted-stock-price}
-      \tilde{S}_i(t)
+      \widetilde{S}_i(t)
       &= S_i(0) \exp \left( - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s
       + \sum_{j=1}^d \int_0^t c_{ij}(t) \mathrm{d}W^Q_j(s)\right).
     \end{align}
 
-    By Lemma \ref{lem:bs-exponential-martingale} with $a_j(t) \coloneq - c_{ij}(t)$ and Assumption \ref{ass:drift-vol-regularity}, $\tilde{S}_i(t)$ is thus a martingale under $Q$ for all $i=1,\ldots,d$ as required.
+    By Lemma \ref{lem:bs-exponential-martingale} with $a_j(t) \coloneq - c_{ij}(t)$ and Assumption \ref{ass:drift-vol-regularity}, $\widetilde{S}_i(t)$ is thus a martingale under $Q$ for all $i=1,\ldots,d$ as required.
 
     Moreover, since
     \begin{align*}
@@ -750,11 +702,11 @@ Some further assumptions are made by the model.
 \begin{definition}
   The \textbf{discounted process} of a process $X$ is defined as
   \begin{align*}
-    \tilde{X}(t) = \frac{X(t)}{A(t)} = e^{-\int_0^t r(s) \mathrm{d}s} X(t).
+    \widetilde{X}(t) = \frac{X(t)}{A(t)} = e^{-\int_0^t r(s) \mathrm{d}s} X(t).
   \end{align*}
 \end{definition}
 
-Note that since $e^{-\int_0^0 r(s) \mathrm{d}s} = 1$, a process agrees with its dicounted process at time 0, i.e. $X(0) = \tilde{X}(0)$.
+Note that since $e^{-\int_0^0 r(s) \mathrm{d}s} = 1$, a process agrees with its dicounted process at time 0, i.e. $X(0) = \widetilde{X}(0)$.
 
 \begin{definition}
   The \textbf{extended market} for a derivative $H$ consists of the assets $A$ and $S_i, i=1,\ldots,d$ as described above (the basic market) as well as the derivative $H$.
@@ -832,7 +784,7 @@ The following definitions apply to strategies as well as extended strategies.
   \begin{align*}
     V(T) = H_\text{payoff}
   \end{align*}
-  and such that its discounted value process $\tilde{V}$ is a martingale under $Q$.
+  and such that its discounted value process $\widetilde{V}$ is a martingale under $Q$.
 \end{definition}
 
 If there exists a replicating strategy for a derivative, we say that the strategy \textbf{replicates} the derivative and that the derivative is \textbf{replicable}.
@@ -937,29 +889,29 @@ Note that by inspecting the proof, we can see that this lemma equally applies to
   \begin{proof}
     We construct a replicating strategy $(x_1,\ldots,x_d,y)$ with value process $V$ for the derivative. Since it replicates the derivative, we have that $V(T) = H(T)$ and since a replicating strategy, then its discounted value has to be a $Q$-martingale so, for all $t \in [0,T]$,
     \begin{align*}
-      \tilde{V}(t)
+      \widetilde{V}(t)
       = \mathbb{E}_Q\left(e^{-\int_0^T r(s) \mathrm{d}s} V(T) \mid \mathcal{F}^\mathbf{W}_t\right)
       = \mathbb{E}_Q\left(e^{-\int_0^T r(s) \mathrm{d}s} H(T) \mid \mathcal{F}^\mathbf{W}_t\right).
     \end{align*}
 
     In particular,
     \begin{align*}
-      \tilde{V}(T)
+      \widetilde{V}(T)
       &= \mathbb{E}_Q\left(e^{-\int_0^T r(s)\mathrm{d}s} H(T) \mid \mathcal{F}^\mathbf{W}_T\right) \\
       &= e^{-\int_0^T r(s)\mathrm{d}s} \mathbb{E}_Q\left(H(T) \mid \mathcal{F}^\mathbf{W}_T\right) \\
       &= e^{-\int_0^T r(s)\mathrm{d}s} H(T)
     \end{align*}
-    since $H(T)$ is $\mathcal{F}^\mathbf{W}_T$-measurable. Hence, since $H(T)$ is square-integrable, then so is $\tilde{V}(T) = e^{-\int_0^T r(s)\mathrm{d}s} H(T)$.
+    since $H(T)$ is $\mathcal{F}^\mathbf{W}_T$-measurable. Hence, since $H(T)$ is square-integrable, then so is $\widetilde{V}(T) = e^{-\int_0^T r(s)\mathrm{d}s} H(T)$.
 
     By the Martingale Representation Theorem \ref{thm:martingale-representation}, there exists $\mathbf{\Gamma}$ such that
     \begin{align}\label{eq:bs-repl-deriv-gamma}
-      \tilde{V}(t)
-      &= \tilde{V}(0) + \int_0^t \mathbf{\Gamma}(s) \cdot \mathrm{d}\mathbf{W}^Q(s).
+      \widetilde{V}(t)
+      &= \widetilde{V}(0) + \int_0^t \mathbf{\Gamma}(s) \cdot \mathrm{d}\mathbf{W}^Q(s).
     \end{align}
 
-    Since $\Gamma_i \in \mathcal{M}^2$, the stochastic integrals have continuous paths by Definition \ref{def:stochastic-integral-as-process} and, since $A(t)$ is also continuous, then $V(t) = A(t) \tilde{V}(t)$ has continuous paths.
+    Since $\Gamma_i \in \mathcal{M}^2$, the stochastic integrals have continuous paths by Definition \ref{def:stochastic-integral-as-process} and, since $A(t)$ is also continuous, then $V(t) = A(t) \widetilde{V}(t)$ has continuous paths.
 
-    Note that this process $\tilde{V}$ exists whether there exists a replicating strategy or not, being the conditional expectation under $Q$ of the discounted payoff, so we are not in fact using the existence of a replicating strategy in order to construct one, however it may seem at first sight.
+    Note that this process $\widetilde{V}$ exists whether there exists a replicating strategy or not, being the conditional expectation under $Q$ of the discounted payoff, so we are not in fact using the existence of a replicating strategy in order to construct one, however it may seem at first sight.
 
     In order to make the strategy self-financing, it needs to satisfy
     \begin{align}\label{eq:bs-repl-deriv-self-financing}
@@ -975,7 +927,7 @@ Note that by inspecting the proof, we can see that this lemma equally applies to
     \end{align}
     so, by the It\^o Product Rule (Theorem \ref{thm:ito-product-rule}), we obtain
     \begin{align*}
-      \mathrm{d}\tilde{V}(t)
+      \mathrm{d}\widetilde{V}(t)
       &= A(t)^{-1} \mathrm{d}V(t) + V(t) \mathrm{d}A(t)^{-1}\\
       &= \sum_{i=1}^d A(t)^{-1} x_i(t) \mathrm{d}S_i(t) + A(t)^{-1} y(t) \mathrm{d}A(t) + V(t) \mathrm{d}A(t)^{-1}\tag{by \eqref{eq:bs-repl-deriv-self-financing}}\\
       &= \sum_{i=1}^d A(t)^{-1} x_i(t) \mathrm{d}S_i(t) + A(t)^{-1} y(t) \mathrm{d}A(t) - V(t) r(t) A(t)^{-1} \mathrm{d}t \tag{by \eqref{eq:bs-repl-deriv-risk-free-inv}}\\
@@ -984,14 +936,14 @@ Note that by inspecting the proof, we can see that this lemma equally applies to
       &= \sum_{i=1}^d A(t)^{-1} x_i(t) \mathrm{d}S_i(t) - \sum_{i=1}^d x_i(t) S_i(t) r(t) A(t)^{-1} \mathrm{d}t\\
       &= \sum_{i=1}^d [ A(t)^{-1} x_i(t) r(t) S_i(t) \mathrm{d}t + \sum_{j=1}^d A(t)^{-1} x_i(t) c_{ij}(t) S_i(t) \mathrm{d}W^Q_j(t) \\
         &\ \ \ \ \ \ \ \ \ - x_i(t) S_i(t) r(t) A(t)^{-1} \mathrm{d}t ] \tag{by Theorem \ref{thm:bs-solution}}\\
-      &= \sum_{i,j=1}^d x_i(t) c_{ij}(t) \tilde{S}_i(t) \mathrm{d}W^Q_j(t)
+      &= \sum_{i,j=1}^d x_i(t) c_{ij}(t) \widetilde{S}_i(t) \mathrm{d}W^Q_j(t)
       = \mathbf{C}(t) \mathbf{\theta}(t) \cdot \mathrm{d}\mathbf{W}^Q(t)
     \end{align*}
-    where $\theta_i(t) = x_i(t) \tilde{S}_i(t)$ for $i=1,\ldots,d$.
+    where $\theta_i(t) = x_i(t) \widetilde{S}_i(t)$ for $i=1,\ldots,d$.
 
     Both this last equation and \eqref{eq:bs-repl-deriv-gamma} can be satisfied if $\mathbf{C} \mathbf{\theta} = \mathbf{\Gamma}$. This implies that $\mathbf{\theta} = \mathbf{C}^{-1} \mathbf{\Gamma}$. But then,
     \begin{align*}
-      x_i = \frac{(\mathbf{C}^{-1} \mathbf{\Gamma})_i}{\tilde{S}_i},
+      x_i = \frac{(\mathbf{C}^{-1} \mathbf{\Gamma})_i}{\widetilde{S}_i},
     \end{align*}
     for all $i=1,\ldots,d$. Moreover, since $V(t) = \sum_{i=1}^d x_i(t) S_i(t) + y(t) A(t)$, we also have
     \begin{align*}
@@ -1013,18 +965,18 @@ Note that by inspecting the proof, we can see that this lemma equally applies to
 \begin{theorem}\label{thm:bs-derivative-pricing}
   If a derivative $H$ is replicable by a strategy whose value process $V$ has continuous paths, then
   \begin{align}\label{eq:bs-derivative-pricing}
-    \tilde{H}(t) = \mathbb{E}_Q(\tilde{H}(T) \mid \mathcal{F}^\mathbf{W}_t)
+    \widetilde{H}(t) = \mathbb{E}_Q(\widetilde{H}(T) \mid \mathcal{F}^\mathbf{W}_t)
   \end{align}
   for all $t \in [0,T]$.
 
   \begin{proof}
-    By Theorem \ref{thm:bs-repl-strat-derivative-prices}, we have that $H(t) = V(t)$ for all $t \in [0,T]$. Multiplying both sides by the discounting factor $\exp\left(-\int_0^t r(s) \mathrm{d}s\right)$, we also have that $\tilde{H}(t) = \tilde{V}(t)$ for all $t \in [0,T]$.
+    By Theorem \ref{thm:bs-repl-strat-derivative-prices}, we have that $H(t) = V(t)$ for all $t \in [0,T]$. Multiplying both sides by the discounting factor $\exp\left(-\int_0^t r(s) \mathrm{d}s\right)$, we also have that $\widetilde{H}(t) = \widetilde{V}(t)$ for all $t \in [0,T]$.
 
-    Since $(x_1, \ldots, x_d, y)$ is a replicating strategy, its discounted value $\tilde{V}$ is a Q-martingale. Therefore,
+    Since $(x_1, \ldots, x_d, y)$ is a replicating strategy, its discounted value $\widetilde{V}$ is a Q-martingale. Therefore,
     \begin{align*}
-      \tilde{H}(t) = \tilde{V}(t)
-      = \mathbb{E}_Q(\tilde{V}(T) \mid \mathcal{F}^\mathbf{W}_t)
-      = \mathbb{E}_Q(\tilde{H}(T) \mid \mathcal{F}^\mathbf{W}_t).
+      \widetilde{H}(t) = \widetilde{V}(t)
+      = \mathbb{E}_Q(\widetilde{V}(T) \mid \mathcal{F}^\mathbf{W}_t)
+      = \mathbb{E}_Q(\widetilde{H}(T) \mid \mathcal{F}^\mathbf{W}_t).
     \end{align*}
   \end{proof}
 \end{theorem}
@@ -1035,7 +987,7 @@ Alternatively, we can write equation \eqref{eq:bs-derivative-pricing} as
 \end{align*}
 for all $t \in [0,T]$. In particular at time 0, since $\mathcal{F}^\mathbf{W}_0$ is the trivial $\sigma$-field, we have
 \begin{align*}
-  H(0) = \mathbb{E}_Q\left(\tilde{H}(T)\right)
+  H(0) = \mathbb{E}_Q\left(\widetilde{H}(T)\right)
   = \mathbb{E}_Q\left(e^{-\int_0^T r(s) \mathrm{d}s} H(T)\right).
 \end{align*}
 
@@ -1119,7 +1071,7 @@ for all $t \in [0,T]$. In particular at time 0, since $\mathcal{F}^\mathbf{W}_0$
 \begin{definition}
   A European \textbf{basket option} is a European option on an underlying of the form
   \begin{align*}
-    U(t) = \sum_{i=1}^{d} w_i S_i(t),
+    B_\mathbf{w}(t) = \sum_{i=1}^{d} w_i S_i(t),
   \end{align*}
   with $\mathbf{w} = (w_1, \ldots, w_d)$, called the \textbf{weights}, such that $\sum_{i=1}^{d} w_i = 1$.
 \end{definition}
@@ -1157,45 +1109,9 @@ This section is based on \textcite{pavliotis_stochastic_2014}. We work in a filt
   for $0 \le s < t \le T$ and for all bounded Borel functions $f$.
 \end{definition}
 
-\begin{definition}
-  An \textbf{It\^o diffusion (process)} is an It\^o process of the form
-  \begin{align*}
-    \mathbf{X}(t) &= \mathbf{X}(0) + \int_0^t a(s, \mathbf{X}(s)) \mathrm{d}s + \int_0^t b(s, \mathbf{X}(s)) \mathrm{d}\mathbf{W}(s),
-  \end{align*}
-  for some Borel functions $a : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^d$, $b : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^{d \times n}$ and $\mathbf{x}_0 \in \mathbb{R}^d$ satisfying the conditions of Theorem \ref{thm:sde-solution}.
-\end{definition}
-
-\begin{theorem}
-  It\^o diffusions are Markov processes.
-
-  \begin{proof}
-    Let $\mathbf{X}$ be an It\^o diffusion and let $0 \le s < t \ge T$. We have
-    \begin{align*}
-      \mathbf{X}(s) &= \mathbf{X}(0) + \int_0^s a(u,\mathbf{X}(u)) \mathrm{d}u + \int_0^s b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u),\\
-      \mathbf{X}(t) &= \mathbf{X}(0) + \int_0^t a(u,\mathbf{X}(u)) \mathrm{d}u + \int_0^t b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u),
-    \end{align*}
-    for some functions $a,b$ as in the definition. By subtracting the second by the first, using Theorem \ref{thm:stochastic-integral-split}, we obtain
-    \begin{align*}
-      \mathbf{X}(t) &= \mathbf{X}(s) + \int_s^t a(u,\mathbf{X}(u)) \mathrm{d}u + \int_s^t b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u).
-    \end{align*}
-
-    Seeing the previous equation as an SDE with initial condition $\mathbf{X}(s) = \mathbf{x}$, we can see that Theorem \ref{thm:sde-solution} implies that there is a unique solution $\mathbf{X}(t,\omega)$ satisfying the SDE for that particular choice of $\mathbf{x} \in \mathbb{R}^d$. Let $\phi(\mathbf{x},t,\omega)$ denote these solutions as a function of $\mathbf{x}$.
-
-    By Theorem \ref{thm:sde-solution}, the solution is adapted to the filtration generated by $W(t)$ for $t \ge s$. In other words, it is independent from $\mathcal{F}^\mathbf{W}_s$.
-
-    Hence, for all bounded Borel function $f$,
-    \begin{align*}
-      \mathbb{E}(f(\phi()))
-    \end{align*}
-    \begin{align*}
-      \mathbb{E}(f(\mathbf{X}(t)) \mid \mathcal{F}^W_s) = FIXME
-    \end{align*}
-  \end{proof}
-\end{theorem}
-
 Informally, the future evolution of a Markov process only depends on its current state, independently from its past evolution.
 
-For $s < t$ and $\Gamma \in \mathcal{B}({\mathbb{R}^d})$ -- where $\mathcal{B}(\mathbb{R}^d)$ denotes the Borel subsets of $\mathbb{R}^d$ -- the Markov condition implies that
+For $s < t$ and $\Gamma \in \mathcal{B}({\mathbb{R}^d})$, the Markov condition implies that
 \begin{align*}
   P(\mathbf{X}(t) \in \Gamma \mid \mathcal{F}^\mathbf{X}_s)
   &= \mathbb{E}(\mathbf{1}_\Gamma(\mathbf{X}(t)) \mid \mathcal{F}^\mathbf{X}_s)
@@ -1245,7 +1161,7 @@ In order to prove the main result of this section, we will make use of the follo
       &= \int_{\mathbb{R}^d} \int_\Gamma \rho(\mathbf{y},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{y} \mathrm{d}\mathbf{z}\\
       &= \int_\Gamma \int_{\mathbb{R}^d} \rho(\mathbf{y},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{z} \mathrm{d}\mathbf{y},
     \end{align*}
-    by Fubini's Theorem (\cite{kopp_probability_2013}, Theorem 3.18).
+    by Fubini's Theorem (\cite{kopp_probability_2013}, Theorem 3.18) since the integral of a density is finite.
 
     Since this holds for all $\Gamma$, the integrand must be equal for almost $\mathbf{y}$, i.e.
     \begin{align*}
@@ -1277,6 +1193,145 @@ We can finally state and prove the main result of this section. Note that it is 
     (FIXME)
   \end{proof}
 \end{theorem}
+
+\section{Local volatility model}
+
+% FIXME: Provide counterexample to European basket options being Markov to justify the restriction to a local volatility model. + under the filtration generated by S too.
+
+We restrict the multi-asset Black-Scholes model developed before by making further assumptions about the coefficients $\mu_i$ and $c_{ij}$ for $i=1,\ldots,d$, namely we constrain them to be Borel functions of time and the values of the stock prices. We slightly abuse notation for convenience and write $\mu_i(t) = \mu_i(t,\mathbf{S}(t)), i=1,\ldots,d$ where $\mu_i$ can denote both the process and the Borel function and similarly for $c_{ij}, i,j=1,\ldots,d$. In other words,
+\begin{align*}
+  \mathrm{d}S_i(t) = \mu_i(t,\mathbf{S}(t)) S_i(t) \mathrm{d}t + \sum_{j=1}^{d} c_{ij}(t,\mathbf{S}(t)) S_i(t) \mathrm{d}W_j(t)
+\end{align*}
+for all $i=1,\ldots,d$.
+
+Such a model is called is a \textit{local volatility model} and, as we shall now see, it guarantees that the discounted price of a European basket option is a Markov process.
+
+Taking $u(t,\mathbf{x})$ and $v(t,\mathbf{x})$ such that for all $i,j=1,\ldots,d$,
+\begin{align*}
+  u_i(t,\mathbf{x}) &= \mu_i(t,\mathbf{x}) x_i,\\
+  v_{ij}(t,\mathbf{x}) &= c_{ij}(t,\mathbf{x}) x_i,
+\end{align*}
+we can express the previous equation as
+\begin{align*}
+  \mathrm{d}\mathbf{S}(t) = u(t,\mathbf{S(t)}) \mathrm{d}t + v(t,\mathbf{S}(t)) \mathrm{d}\mathbf{W}(t).
+\end{align*}
+
+Since $\mu_i$ and $c_{ij}$ are bounded Borel functions for all $i,j=1,\ldots,d$, both $u$ and $v$ are Lipschitz with linear growth with respect to $\mathbf{x}$. Therefore, by Theorem \ref{thm:sde-solution}, we have that the solution $\mathbf{S}(t)$ has continuous paths and is in $\mathcal{M}^2$.
+
+\subsection{European basket options}
+
+\begin{lemma}\label{lem:local-stock-increments}
+  Let $B_\mathbf{w}$ be the price process of the underlying of a European basket option with weights $\mathbf{w}$. For any $0 \le s < t \le T$, the increment $\widetilde{B}_\mathbf{w}(t) - \widetilde{B}_\mathbf{w}(s)$ is independent from $\mathcal{F}^\mathbf{W}_s$.
+
+  \begin{proof}
+    First notice that for all $0 \le s < t \le T$,
+    \begin{align*}
+      \mathbb{E}_Q\left(\widetilde{B}_\mathbf{w}(t) \mid \mathcal{F}^\mathbf{W}_s\right)
+      &= \mathbb{E}_Q\left(e^{-\int_0^t r(s) \mathrm{d}s} \sum_{i=1}^{d} w_i S_i(t) \mid \mathcal{F}^\mathbf{W}_s\right)\\
+      &= \mathbb{E}_Q\left(\sum_{i=1}^{d} w_i \widetilde{S}_i(t) \mid \mathcal{F}^\mathbf{W}_s\right)\\
+      &= \sum_{i=1}^{d} w_i \mathbb{E}_Q\left( \widetilde{S}_i(t) \mid \mathcal{F}^\mathbf{W}_s\right) \tag{linearity}\\
+      &= \sum_{i=1}^{d} w_i \widetilde{S}_i(s) \tag{$\widetilde{S}_i, i=1,\ldots,d$ are $Q$-martingales}\\
+      &= \widetilde{B}_\mathbf{w}(s),
+    \end{align*}
+    so $\widetilde{B}_\mathbf{w}$ is a $Q$-martingale.
+
+    Therefore,
+    \begin{align*}
+      \mathbb{E}_Q(\widetilde{B}_\mathbf{w}(t) - \widetilde{B}_\mathbf{w}(s))
+      &= \mathbb{E}_Q(\mathbb{E}_Q(\widetilde{B}_\mathbf{w}(t) - \widetilde{B}_\mathbf{w}(s) \mid \mathcal{F}^W_s)) \tag{tower property}\\
+      &= \mathbb{E}_Q(\mathbb{E}_Q(\widetilde{B}_\mathbf{w}(t) \mid \mathcal{F}^W_s) - \widetilde{B}_\mathbf{w}(s) ) \tag{linearity and $\widetilde{B}_\mathbf{s}$ is $\mathcal{F}^W_s$-measurable}\\
+      &= \mathbb{E}_Q(\widetilde{B}_\mathbf{w}(s) - \widetilde{B}_\mathbf{w}(s) ) \tag{martingale}\\
+      &= \mathbb{E}_Q(0) = 0.
+    \end{align*}
+
+    Moreover,
+    \begin{align*}
+      \mathbb{E}_Q&\left(\widetilde{B}_\mathbf{w}(t) - \widetilde{B}_\mathbf{w}(s) \mid \mathcal{F}^\mathbf{W}_s\right)\\
+      &= \mathbb{E}_Q\left(\sum_{i=1}^{d} w_i [\widetilde{S}_i(t) - \widetilde{S}_i(s)] \mid \mathcal{F}^\mathbf{W}_s\right)
+      = \sum_{i=1}^{d} w_i \mathbb{E}_Q\left(\widetilde{S}_i(t) - \widetilde{S}_i(s) \mid \mathcal{F}^\mathbf{W}_s\right)\\
+      &= \sum_{i=1}^d w_i \mathbb{E}_Q\left(\sum_{j=1}^{d} \int_s^t c_{ij}(u,\mathbf{S}(u)) \mathbf{S}(u) \mathrm{d}W^Q_j(u) \mid \mathcal{F}^\mathbf{W}_s\right)\\
+      &= \sum_{i,j=1}^d w_i \mathbb{E}_Q\left(\int_s^t c_{ij}(u,\mathbf{S}(u)) \mathbf{S}(u) \mathrm{d}W^Q_j(u) \mid \mathcal{F}^\mathbf{W}_s\right)\\
+      &= \sum_{i,j=1}^d w_i 0 = 0,
+    \end{align*}
+    since $\mathbf{S} \in \mathcal{M}^2$ so the integrands $c_{ij}(u,\mathbf{S}(u)) S_i(\mathbf{u})$ are as well ($c_{ij}$ is bounded) and the integrals are martingales. Let $M_{ij}(t)$ be such a martingale for $i,j=1,\ldots,d$, we have
+    \begin{align*}
+      \mathbb{E}_Q\left( \int_s^t c_{ij}(u,\mathbf{S}(u)) \mathbf{S}(u) \mathrm{d}W^Q_j(u) \mid \mathcal{F}^\mathbf{W}_s \right)
+      &= \mathbb{E}_Q\left( M_{ij}(t) - M_{ij}(s) \mid \mathcal{F}^\mathbf{W}_s \right)\\
+      &= \mathbb{E}_Q\left( M_{ij}(t) \mid \mathcal{F}^\mathbf{W}_s \right) - M_{ij}(s)\\
+      &= M_{ij}(s) - M_{ij}(s) = 0.
+    \end{align*}
+
+    But then,
+    \begin{align*}
+      \mathbb{E}_Q(\widetilde{B}_\mathbf{w}(t) - \widetilde{B}_\mathbf{w}(s))
+      = \mathbb{E}_Q&\left(\widetilde{B}_\mathbf{w}(t) - \widetilde{B}_\mathbf{w}(s) \mid \mathcal{F}^\mathbf{W}_s\right),
+    \end{align*}
+    so $\widetilde{B}_\mathbf{w}(t) - \widetilde{B}_\mathbf{w}(s)$ is independent from $\mathcal{F}^\mathbf{W}_s$.
+  \end{proof}
+\end{lemma}
+
+\begin{theorem}
+  The discounted price $\widetilde{H}$ of a European put basket option with weights $\mathbf{w}$ is a Markov process in the filtered probability space $(\Omega, \mathcal{F}, \mathcal{F}^\mathbf{S}_t, Q)$.
+
+  \begin{proof}
+    Fix the weights $\mathbf{w}$. We denote $B_\mathbf{w}$ as simply $B$ for convenience. Let $f$ be a bounded Borel function and let $0 \le s < t \le T$. We have to prove that
+    \begin{align*}
+      \mathbb{E}_Q(f(\widetilde{H}(t)) \mid \mathcal{F}^\mathbf{S}_s)
+      = \mathbb{E}_Q(f(\widetilde{H}(t)) \mid \mathcal{F}_{\mathbf{S}(s)}).
+    \end{align*}
+
+    The payoff of a European put basket option is bounded since $B(T) > 0$ and it is a Borel function of $B(T)$ so it can be expressed as
+    \begin{align*}
+      H(T) = \theta\left(B(T)\right)
+    \end{align*}
+    where $\theta : \mathbb{R} \to \mathbb{R}$ is a bounded Borel function.
+    Hence, we can express $\widetilde{H}(T)$ as
+    \begin{align*}
+      \widetilde{H}(T) = \phi(\widetilde{B}(T))
+    \end{align*}
+    where $\phi(x) = e^{-\int_0^T r(u) \mathrm{d}u}\theta\left(e^{\int_0^T r(u) \mathrm{d}u} x\right)$ is thus also a bounded Borel function since the discounting factor is deterministic and bounded.
+
+    % FIXME: $\widetilde{H}$ is also a $Q$-martingale under this coarser filtration.
+
+    Take $f_1(x,y) = \phi(x + y)$. It is a bounded Borel function such that
+    \begin{align*}
+      \widetilde{H}(T) = f_1\left(\widetilde{B}(t), \widetilde{B}(T) - \widetilde{B}(t)\right).
+    \end{align*}
+    $\widetilde{B}(t)$ is $\mathcal{F}^\mathbf{S}_t$-measurable since it is a function of $\mathbf{S}(t)$ and $\widetilde{B}(T) - \widetilde{B}(t)$ is independent from $\mathcal{F}^\mathbf{W}_t$ by Lemma \ref{lem:local-stock-increments} so it is also independent from $\mathcal{F}^\mathbf{S}_t$ since $\mathcal{F}^\mathbf{S}_t \subseteq \mathcal{F}^\mathbf{W}_t$. Hence, by Theorem \ref{thm:cond-exp-measurable-independent}, we have
+    \begin{align}\label{eq:local-put-markov-f1}
+      \widetilde{H}(t)
+      &= \mathbb{E}_Q\left(f_1\left(\widetilde{B}(t), \widetilde{B}(T) - \widetilde{B}(t)\right) \mid \mathcal{F}^\mathbf{S}_t \right)
+      = g_{f_1}\left(\widetilde{B}(t)\right),
+    \end{align}
+    where $g_{f_1}$ is a bounded Borel function.
+
+    Next, take $f_2(x,y) = f(g_{f_1}(x+y))$. It is bounded since $f$ is bounded and Borel since both $f$ and $g_{f_1}$ are Borel. Similarly to the previous step, using Theorem \ref{thm:cond-exp-measurable-independent}, we obtain
+    \begin{align*}
+      \mathbb{E}_Q\left(f\left(\widetilde{H}(t)\right) \mid \mathcal{F}^\mathbf{S}_s\right)
+      &= \mathbb{E}_Q\left(f\left(g_{f_1}\left(\widetilde{B}(t)\right)\right) \mid \mathcal{F}^\mathbf{S}_s\right) \tag{by \eqref{eq:local-put-markov-f1}}\\
+      &= \mathbb{E}_Q\left(f_2\left(\widetilde{B}(s), \widetilde{B}(t) - \widetilde{B}(s)\right) \mid \mathcal{F}^\mathbf{S}_s\right)\\
+      &= g_{f_2}\left(\widetilde{B}(s)\right).
+    \end{align*}
+
+    But then, $\mathbb{E}_Q(f(\widetilde{H}(t)) \mid \mathcal{F}^\mathbf{S}_s)$ is $\mathcal{F}_{\widetilde{B}(s)}$-measurable. Furthermore, since $\widetilde{B}(s)$ is a function of $\mathbf{S}(s)$, then $\mathcal{F}_{\widetilde{B}(s)} \subseteq \mathcal{F}_{\mathbf{S}(s)}$ and $\mathbb{E}_Q(f(\widetilde{H}(t)) \mid \mathcal{F}^\mathbf{S}_s)$ is thus $\mathcal{F}_{\mathbf{S}(s)}$-measurable. That is,
+    \begin{align*}
+      \mathbb{E}_Q(f(\widetilde{H}(t)) \mid \mathcal{F}^\mathbf{S}_s)
+      = \mathbb{E}_Q(f(\widetilde{H}(t)) \mid \mathcal{F}_{\mathbf{S}(s)})
+    \end{align*}
+    as required.
+  \end{proof}
+\end{theorem}
+
+% FIXME: Provide counterexample to European basket options being Markov even in a local volatility model under the filtration generated by S too.
+
+\begin{theorem}
+  The discounted price $\widetilde{H}$ of a European call basket option with weights $\mathbf{w}$ is a Markov process.
+
+  \begin{proof}
+    FIXME
+  \end{proof}
+\end{theorem}
+
 
 FIXME: Option prices are It\^o diffusions => they satisfy Fokker-Planck equation?
 
