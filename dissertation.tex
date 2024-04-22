@@ -152,6 +152,10 @@ In the following, when we write $X(t)$ for $t \in [0,T]$, it denotes the random 
 %%%%%%%%%%%%%
 
 \begin{definition}
+  For any fixed $\omega \in \Omega$, we say that the function $t \mapsto X(t,\omega)$ is a \textbf{path} of the stochastic process $X$.
+\end{definition}
+
+\begin{definition}
   A \textbf{filtration} is a family $(\mathcal{F}_t)_{t \in [0,T]}$ of sub-$\sigma$-fields of $\mathcal{F}$ such that $\mathcal{F}_s \subseteq \mathcal{F}_t$ for all $0 \le s < t \le T$.
 \end{definition}
 
@@ -950,12 +954,20 @@ Note that by inspecting the proof, we can see that this lemma equally applies to
       \mathrm{d}\widetilde{V}(t)
       &= A(t)^{-1} \mathrm{d}V(t) + V(t) \mathrm{d}A(t)^{-1}\\
       &= \sum_{i=1}^d A(t)^{-1} x_i(t) \mathrm{d}S_i(t) + A(t)^{-1} y(t) \mathrm{d}A(t) + V(t) \mathrm{d}A(t)^{-1}\tag{by \eqref{eq:bs-repl-deriv-self-financing}}\\
-      &= \sum_{i=1}^d A(t)^{-1} x_i(t) \mathrm{d}S_i(t) + A(t)^{-1} y(t) \mathrm{d}A(t) - V(t) r(t) A(t)^{-1} \mathrm{d}t \tag{by \eqref{eq:bs-repl-deriv-risk-free-inv}}\\
+      &= \sum_{i=1}^d A(t)^{-1} x_i(t) \mathrm{d}S_i(t) + A(t)^{-1} y(t) \mathrm{d}A(t) - V(t) r(t) A(t)^{-1} \mathrm{d}t \tag{by \eqref{eq:bs-repl-deriv-risk-free-inv}}.
+    \end{align*}
+    Substituting $V(t)$ and by \eqref{eq:multi-bs-eq-risk-free},
+    \begin{align*}
+      \mathrm{d}\widetilde{V}(t)
       &= \sum_{i=1}^d A(t)^{-1} x_i(t) \mathrm{d}S_i(t) + A(t)^{-1} y(t) r(t) A(t) \mathrm{d}t - y(t) A(t) r(t) A(t)^{-1} \mathrm{d}t\\
-        &\ \ \ \ - \sum_{i=1}^d x_i(t) S_i(t) r(t) A(t)^{-1} \mathrm{d}t \tag{substituting $V(t)$ and by \eqref{eq:multi-bs-eq-risk-free}}\\
-      &= \sum_{i=1}^d A(t)^{-1} x_i(t) \mathrm{d}S_i(t) - \sum_{i=1}^d x_i(t) S_i(t) r(t) A(t)^{-1} \mathrm{d}t\\
+        &\ \ \ \ - \sum_{i=1}^d x_i(t) S_i(t) r(t) A(t)^{-1}\\
+      &= \sum_{i=1}^d A(t)^{-1} x_i(t) \mathrm{d}S_i(t) - \sum_{i=1}^d x_i(t) S_i(t) r(t) A(t)^{-1} \mathrm{d}t.
+    \end{align*}
+    Then, by Theorem \ref{thm:bs-solution},
+    \begin{align*}
+      \mathrm{d}\widetilde{V}(t)
       &= \sum_{i=1}^d [ A(t)^{-1} x_i(t) r(t) S_i(t) \mathrm{d}t + \sum_{j=1}^d A(t)^{-1} x_i(t) c_{ij}(t) S_i(t) \mathrm{d}W^Q_j(t) \\
-        &\ \ \ \ \ \ \ \ \ - x_i(t) S_i(t) r(t) A(t)^{-1} \mathrm{d}t ] \tag{by Theorem \ref{thm:bs-solution}}\\
+        &\ \ \ \ \ \ \ \ \ - x_i(t) S_i(t) r(t) A(t)^{-1} \mathrm{d}t ]\\
       &= \sum_{i,j=1}^d x_i(t) c_{ij}(t) \widetilde{S}_i(t) \mathrm{d}W^Q_j(t)
       = \mathbf{C}(t) \mathbf{\theta}(t) \cdot \mathrm{d}\mathbf{W}^Q(t)
     \end{align*}
