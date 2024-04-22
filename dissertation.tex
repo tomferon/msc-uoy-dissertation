@@ -488,6 +488,13 @@ We call $\mathbf{a}$ the \textbf{drift} and $\mathbf{B}$ the \textbf{volatility}
   \end{align*}
 \end{theorem}
 
+\begin{definition}
+  The \textbf{support} of a random variable $X$ with density $f$ is defined as
+  \begin{align*}
+    \mathrm{supp}(X) = \{x : f(x) > 0\}.
+  \end{align*}
+\end{definition}
+
 %%%%%%%%%%%%%
 \comment{I do not think that we should manually brake pages. It is best to allow latex to do the formatting.}
 %%%%%%%%%%%%%
@@ -1145,7 +1152,7 @@ Note that, viewing $\mu(\Gamma, t; \mathbf{x}, s)$ as a function of $\Gamma$ wit
 \begin{definition}
   Let $\mathbf{X}(t)$ be a Markov process such that it has a transition function $\mu(\Gamma,t;\mathbf{x},s)$ that admits a density $\rho$ with respect to the Lebesgue measure, i.e.
   \begin{align*}
-    \mu(\Gamma,t;\mathbf{x},s) = \int_\Gamma \rho(\mathbf{y},t;\mathbf{x},s) \mathrm{d}\mathbf{y}
+    \mu(\Gamma,t;\mathbf{y},s) = \int_\Gamma \rho(\mathbf{x},t;\mathbf{y},s) \mathrm{d}\mathbf{x}
   \end{align*}
   for all $\Gamma \in \mathcal{B}(\mathbb{R}^d)$ and $0 \le s < t \le T$.
   We say that $\rho$ is a \textbf{transition (probability) density} of the Markov process.
@@ -1156,14 +1163,14 @@ In order to prove the main result of this section, we will make use of the follo
 \begin{theorem}[Chapman-Kolmogorov Equation]\label{thm:fp-chapman-kolmogorov}
   Let $\mathbf{X}(t)$ be a Markov process with transition probability density $\rho$. Then
   \begin{align*}
-    \rho(\mathbf{y}, t; \mathbf{x}, s) = \int_{\mathbb{R}^d} \rho(\mathbf{y}, t; \mathbf{z}, u) \rho(\mathbf{z}, u; \mathbf{x}, s) \mathrm{d}\mathbf{z}
+    \rho(\mathbf{x}, t; \mathbf{y}, s) = \int_{\mathbb{R}^d} \rho(\mathbf{x}, t; \mathbf{z}, u) \rho(\mathbf{z}, u; \mathbf{y}, s) \mathrm{d}\mathbf{z}
   \end{align*}
-  for all $0 \le s < u < t \le T$ and for almost all $\mathbf{x} \in \mathrm{Im}(\mathbf{X}(s)), \mathbf{y} \in \mathbb{R}^d$.
+  for all $0 \le s < u < t \le T$ and for almost all $\mathbf{y} \in \mathrm{supp}(\mathbf{X}(s))$.
 
   \begin{proof}
     Let $\Gamma \in \mathcal{B}(\mathbb{R}^d)$ and $0 \le s < u < t \le T$. Then
     \begin{align*}
-      \int_\Gamma \rho(\mathbf{y},t;\mathbf{X}(s),s) \mathrm{d}\mathbf{y}
+      \int_\Gamma \rho(\mathbf{x},t;\mathbf{X}(s),s) \mathrm{d}\mathbf{x}
       &= \mu(\Gamma,t;\mathbf{X}(s),s)
       = P(X(t) \in \Gamma \mid \mathcal{F}^\mathbf{W}_s)\\
       &= \mathbb{E}(\mathbf{1}_\Gamma(\mathbf{X}(t)) \mid \mathcal{F}^\mathbf{W}_s)\\
@@ -1171,21 +1178,21 @@ In order to prove the main result of this section, we will make use of the follo
       &= \mathbb{E}(\mu(\Gamma,t;\mathbf{X}(u),u) \mid \mathcal{F}^\mathbf{W}_s)\\
       &= \int_{\mathbb{R}^d} \mu(\Gamma,t;\mathbf{z},u) \mu(\mathrm{d}\mathbf{z},u;\mathbf{X}(s),s)\\
       &= \int_{\mathbb{R}^d} \mu(\Gamma,t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{z}\\
-      &= \int_{\mathbb{R}^d} \int_\Gamma \rho(\mathbf{y},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{y} \mathrm{d}\mathbf{z}\\
-      &= \int_\Gamma \int_{\mathbb{R}^d} \rho(\mathbf{y},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{z} \mathrm{d}\mathbf{y},
+      &= \int_{\mathbb{R}^d} \int_\Gamma \rho(\mathbf{x},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{z}\\
+      &= \int_\Gamma \int_{\mathbb{R}^d} \rho(\mathbf{x},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{z} \mathrm{d}\mathbf{x},
     \end{align*}
     by Fubini's Theorem (\cite{kopp_probability_2013}, Theorem 3.18) since the integral of a density is finite.
 
-    Since this holds for all $\Gamma$, the integrand must be equal for almost $\mathbf{y}$, i.e.
+    Since this holds for all $\Gamma$, the integrand must be equal for almost $\mathbf{x}$, i.e.
     \begin{align*}
-      \rho(\mathbf{y},t;\mathbf{X}(s),s)
-      &= \int_{\mathbb{R}^d} \rho(\mathbf{y},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{z}.
+      \rho(\mathbf{x},t;\mathbf{X}(s),s)
+      &= \int_{\mathbb{R}^d} \rho(\mathbf{x},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{z}.
     \end{align*}
 
-    And since this itself holds for almost all $\omega \in \Omega$, then for almost all $\mathbf{x} \in \mathrm{Im}(\mathbf{X}(s))$ such that $\mathbf{x} = \mathbf{X}(s,\omega)$, we have
+    And since this itself holds for almost all $\omega \in \Omega$, then for almost all $\mathbf{y} \in \mathrm{supp}(\mathbf{X}(s))$ such that $\mathbf{y} = \mathbf{X}(s,\omega)$, we have
     \begin{align*}
-      \rho(\mathbf{y},t;\mathbf{x},s)
-      &= \int_{\mathbb{R}^d} \rho(\mathbf{y},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{x},s) \mathrm{d}\mathbf{z}.
+      \rho(\mathbf{x},t;\mathbf{y},s)
+      &= \int_{\mathbb{R}^d} \rho(\mathbf{x},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{y},s) \mathrm{d}\mathbf{z}.
     \end{align*}
   \end{proof}
 \end{theorem}
@@ -1256,7 +1263,7 @@ We can finally state and prove the main result of this section. Note that it is 
   \begin{align*}
     \mathrm{d}X_i(t) = a_i(t, \mathbf{X}(t)) \mathrm{d}t + \sum_{j=1}^d b_{ij}(t, \mathbf{X}(t)) \mathrm{d}W_j(t),
   \end{align*}
-  for $i=1,\ldots,d$. Then, for all $0 \le s < t \le T$ and $\mathbf{y} \in \mathbb{R}^d$ such that $\rho(\mathbf{y},s;\mathbf{X}(0),0) \neq 0$, we have
+  for $i=1,\ldots,d$. Then, for all $0 \le s < t \le T$ and $\mathbf{y} \in \mathrm{supp}(\mathbf{X}(s))$, we have
   \begin{align*}
     \frac{\partial}{\partial t}\rho(\mathbf{x},t;\mathbf{y},s)
     &= \sum_{i=1}^d \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s)]\\
@@ -1348,7 +1355,7 @@ We can finally state and prove the main result of this section. Note that it is 
       &= \sum_{i=1}^d \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s)]\\
         &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)],
     \end{align*}
-    for all $\mathbf{y} \in \mathbb{R}^d$ such that $\rho(\mathbf{y},s;\mathbf{X}(0),0) \neq 0$, thus completing the proof.
+    for all $\mathbf{y} \in \mathbb{R}^d$ such that $\rho(\mathbf{y},s;\mathbf{X}(0),0) \neq 0$, i.e. for all $\mathbf{y} \in \mathrm{supp}(\mathbf{X}(s))$, thus completing the proof.
   \end{proof}
 \end{theorem}
 
