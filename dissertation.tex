@@ -1171,7 +1171,7 @@ for all $t \in [0,T]$. In particular at time 0, since $\mathcal{F}^\mathbf{W}_0$
 
 Note that this is well-defined since $U$ is clearly replicable by the constant strategy $(w_1, \ldots, w_d, 0)$.
 
-We denote the price of a European basket call option with weights $\mathbf{w}$ by $C_\mathbf{w}(t)$ and its put option couterpart by $P_\mathbf{w}(t)$ if the strike price $K$ is unambiguous. Otherwise, we denote them by $C_\mathbf{w}(t, K)$ and $C_\mathbf{w}(t, K)$ respectively.
+We denote the price of a European basket call option with weights $\mathbf{w}$ by $C_\mathbf{w}(t)$ and its put option couterpart by $P_\mathbf{w}(t)$.
 
 \begin{theorem}
   Consider a European basket option with underlying $U$ and weights $\mathbf{w}$. Then $U(T)$ is square-integrable.
@@ -1360,7 +1360,7 @@ We can finally state and prove the main result of this section. Note that it is 
   for $i=1,\ldots,d$. Then, for all $0 \le s < t \le T$ and $\mathbf{y} \in \mathrm{supp}(\mathbf{X}(s))$, we have
   \begin{align*}
     \frac{\partial}{\partial t}\rho(\mathbf{x},t;\mathbf{y},s)
-    &= \sum_{i=1}^d \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s)]\\
+    &= - \sum_{i=1}^d \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s)]\\
       &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)].
   \end{align*}
 
@@ -1381,7 +1381,7 @@ We can finally state and prove the main result of this section. Note that it is 
       &= \sum_{i=1}^{d} \mathbb{E}\left(\int_t^{t+h} f_{x_i}(\mathbf{X}(s)) a_i(s,\mathbf{X}(s)) \mathrm{d}s\right)\\
         &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \mathbb{E}\left(\int_t^{t+h} f_{x_i x_l}(\mathbf{X}(s)) b_{ij}(s,\mathbf{X}(s)) b_{lj}(s,\mathbf{X}(s)) \mathrm{d}s\right).
     \end{align*}
-    Using the boundedness of the integrands once again, by the Fubini Theorem, we have
+    By the Fubini Theorem, we have
     \begin{align*}
       \mathbb{E}(f&(\mathbf{X}(t+h)) - f(\mathbf{X}(t)))\\
       &= \sum_{i=1}^{d} \int_t^{t+h} \mathbb{E}(f_{x_i}(\mathbf{X}(s)) a_i(s,\mathbf{X}(s))) \mathrm{d}s\\
@@ -1404,10 +1404,10 @@ We can finally state and prove the main result of this section. Note that it is 
     Using the Chapman-Kolmogorov Equation (Theorem \ref{thm:fp-chapman-kolmogorov}), we get
     \begin{align*}
       \frac{\partial}{\partial t}&\mathbb{E}(f(\mathbf{X}(t)))\\
-      &= \sum_{i=1}^{d} \int_{\mathbb{R}^d} \int_{\mathbb{R}^d} f_{x_i}(\mathbf{x}) a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0) \mathrm{d}\mathbf{y} \mathrm{d}\mathbf{x}\\
+      &= \sum_{i=1}^{d} \int_{\mathbb{R}^d} \int_{\mathbb{R}^d} f_{x_i}(\mathbf{x}) a_i(t,\mathbf{x})\rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0) \mathrm{d}\mathbf{y} \mathrm{d}\mathbf{x}\\
         &\ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \int_{\mathbb{R}^d} \int_{\mathbb{R}^d} f_{x_i x_l}(\mathbf{x}) b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0) \mathrm{d}\mathbf{y} \mathrm{d}\mathbf{x}
     \end{align*}
-    and, by the Fubini Theorem since the integrands are bounded,
+    and, by the Fubini Theorem,
     \begin{align*}
       \frac{\partial}{\partial t}&\mathbb{E}(f(\mathbf{X}(t)))\\
       &= \sum_{i=1}^{d} \int_{\mathbb{R}^d}  \rho(\mathbf{y},s;\mathbf{X}(0),0) \int_{\mathbb{R}^d} f_{x_i}(\mathbf{x}) a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s) \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y}\\
@@ -1417,21 +1417,21 @@ We can finally state and prove the main result of this section. Note that it is 
     By integration by parts and since $f$ and its partial derivatives vanish at $\pm \infty$, we have
     \begin{align*}
       \int_{\mathbb{R}^d} f_{x_i}(\mathbf{x}) a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s) \mathrm{d}\mathbf{x}
-      &= \int_{\mathbb{R}^d} f(\mathbf{x}) \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x},
+      &= - \int_{\mathbb{R}^d} f(\mathbf{x}) \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x},
     \end{align*}
     for all $i=1,\ldots,d$. Similarly using integration by parts twice, we have
     \begin{align*}
       \int_{\mathbb{R}^d} f_{x_i x_l}(\mathbf{x}) &b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s) \mathrm{d}\mathbf{x}\\
-      &= \int_{\mathbb{R}^d} f_{x_i}(\mathbf{x}) \frac{\partial}{\partial x_l}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x}\\
+      &= - \int_{\mathbb{R}^d} f_{x_i}(\mathbf{x}) \frac{\partial}{\partial x_l}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x}\\
       &= \int_{\mathbb{R}^d} f(\mathbf{x}) \frac{\partial^2}{\partial x_l \partial x_i}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x}.
     \end{align*}
     Hence,
     \begin{align}
       \frac{\partial}{\partial t}&\mathbb{E}(f(\mathbf{X}(t)))\notag\\
-      &= \sum_{i=1}^{d} \int_{\mathbb{R}^d} \rho(\mathbf{y},s;\mathbf{X}(0),0) \int_{\mathbb{R}^d} f(\mathbf{x}) \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y}\notag\\
+      &= \sum_{i=1}^{d} \int_{\mathbb{R}^d} \rho(\mathbf{y},s;\mathbf{X}(0),0) \left( - \int_{\mathbb{R}^d} f(\mathbf{x}) \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x} \right) \mathrm{d}\mathbf{y}\notag\\
         &\ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \left.\int_{\mathbb{R}^d} \right(\rho(\mathbf{y},s;\mathbf{X}(0),0) \notag\\
         &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \left.\int_{\mathbb{R}^d} f(\mathbf{x}) \frac{\partial^2}{\partial x_l \partial x_i}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x} \right)\mathrm{d}\mathbf{y}\notag\\
-      &= \int_{\mathbb{R}^d} \int_{\mathbb{R}^d} \rho(\mathbf{y},s;\mathbf{X}(0),0) f(\mathbf{x}) \left(\sum_{i=1}^d \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s)] \right.\notag\\
+      &= \int_{\mathbb{R}^d} \int_{\mathbb{R}^d} \rho(\mathbf{y},s;\mathbf{X}(0),0) f(\mathbf{x}) \left(- \sum_{i=1}^d \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s)] \right.\notag\\
         &\ \ \ \ \ + \left.\frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)] \right) \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y}.\label{eq:fp-proof-1}
     \end{align}
 
@@ -1441,7 +1441,7 @@ We can finally state and prove the main result of this section. Note that it is 
       &= \frac{\partial}{\partial t}\int_{\mathbb{R}^d} f(\mathbf{x}) \rho(\mathbf{x},t;\mathbf{X}(0),0) \mathrm{d}\mathbf{y}\notag\\
       &= \frac{\partial}{\partial t}\int_{\mathbb{R}^d} \int_{\mathbb{R}^d} f(\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0) \mathrm{d}\mathbf{y} \mathrm{d}\mathbf{x}\tag{Chapman-Kolmogorov}\\
       &= \frac{\partial}{\partial t}\int_{\mathbb{R}^d} \int_{\mathbb{R}^d} f(\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0) \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y}\tag{Fubini}\\
-      &= \int_{\mathbb{R}^d} \int_{\mathbb{R}^d} \frac{\partial}{\partial t}[f(\mathbf{y}) \rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0)] \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y} \tag{by Theorem \ref{thm:app-deriv-int-swap} since $f\rho \in C^2$}\\
+      &= \int_{\mathbb{R}^d} \int_{\mathbb{R}^d} \frac{\partial}{\partial t}[f(\mathbf{y}) \rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0)] \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y} \tag{by the Leibniz Integral Rule since $f\rho \in C^2$}\\
       &= \int_{\mathbb{R}^d}\int_{\mathbb{R}^d} \rho(\mathbf{y},s;\mathbf{X}(0),0) f(\mathbf{x}) \frac{\partial}{\partial t}\rho(\mathbf{x},t;\mathbf{y},s) \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y}\label{eq:fp-proof-2}
     \end{align}
     since $f$ does not depend on $t$.
@@ -1449,7 +1449,7 @@ We can finally state and prove the main result of this section. Note that it is 
     But then, since \eqref{eq:fp-proof-1} and \eqref{eq:fp-proof-2} are equal for any choice of $f \in C^2_0(\mathbb{R}^d)$, we have
     \begin{align*}
       \frac{\partial}{\partial t}\rho(\mathbf{x},t;\mathbf{y},s)
-      &= \sum_{i=1}^d \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s)]\\
+      &= - \sum_{i=1}^d \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s)]\\
         &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)],
     \end{align*}
     for all $\mathbf{y} \in \mathbb{R}^d$ such that $\rho(\mathbf{y},s;\mathbf{X}(0),0) \neq 0$, i.e. for all $\mathbf{y} \in \mathrm{supp}(\mathbf{X}(s))$, thus completing the proof.
@@ -1524,13 +1524,13 @@ and, in particular,
   H(0) = e^{-\int_0^T r(s) \mathrm{d}s} \int_{\mathbb{R}^d} f(\mathbf{x}) \rho(\mathbf{x},T;\mathbf{S}(0),t) \mathrm{d}\mathbf{x}.
 \end{align*}
 
-\begin{corollary}
+\begin{corollary}\label{cor:local-option-pricing}
   The prices of European basket call and put options with weights $\mathbf{w}$ and strike price $K$ are
   \begin{align*}
     C_\mathbf{w}(t)
-    &= e^{-\int_0^T r(s) \mathrm{d}s} \int_{\mathbb{R}^d} \left(\mathbf{w}^T\mathbf{x} - K\right)^+ \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},\\
+    &= e^{-\int_t^T r(s) \mathrm{d}s} \int_{\mathbb{R}^d} \left(\mathbf{w}^T\mathbf{x} - K\right)^+ \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},\\
     P_\mathbf{w}(t)
-    &= e^{-\int_0^T r(s) \mathrm{d}s} \int_{\mathbb{R}^d} \left(K - \mathbf{w}^T\mathbf{x}\right)^+ \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},
+    &= e^{-\int_t^T r(s) \mathrm{d}s} \int_{\mathbb{R}^d} \left(K - \mathbf{w}^T\mathbf{x}\right)^+ \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},
   \end{align*}
   for all $t \in [0,T]$.
 
@@ -1543,10 +1543,72 @@ and, in particular,
 
 \section{Dupire's Equation}
 
+\tomcomment{Still work in progress from here}
+
 % Give a detailed derivation of the Dupire’s equation (equation starting with ∂C = on page 171 in [2]). ∂T
 % Use section 2 from [2] and the section ‘The continuous time theory’ from [3] as a source for the proof.
 
-FIXME
+In the case where $d=1$, i.e. there is one risky asset driven by a unique Wiener process, an interesting result was derived by \textcite{dupire_pricing_1994} for local volatility models making use of the fact that, in such models, the price of the risky asset is a Markov process.
+
+Since we work in a single-asset speicialistion of the local volatility model developed in the previous section, we simply write $S$ for the risky asset with dynamics
+\begin{align*}
+  \mathrm{d}S(t) = r(t) S(t) \mathrm{d}t + c(t,S(t)) S(t) \mathrm{d}W^Q(t).
+\end{align*}
+
+We can view an option on $S$ as a basket option with a single-element vector $[1]$ as the weights so the results from the previous section still hold in this degenerate case.
+
+\begin{theorem}
+  Fix $t \in [0,T]$ and let $C(T,K)$ denote the price at time $t$ of a call option with expiry time $T$, strike price $K$, on the underlying $S$. Then
+  \begin{align*}
+    \frac{\partial}{\partial T}C(T,K) = \frac{1}{2} c(T,K)^2 \frac{\partial^2}{\partial K^2} C(T,K) + r(T) \left(C(T,K) - K \frac{\partial}{\partial K}C(T,K)\right).
+  \end{align*}
+
+  \begin{proof}
+    By Corollary \ref{cor:local-option-pricing}, we have
+    \begin{align*}
+      C(T,K) &= e^{-\int_t^T r(s) \mathrm{d}s} \int_{\mathbb{R}} \left(x - K\right)^+ \rho(x,T;S(t),t) \mathrm{d}x.
+    \end{align*}
+
+    Dividing by the discounting factor and differentiating with respect to $K$, we obtain
+    \begin{align*}
+      \frac{\partial}{\partial K}&\left(e^{\int_t^T r(s) \mathrm{d}s} C(T,K)\right)\\
+      &= \frac{\partial}{\partial K} \int_{\mathbb{R}} \left(x - K\right)^+ \rho(x,T;S(t),t) \mathrm{d}x\\
+      &= \frac{\partial}{\partial K} \int_K^\infty \left(x - K\right) \rho(x,T;S(t),t) \mathrm{d}x\\
+      &= \int_K^\infty \frac{\partial}{\partial K} \left(x - K\right) \rho(x,T;S(t),t) \mathrm{d}x - (K-K) \rho(K,T;S(t),s) \frac{\partial}{\partial K} K \tag{Leibniz Integral Rule}\\
+      &= - \int_K^\infty \rho(x,T;S(t),t) \mathrm{d}x.
+    \end{align*}
+    Differentiating with respect to $K$ once again, we have
+    \begin{align}
+      \frac{\partial^2}{\partial K^2}\left(e^{\int_t^T r(s) \mathrm{d}s} C(T,K)\right)
+      &= - \frac{\partial}{\partial K}\int_K^\infty \rho(x,T;S(t),t) \mathrm{d}x\notag\\
+      &= \rho(K,T;S(t),t),\label{eq:dupire-rho}
+    \end{align}
+    by the Fundamental Theorem of Calculus.
+
+    By the Fokker-Plank Equation (Theorem \ref{thm:fokker-planck}) with $a(t,x) \coloneq r(t) x$ and $b(t,x) := c(t,x) x$ at the point $(K,T)$, we have
+    \begin{align*}
+      \frac{\partial}{\partial T}&\rho(K,T;S(t),t)\\
+      &= - \frac{\partial}{\partial K}[r(T) K \rho(K,T;S(t),t)]
+        + \frac{1}{2} \frac{\partial^2}{\partial K^2}[c(T,K)^2 K^2 \rho(K,T;S(t),t)].
+    \end{align*}
+    Substituting $\rho(K,T;S(t),t)$ using \eqref{eq:dupire-rho} in each of those terms, we have
+    \begin{align*}
+      \frac{\partial}{\partial T}&\rho(K,T;S(t),t)\\
+      &= \frac{\partial}{\partial T}\left(e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial^2}{\partial K^2}C(T,K)\right)\\
+      &= r(T) \frac{\partial^2}{\partial K^2}C(T,K) + e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial}{\partial T}\left(\frac{\partial^2}{\partial K^2}C(T,K)\right),
+    \end{align*}
+    \begin{align*}
+      \frac{\partial}{\partial K}&[r(T) K \rho(K,T;S(t),t)]\\
+      &= \frac{\partial}{\partial K}\left[r(T) K e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial^2}{\partial K^2}C(T,K)\right]\\
+      &= r(T) e^{\int_t^T r(s) \mathrm{d}s} \left[\frac{\partial^2}{\partial K^2}C(T,K) + K \frac{\partial^3}{\partial K^3}C(T,K)\right],
+    \end{align*}
+    \begin{align*}
+        \frac{\partial^2}{\partial K^2}&[c(T,K)^2 K^2 \rho(K,T;S(t),t)]\\
+        &= e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial^2}{\partial K^2}\left[c(T,K)^2 K^2 \frac{\partial^2}{\partial K^2}C(T,K)\right]\\
+        &= e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial^2}{\partial K^2}\left[c(T,K)^2 K^2 \frac{\partial^2}{\partial K^2}C(T,K)\right]\\
+    \end{align*}
+  \end{proof}
+\end{theorem}
 
 \section{Generalisation to Multiple Assets}
 
@@ -1565,30 +1627,6 @@ FIXME
 % Give a numerical example of how Theorem 1 can be applied to recover aij. You can restrict to the simplest setting of a two dimensional Black-Scholes model.
 
 FIXME
-
-\appendix
-\section{Appendix}
-
-\begin{theorem}\label{thm:app-deriv-int-swap}
-  If $f : \mathbb{R}^2 \to \mathbb{R}$ is twice-continuously differentiable, then for all $a < b$, we have
-  \begin{align*}
-    \frac{\partial}{\partial t} \int_a^b f(t,x) \mathrm{d}x
-    &= \int_a^b \frac{\partial}{\partial t} f(t,x) \mathrm{d}x.
-  \end{align*}
-
-  \begin{proof}
-    Let $F$ be an antiderivative of $f$ with respect to $x$, i.e. $F_x(t,x) = f(t,x)$. Since $f \in C^2$, then by Scharz's Theorem and the Fundamental Theorem of Calculus, we have
-    \begin{align*}
-      \frac{\partial}{\partial t} \int_a^b f(t,x) \mathrm{d}x
-      &= \frac{\partial}{\partial t} (F(t,b) - F(t,a))
-      = \frac{\partial}{\partial t}F(t,b) - \frac{\partial}{\partial t}F(t,a)\\
-      &= \int_a^b \frac{\partial^2}{\partial t \partial x}F(t,x) \mathrm{d}x\\
-      &= \int_a^b \frac{\partial^2}{\partial x \partial t}F(t,x) \mathrm{d}x \tag{Schwarz}\\
-      &= \int_a^b \frac{\partial}{\partial t}f(t,x) \mathrm{d}x
-    \end{align*}
-    as required.
-  \end{proof}
-\end{theorem}
 
 \pagebreak
 \printbibliography
