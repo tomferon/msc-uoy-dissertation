@@ -1550,17 +1550,61 @@ and, in particular,
 
 In the case where $d=1$, i.e. there is one risky asset driven by a unique Wiener process, an interesting result was derived by \textcite{dupire_pricing_1994} for local volatility models making use of the fact that, in such models, the price of the risky asset is a Markov process.
 
-Since we work in a single-asset speicialistion of the local volatility model developed in the previous section, we simply write $S$ for the risky asset with dynamics
+Since we work in a single-asset specialisation of the local volatility model developed in the previous section, we simply write $S$ for the risky asset, with dynamics
 \begin{align*}
   \mathrm{d}S(t) = r(t) S(t) \mathrm{d}t + c(t,S(t)) S(t) \mathrm{d}W^Q(t).
 \end{align*}
 
-We can view an option on $S$ as a basket option with a single-element vector $[1]$ as the weights so the results from the previous section still hold in this degenerate case.
+We can view an option on $S$ as a basket option with a single weight of 1 so the results from previous sections still hold in this degenerate case.
+
+In this section, we fix $t \ge 0$ and let $C(T,K)$ denote the price at time $t$ of a European call option on the underlying $S$ with expiry time $T$ and strike price $K$.
 
 \begin{theorem}
-  Fix $t \in [0,T]$ and let $C(T,K)$ denote the price at time $t$ of a call option with expiry time $T$, strike price $K$, on the underlying $S$. Then
+  The function $K \mapsto C(T,K)$ vanishes almost surely at infinity, i.e.
   \begin{align*}
-    \frac{\partial}{\partial T}C(T,K) = \frac{1}{2} c(T,K)^2 \frac{\partial^2}{\partial K^2} C(T,K) + r(T) \left(C(T,K) - K \frac{\partial}{\partial K}C(T,K)\right).
+    \lim_{K \to \infty} C(T,K) = 0 \text{ a.s.}
+  \end{align*}
+
+  \begin{proof}
+    Let $y > 0$ and et $(f_K)$ be the sequence $f_K(x) = (x-K)^+ \rho(x,T;y,t)$. Note that
+    \begin{align*}
+      |f_K(x)|
+      &\le |x \rho(x,T;y,t)|,
+    \end{align*}
+    for $x > 0$, and
+    \begin{align*}
+      \int_0^\infty |x\rho(x,T;y,t)| \mathrm{d}x
+      &= \int_0^\infty x\rho(x,T;y,t) \mathrm{d}x \tag{positive integrand}\\
+      &= \mathbb{E}_Q(S(T) \mid \mathcal{F}^W_t)
+      = y < \infty,
+    \end{align*}
+    since $S$ is a $Q$-martingale, so $x \rho(x,T;y,t)$ is integrable. Hence, by Lebesgue's Dominated Convergence Theorem, we have
+    \begin{align*}
+      \lim_{K \to \infty} \int_0^\infty f_K(x) \mathrm{d}x
+      &= \int_0^\infty \lim_{K \to \infty} f_K(x) \mathrm{d}x
+      = \int_0^\infty 0 \mathrm{d}x = 0.
+    \end{align*}
+    This holds for all $y \in \mathrm{Im}(S(t))$ so
+    \begin{align*}
+      \lim_{K \to \infty} C(T,K)
+      &= \lim_{K \to \infty} \left(e^{-\int_t^T r(s) \mathrm{d}s} \int_\mathbb{R} (x-K)^+ \rho(x,T;S(t),t) \mathrm{d}x\right) \\
+      &= e^{-\int_t^T r(s) \mathrm{d}s} \lim_{K \to \infty} \int_0^\infty f_K(x) \mathrm{d}x = 0.
+    \end{align*}
+
+    FIXME: Explain 0 to infty
+
+    FIXME: Fix the mess with y and S(t)
+  \end{proof}
+\end{theorem}
+
+\begin{assumption}
+  FIXME
+\end{assumption}
+
+\begin{theorem}
+  The function $C(T,K)$ satisfies the partial differential equation
+  \begin{align*}
+    \frac{\partial}{\partial T}C(T,K) = \frac{1}{2} c(T,K)^2 \frac{\partial^2}{\partial K^2} C(T,K) - r(T) K \frac{\partial}{\partial K}C(T,K).
   \end{align*}
 
   \begin{proof}
@@ -1591,22 +1635,34 @@ We can view an option on $S$ as a basket option with a single-element vector $[1
       &= - \frac{\partial}{\partial K}[r(T) K \rho(K,T;S(t),t)]
         + \frac{1}{2} \frac{\partial^2}{\partial K^2}[c(T,K)^2 K^2 \rho(K,T;S(t),t)].
     \end{align*}
-    Substituting $\rho(K,T;S(t),t)$ using \eqref{eq:dupire-rho} in each of those terms, we have
+    Substituting $\rho(K,T;S(t),t)$ using \eqref{eq:dupire-rho} in the term on the LHS, we obtain
     \begin{align*}
       \frac{\partial}{\partial T}&\rho(K,T;S(t),t)\\
-      &= \frac{\partial}{\partial T}\left(e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial^2}{\partial K^2}C(T,K)\right)\\
-      &= r(T) \frac{\partial^2}{\partial K^2}C(T,K) + e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial}{\partial T}\left(\frac{\partial^2}{\partial K^2}C(T,K)\right),
+      &= \frac{\partial^2}{\partial K^2} \frac{\partial}{\partial T}\left(e^{\int_t^T r(s) \mathrm{d}s} C(T,K)\right) \tag{by Schwarz's Theorem since $\rho \in C^2$}\\
+      &= \frac{\partial^2}{\partial K^2} \left(e^{\int_t^T r(s) \mathrm{d}s} \left(r(T) C(T,K) + \frac{\partial}{\partial T}C(T,K)\right)\right).
     \end{align*}
+    Next, integrating the term in the partial derivative with respect to $K$, we have
     \begin{align*}
-      \frac{\partial}{\partial K}&[r(T) K \rho(K,T;S(t),t)]\\
-      &= \frac{\partial}{\partial K}\left[r(T) K e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial^2}{\partial K^2}C(T,K)\right]\\
-      &= r(T) e^{\int_t^T r(s) \mathrm{d}s} \left[\frac{\partial^2}{\partial K^2}C(T,K) + K \frac{\partial^3}{\partial K^3}C(T,K)\right],
+      \int_0^K r(T) k &\rho(k,T;S(t),t) \mathrm{d}k\\
+      &= r(T) e^{\int_t^T r(s) \mathrm{d}s} \int_0^K k \frac{\partial^2}{\partial k^2} C(T,k) \mathrm{d}k \tag{by \eqref{eq:dupire-rho}}\\
+      &= r(T) e^{\int_t^T r(s) \mathrm{d}s} \left( K \frac{\partial}{\partial K} C(T,K) - \int_0^K \frac{\partial}{\partial k} C(T,k) \mathrm{d}k \right)\\
+      &= r(T) e^{\int_t^T r(s) \mathrm{d}s} \left( K \frac{\partial}{\partial K} C(T,K) - C(T,K) \right),
     \end{align*}
+    by integration by parts. Hence, substituting in the Fokker-Planck equation and integrating twice with respect to $K$, we get
     \begin{align*}
-        \frac{\partial^2}{\partial K^2}&[c(T,K)^2 K^2 \rho(K,T;S(t),t)]\\
-        &= e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial^2}{\partial K^2}\left[c(T,K)^2 K^2 \frac{\partial^2}{\partial K^2}C(T,K)\right]\\
-        &= e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial^2}{\partial K^2}\left[c(T,K)^2 K^2 \frac{\partial^2}{\partial K^2}C(T,K)\right]\\
+      e^{\int_t^T r(s) \mathrm{d}s} &\left(r(T) C(T,K) + \frac{\partial}{\partial T}C(T,K)\right)\\
+      &= - r(T) e^{\int_t^T r(s) \mathrm{d}s} \left( K \frac{\partial}{\partial K} C(T,K) - C(T,K) \right)\\
+        &\ \ \ \ \ + \frac{1}{2} c(T,K)^2 K^2 e^{\int_t^T r(s) \mathrm{d}s}\frac{\partial^2}{\partial K^2} C(T,K) + \alpha(T) K + \beta(T),
     \end{align*}
+    where $\alpha(T), \beta(T)$ are the constant of integration of each integration.
+    % FIXME: Assumption that lim dC/dT = 0
+    Dividing by the discounting factor and noticing that the terms in $r(T)C(T,K)$ cancel out, we have
+    \begin{align*}
+      \frac{\partial}{\partial T}C(T,K)
+      &= - r(T) K \frac{\partial}{\partial K} C(T,K)
+        + \frac{1}{2} c(T,K)^2 K^2 \frac{\partial^2}{\partial K^2} C(T,K)
+    \end{align*}
+    as required.
   \end{proof}
 \end{theorem}
 
