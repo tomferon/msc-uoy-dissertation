@@ -128,13 +128,13 @@ This section establishes the preliminaries of stochastic calculus required by fu
 
 In the following, we implicitly assume that we work in a probability space $(\Omega, \mathcal{F}, P)$ unless stated otherwise. We also restrict ourselves to
 %%%%%%%%%%%%%
-\comment{maybe mentioning processes here is not needed. You restrict to a time interval.}
+%\comment{maybe mentioning processes here is not needed. You restrict to a time interval.}
 %%%%%%%%%%%%%
 the time interval $[0,T]$ for some $T$ as it is sufficient in this context.
 
-\tomcomment{Moved assumption about filtered probability space after definition of filtration.}
+%\tomcomment{Moved assumption about filtered probability space after definition of filtration.}
  %%%%%%%%%%%%%
-\comment{we could add a definition of a filtration.}
+%\comment{we could add a definition of a filtration.}
 %%%%%%%%%%%%%
 
 We will denote the Borel subsets of $A$ by $\mathcal{B}(A)$, e.g. $\mathcal{B}(\mathbb{R}^d)$ denotes the Borel subets of $\mathbb{R}^d$.
@@ -184,6 +184,9 @@ where $\mathcal{F}_{Y}$ denotes the sub-$\sigma$-field of $\mathcal{F}$ generate
 \end{definition}
 
 \begin{theorem}\label{thm:bijection-filtration}
+%%%%%%%%%%%%%
+\comment{citation to some source?}
+%%%%%%%%%%%%%
   Let $X, Y$ be stochastic processes. If there exists a Borel function $f : \mathbb{R} \times \mathbb{R}^d \to \mathbb{R}^d$ such that $\mathbf{x} \mapsto f(t,\mathbf{x})$ is a bijection and $Y(t) = f(t, X(t))$ for all $t \in [0,T]$, then $X$ and $Y$ generate the same filtration.
 
   \begin{proof}
@@ -235,7 +238,7 @@ The Wiener process is a central stochastic process to stochastic calculus. Here,
 
 \begin{theorem}
 %%%%%%%%%%%%%
-\comment{maybe this could be a theorem, not proposition.}
+%\comment{maybe this could be a theorem, not proposition.}
 %%%%%%%%%%%%%
 (\cite{capinski_stochastic_2012}, Theorem 3.4)\label{thm:s2-m2-conv}
   For all $X \in \mathcal{M}^2$, there exists a sequence $(X_n)_{n \ge 1}$ in $\mathcal{S}^2$ that converges to $X$ in $L^2([0,T] \times \Omega)$.
@@ -327,7 +330,7 @@ The previous two theorems ensure that the following definition of stochastic int
 \end{definition}
 
 %%%%%%%%%%%%%
-\comment{it would seem more natural to give first a definition of a one dimensional Ito process. Possibly setting up one dimensional versions first, and then multidimensional ones could be a choice. I understand though why you have decided to go for the general case first to make things shorter. So, this is just a choice that can be considered. }
+%\comment{it would seem more natural to give first a definition of a one dimensional Ito process. Possibly setting up one dimensional versions first, and then multidimensional ones could be a choice. I understand though why you have decided to go for the general case first to make things shorter. So, this is just a choice that can be considered. }
 %%%%%%%%%%%%%
 
 For the rest of this section, we turn our attention to multidimensional stochastic processes.
@@ -352,7 +355,7 @@ for a stochastic process $\mathbf{X}(t) = (X_1(t), \ldots, X_d(t))$ with compone
 \begin{definition}
   We say that a process $\mathbf{X}(t) = (X_1(t), X_2(t), \ldots, X_d(t))$ is an \textbf{It\^o process} if it has the form
   %%%%%%%%%%%%%
-\comment{we should force line brakes. Pleas remove all `double slashes'. If something does not fit, possibly it should be centred.}
+%\comment{we should force line brakes. Pleas remove all `double slashes'. If something does not fit, possibly it should be centred.}
 %%%%%%%%%%%%%
   \begin{align}\label{eq:ito-process}
     X_i(t) = X_i(0) + \int_0^t a_i(s) \mathrm{d}s + \sum_{j=1}^n \int_0^t b_{ij}(s) \mathrm{d}W_j(s),
@@ -400,10 +403,16 @@ We call $\mathbf{a}$ the \textbf{drift} and $\mathbf{B}$ the \textbf{volatility}
 \end{theorem}
 
 \begin{theorem}
+%%%%%%%%%%%%%
+\comment{why is this a theorem? This sounds more like a definition.}
+%%%%%%%%%%%%%
   An It\^o process of the form \eqref{eq:sde-init-value} whose characteristics satisfy the conditions of Theorem \ref{thm:sde-solution}, is called an \textbf{It\^o diffusion}.
 \end{theorem}
 
 \begin{lemma}\label{lem:ito-diffusion-characteristics-m2}
+%%%%%%%%%%%%%
+\comment{citation to a source?}
+%%%%%%%%%%%%%
   The characteristics of an It\^o diffusion $\mathbf{X}$ are in $\mathcal{M}^2$, i.e.
   \begin{align*}
     a_i(t,\mathbf{X}(t)) \in \mathcal{M}^2, &&
@@ -544,7 +553,7 @@ We call $\mathbf{a}$ the \textbf{drift} and $\mathbf{B}$ the \textbf{volatility}
 \end{definition}
 
 %%%%%%%%%%%%%
-\comment{I do not think that we should manually brake pages. It is best to allow latex to do the formatting.}
+%\comment{I do not think that we should manually brake pages. It is best to allow latex to do the formatting.}
 %%%%%%%%%%%%%
 \section{Multi-Asset Black-Scholes Model}
 
@@ -609,6 +618,19 @@ Some further assumptions are made by the model.
   \end{align*}
 
   \begin{proof}
+  %%%%%%%%%%%%%
+\comment{why not simply
+\[\frac{d}{dt} \exp \left( \int_0^t r(s) \mathrm{d}s \right) = \exp \left( \int_0^t r(s) \mathrm{d}s \right) r(t)  \]
+so
+\begin{align*}
+A(t)-A(0) & =  \int_0^t \frac{d}{ds} \exp \left( \int_0^s r(u) \mathrm{d}u \right) ds \\
+& =  \int_0^t r(s)\exp \left( \int_0^s r(u) \mathrm{d}u \right) ds \\
+& = \int_0^t r(s)A(s) ds,
+\end{align*}
+as required.
+}
+%%%%%%%%%%%%%
+
     We can see \eqref{eq:multi-bs-eq-risk-free} as
     \begin{align*}
       \mathrm{d}A(t) = \mu_0(t) A(t) \mathrm{d}t + \sum_{j=1}^{d} c_{0j}(t) A(t) \mathrm{d}W_j(t)
@@ -626,6 +648,9 @@ Some further assumptions are made by the model.
 
 \begin{definition}
   A \textbf{risk-neutral probability} is a probability measure $Q$ that is equivalent to $P$ and under which all assets are martingales.
+  %%%%%%%%%%%%%
+\comment{The assets are not martingales. We need to discount.}
+%%%%%%%%%%%%%
 \end{definition}
 
 \begin{definition}
@@ -668,7 +693,7 @@ Note that since $e^{-\int_0^0 r(s) \mathrm{d}s} = 1$, a process agrees with its 
   \end{align*}
   If $M(t)$ is a martingale under $P$, then the measure $Q$ with density $\frac{\mathrm{d}Q}{\mathrm{d}P} = M(T)$ is a risk-neutral probability, i.e. it is equivalent to $P$ and the processes $\widetilde{S}_i, i=1,\ldots,d$ are martingales under $Q$.
   %%%%%%%%%%%%%
-\comment{we should not be making definitions inside of a statement of a theorem.}
+%\comment{we should not be making definitions inside of a statement of a theorem.}
 %%%%%%%%%%%%%
 
   \begin{proof}
@@ -728,7 +753,7 @@ Note that since $e^{-\int_0^0 r(s) \mathrm{d}s} = 1$, a process agrees with its 
 
     In conclusion, we have constructed a measure $Q$ that is indeed a risk-neutral probability for the model.
     %%%%%%%%%%%%%
-\comment{the conclusion does not seem justified since we have not defined what is a risk-neutral probability}
+%\comment{the conclusion does not seem justified since we have not defined what is a risk-neutral probability}
 %%%%%%%%%%%%%
   \end{proof}
 \end{theorem}
@@ -790,7 +815,7 @@ Note that since $e^{-\int_0^0 r(s) \mathrm{d}s} = 1$, a process agrees with its 
 \begin{definition}
   A (European) \textbf{derivative security} with expiry time $T$ is a security whose value is a stochastic process $H : [0,T] \times \Omega \to \mathbb{R}$ called its \textbf{price process} and such that $H(T) = H_\text{payoff}$ for some $\mathcal{F}^\mathbf{W}_T$-measurable random variable $H_\text{payoff}$ called the \textbf{payoff} of the derivative.
   %%%%%%%%%%%%%
-\comment{you could acknowledge that there is some abuse of notation here.}
+%\comment{you could acknowledge that there is some abuse of notation here.}
 %%%%%%%%%%%%%
 \end{definition}
 
@@ -862,7 +887,7 @@ The following definitions apply to strategies as well as extended strategies.
 \subsection{Pricing of Derivatives}
 
 %%%%%%%%%%%%%
-\comment{OK. I will stop commenting but just browse through the content.}
+%\comment{OK. I will stop commenting but just browse through the content.}
 %%%%%%%%%%%%%
 
 \begin{definition}
@@ -875,7 +900,9 @@ The following definitions apply to strategies as well as extended strategies.
 
 If there exists a replicating strategy for a derivative, we say that the strategy \textbf{replicates} the derivative and that the derivative is \textbf{replicable}.
 
-\begin{lemma}\label{lem:bs-non-negative-strat}
+\begin{lemma}\label{lem:bs-non-negative-strat}%%%%%%%%%%%%%
+\comment{citation missing}
+%%%%%%%%%%%%%
   Let $(x_1, \ldots, x_d, y)$ be a self-financing strategy with value process $V$ that has continuous paths. If $V(T) \ge 0$, then $V(t) \ge 0$, almost surely, for all $t \in [0,T]$.
 
   \begin{proof}
@@ -966,7 +993,7 @@ Note that by inspecting the proof, we can see that this lemma equally applies to
 \end{theorem}
 
   %%%%%%%%%%%%%
-\comment{It seems to me that this can be proven. In your email you have written that a proof would be technical. I am wondering if this indeed is the case. We could discuss this.}
+%\comment{It seems to me that this can be proven. In your email you have written that a proof would be technical. I am wondering if this indeed is the case. We could discuss this.}
 %%%%%%%%%%%%%
 
 \begin{theorem}\label{thm:bs-replicability}
@@ -1213,7 +1240,11 @@ For $0 \le s < t \le T$ and $\mathbf{\Gamma} \in \mathcal{B}({\mathbb{R}^d})$, t
   = \mathbb{E}(\mathbf{1}_\mathbf{\Gamma}(\mathbf{X}(t)) \mid \mathcal{F}_{\mathbf{X}(s)})
   = \phi(\mathbf{X}(s)),
 \end{align*}
-for some Borel function $\phi$ by the Doob-Dynkin Lemma (\cite{oksendal_stochastic_2003}, Lemma 2.1.2). This justifies the following definition since it ensures that it exists.
+for some Borel function $\phi$ by the Doob-Dynkin Lemma (\cite{oksendal_stochastic_2003}, Lemma 2.1.2)
+%%%%%%%%%%%%%
+\comment{The dissertation needs to be self contained. We should not call upon theorems without including them in preliminaries.}
+%%%%%%%%%%%%%
+. This justifies the following definition since it ensures that it exists.
 
 \begin{definition}
   Let $\mathbf{X}(t)$ be a $d$-dimensional Markov process. A \textbf{transition (probability) function} of $\mathbf{X}$ is a Borel function $\nu(\mathbf{\Gamma}, t; \mathbf{x}, s)$, for $0 \le s < t \le T$, $\mathbf{x} \in \mathbb{R}^d$, and $\mathbf{\Gamma} \in \mathcal{B}(\mathbb{R}^d)$, such that
@@ -1222,7 +1253,11 @@ for some Borel function $\phi$ by the Doob-Dynkin Lemma (\cite{oksendal_stochast
   \end{align*}
 \end{definition}
 
-Note that, the function $\mathbf{\Gamma} \mapsto \nu(\mathbf{\Gamma}, t; \mathbf{x}, s)$ is a probability measure. In the rest of this section, we focus on such transition functions that have a density, leading to the following definition.
+Note that, the function $\mathbf{\Gamma} \mapsto \nu(\mathbf{\Gamma}, t; \mathbf{x}, s)$ is a probability measure
+%%%%%%%%%%%%%
+\comment{why? I think that $P(Y|F)$ is a random variable and not a number.}
+%%%%%%%%%%%%%
+. In the rest of this section, we focus on such transition functions that have a density, leading to the following definition.
 
 \begin{definition}
   Let $\mathbf{X}(t)$ be a Markov process such that it has a transition function $\nu(\mathbf{\Gamma},t;\mathbf{x},s)$ that admits a density $\rho$ with respect to the Lebesgue measure, i.e.
@@ -1256,7 +1291,11 @@ In order to prove the main result of this section, we will make use of the follo
       &= \int_{\mathbb{R}^d} \int_\mathbf{\Gamma} \rho(\mathbf{x},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{z}\\
       &= \int_\mathbf{\Gamma} \int_{\mathbb{R}^d} \rho(\mathbf{x},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{z} \mathrm{d}\mathbf{x},
     \end{align*}
-    by Fubini's Theorem (\cite{kopp_probability_2013}, Theorem 3.18) since the integral of a density is finite.
+    by Fubini's Theorem (\cite{kopp_probability_2013}, Theorem 3.18)
+    %%%%%%%%%%%%%
+\comment{again, we should not use sources from the outside.}
+%%%%%%%%%%%%%
+     since the integral of a density is finite.
 
     Since this holds for all $\mathbf{\Gamma}$, the integrand must be equal for almost all $\mathbf{x}$, i.e.
     \begin{align*}
@@ -1515,7 +1554,11 @@ for all $i=1,\ldots,d$, where $\mu_i(t,\mathbf{S}(t)), c_{ij}(t,\mathbf{S}(t)), 
   \end{proof}
 \end{theorem}
 
-Hence, for all $t \in [0,T]$,
+Hence,
+%%%%%%%%%%%%%
+\comment{unclear why "hence".}
+%%%%%%%%%%%%%
+ for all $t \in [0,T]$,
 \begin{align*}
   H(t) = e^{-\int_t^T r(s) \mathrm{d}s} \int_{\mathbb{R}^d} f(\mathbf{x}) \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},
 \end{align*}
@@ -1541,9 +1584,15 @@ and, in particular,
   \end{proof}
 \end{corollary}
 
+%%%%%%%%%%%%%
+\comment{The work is looking good. I suggest to add citations (cross-references to bibliography items) for all the theorems and lemmas given in the thesis.}
+%%%%%%%%%%%%%
+
 \section{Dupire's Equation}
 
-\tomcomment{Still work in progress from here}
+\tomcomment{Still work in progress from here} %%%%%%%%%%%%%
+\comment{ok.}
+%%%%%%%%%%%%%
 
 % Give a detailed derivation of the Dupire’s equation (equation starting with ∂C = on page 171 in [2]). ∂T
 % Use section 2 from [2] and the section ‘The continuous time theory’ from [3] as a source for the proof.
@@ -1683,6 +1732,10 @@ FIXME
 % Give a numerical example of how Theorem 1 can be applied to recover aij. You can restrict to the simplest setting of a two dimensional Black-Scholes model.
 
 FIXME
+
+%%%%%%%%%%%%%
+\comment{we should fix the bibliography items so that they do not stick out onto the margin.}
+%%%%%%%%%%%%%
 
 \pagebreak
 \printbibliography
