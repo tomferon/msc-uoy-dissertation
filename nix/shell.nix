@@ -1,9 +1,13 @@
 { pkgs }:
 
 with pkgs;
-pkgs.stdenvNoCC.mkDerivation (rec {
+pkgs.clangStdenv.mkDerivation (rec {
   name = "shell";
   buildInputs = with pkgs; [
+    boost185
+    clang
+    cmake
+    cmake-language-server
     texlive.combined.scheme-full
   ];
 })
