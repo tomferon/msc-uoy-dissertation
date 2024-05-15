@@ -1787,7 +1787,9 @@ FIXME: Show that a similar approach than in the previous section doesn't lead an
 
 Since, contrary to Dupire's Equation in the single-asset case, the partial differential equation that is satisfies by the prices of European basket call options will turn out to involve partial derivatives with respect to the expiry time $T$ and to the weights $w_i, i=1,\ldots,d$, we fix $t$ and $K$ and denote by $C(T,\mathbf{w})$ the price at time $t$ of a European basket call option with expiry time $T$, strike price $K$ and weights $\mathbf{w}$.
 
-Similary to the proof of Dupire's equation, we will want to be able to express the integral without the positive part to make it differentiable. However, we then have
+We make yet another major restriction to the model, making the volatility coefficients depend on time only. As such, we write $c_{ij}(t)$ for $i,j=1,\ldots,d$ instead of $c_{ij}(t,\mathbf{S}(t))$.
+
+Similary to the proof of Dupire's equation, we will want to be able to express the integral without the positive part to make it differentiable. However, we have
 \begin{align}\label{eq:generalisation-int-over-V}
   C(T,\mathbf{w}) = e^{-\int_t^T r(s) \mathrm{d}s} \int_V (\mathbf{w}^T\mathbf{x} - K) \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},
 \end{align}
@@ -1868,9 +1870,10 @@ where $V = \{ \mathbf{x} \in \mathbb{R}^d : \mathbf{w}^T \mathbf{x} \ge K \}$ an
 \end{lemma}
 
 \begin{theorem}
-  The function $C(T,\mathbf{w})$ satisfies the partial differential equation
+  In a local volatility model with time-dependent only volatility coefficients, the function $C(T,\mathbf{w})$ satisfies the partial differential equation
   \begin{align*}
-    FIXME
+      \sum_{i=1}^{d} &r(T) w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
+      &= \frac{\partial}{\partial T} C(T,\mathbf{w}) - \frac{1}{2} \sum_{i,j,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w}).
   \end{align*}
 
   \begin{proof}
@@ -1919,9 +1922,9 @@ where $V = \{ \mathbf{x} \in \mathbb{R}^d : \mathbf{w}^T \mathbf{x} \ge K \}$ an
 
     As in the proof of Dupire's Equation, we make use of the Fokker-Planck Equation (Theorem \ref{thm:fokker-planck}). For all $\mathbf{x} \in \mathrm{Im}(\mathbf{S}(T))$, we have
     \begin{align}
-      \sum_{i=1}^d &\frac{\partial}{\partial x_i}[r(T) x_i \rho(\mathbf{x},T;\mathbf{S}(t),t)]\notag\\
-        &= \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}[c_{ij}(T,\mathbf{x}) x_i(T) c_{lj}(T,\mathbf{x}) x_l(T) \rho(\mathbf{x},T;\mathbf{S}(t),t)]\notag\\
-        &\ \ \ \ -\frac{\partial}{\partial T}\rho(\mathbf{x},T;\mathbf{S}(t),t).\label{eq:generalisation-fokker-planck}
+      &\sum_{i=1}^d \frac{\partial}{\partial x_i}[r(T) x_i \rho(\mathbf{x},T;\mathbf{S}(t),t)]\notag\\
+        &= \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}[c_{ij}(T) x_i(T) c_{lj}(T) x_l(T) \rho(\mathbf{x},T;\mathbf{S}(t),t)]
+         -\frac{\partial}{\partial T}\rho(\mathbf{x},T;\mathbf{S}(t),t).\label{eq:generalisation-fokker-planck}
     \end{align}
     Note that this equation holds almost surely since it holds if we substitute $\mathbf{S}(t)$ for any $\mathbf{y} \in \mathrm{supp}(\mathbf{S}(t))$.
 
@@ -1938,8 +1941,8 @@ where $V = \{ \mathbf{x} \in \mathbb{R}^d : \mathbf{w}^T \mathbf{x} \ge K \}$ an
       \sum_{i=1}^{d} &r(T) e^{\int_t^T r(s) \mathrm{d}s} w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\notag\\
       &= \int_K^\infty \int_A \left(B - K\right) \frac{B^{d-1}}{w_1 \cdots w_d}
         \left( \frac{\partial}{\partial T}\rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\right.\notag\\
-        &\ \ \ \ \ \ \ - \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T,\mathbf{x}(\mathbf{Q},B)) x_i(\mathbf{Q},B) \notag\\
-        &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c_{lj}(T,\mathbf{x}(\mathbf{Q},B)) x_l(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\big] \Bigg) \mathrm{d}\mathbf{Q} \mathrm{d}B. \label{eq:generalisation-one-deriv}
+        &\ \ \ \ \ \ \ - \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T) x_i(\mathbf{Q},B) \notag\\
+        &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c_{lj}(T) x_l(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\big] \Bigg) \mathrm{d}\mathbf{Q} \mathrm{d}B. \label{eq:generalisation-one-deriv}
     \end{align}
 
     Next, we calculate the partial derivative of call prices with respect to expiry time. Using Lemma \ref{lem:generalisation-var-change} once again, we have
@@ -1957,28 +1960,28 @@ where $V = \{ \mathbf{x} \in \mathbb{R}^d : \mathbf{w}^T \mathbf{x} \ge K \}$ an
     \begin{align*}
       \sum_{i=1}^{d} &r(T) e^{\int_t^T r(s) \mathrm{d}s} w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\notag\\
       &= e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial}{\partial T} C(T,\mathbf{w}) - \int_K^\infty \int_A \left(B - K\right) \frac{B^{d-1}}{w_1 \cdots w_d}\notag\\
-        &\ \ \ \ \ \ \ \Bigg( \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T,\mathbf{x}(\mathbf{Q},B)) x_i(\mathbf{Q},B) \notag\\
-        &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c_{lj}(T,\mathbf{x}(\mathbf{Q},B)) x_l(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\big] \Bigg) \mathrm{d}\mathbf{Q} \mathrm{d}B.
+        &\ \ \ \ \ \ \ \Bigg( \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T) x_i(\mathbf{Q},B) \notag\\
+        &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c_{lj}(T) x_l(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\big] \Bigg) \mathrm{d}\mathbf{Q} \mathrm{d}B.
     \end{align*}
     Applying Lemma \ref{lem:generalisation-var-change} the other way around, we obtain
     \begin{align}
       \sum_{i=1}^{d} &r(T) e^{\int_t^T r(s) \mathrm{d}s} w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\notag\\
       &= e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial}{\partial T} C(T,\mathbf{w}) - \frac{1}{2} \sum_{j=1}^{d} \int_V \left(\mathbf{w}^T \mathbf{x} - K\right) \notag\\
-        &\ \ \ \ \ \ \ \Bigg( \sum_{i,l=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T,\mathbf{x}) x_i c_{lj}(T,\mathbf{x}) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big] \Bigg) \mathrm{d}\mathbf{x}. \label{eq:generalisation-two-derivs}
+        &\ \ \ \ \ \ \ \Bigg( \sum_{i,l=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big] \Bigg) \mathrm{d}\mathbf{x}. \label{eq:generalisation-two-derivs}
     \end{align}
 
     For any $j = 1,\ldots,d$, we are now concerned with the integral
     \begin{align*}
-      I_j \coloneq \int_V \left(\mathbf{w}^T \mathbf{x} - K\right) \left( \sum_{i,l=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T,\mathbf{x}) x_i c_{lj}(T,\mathbf{x}) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big] \right) \mathrm{d}\mathbf{x}.
+      I_j \coloneq \int_V \left(\mathbf{w}^T \mathbf{x} - K\right) \left( \sum_{i,l=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big] \right) \mathrm{d}\mathbf{x}.
     \end{align*}
 
     Let $\mathbf{F} = (F_1,\ldots,F_d)$ be the vector field such that
     \begin{align*}
-      F_l(\mathbf{x}) = \frac{\partial}{\partial x_i} \big[c_{ij}(T,\mathbf{x}) x_i c_{lj}(T,\mathbf{x}) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big],
+      F_l(\mathbf{x}) = \frac{\partial}{\partial x_i} \big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big],
     \end{align*}
     for $l=1,\ldots,d$, whose divergence is
     \begin{align*}
-      \nabla \cdot \mathbf{F} = \sum_{l=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T,\mathbf{x}) x_i c_{lj}(T,\mathbf{x}) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big],
+      \nabla \cdot \mathbf{F} = \sum_{l=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big],
     \end{align*}
     so that
     \begin{align*}
@@ -2002,27 +2005,96 @@ where $V = \{ \mathbf{x} \in \mathbb{R}^d : \mathbf{w}^T \mathbf{x} \ge K \}$ an
     \begin{align*}
       I_j &= \sum_{i=1}^{d} \left[\int_S \left(\mathbf{w}^T \mathbf{x} - K\right) \mathbf{F}(\mathbf{x}) \cdot \mathrm{d}\mathbf{x} - \int_V \mathbf{w}^T \mathbf{F}(\mathbf{x}) \mathrm{d}\mathbf{x} \right]\\
       &= - \sum_{i=1}^{d} \int_V \mathbf{w}^T \mathbf{F}(\mathbf{x}) \mathrm{d}\mathbf{x}\\
-      &= - \sum_{l=1}^{d} w_l \int_V \sum_{i=1}^d \frac{\partial}{\partial x_i} \big[c_{ij}(T,\mathbf{x}) x_i c_{lj}(T,\mathbf{x}) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big] \mathrm{d}\mathbf{x},
+      &= - \sum_{l=1}^{d} w_l \int_V \sum_{i=1}^d \frac{\partial}{\partial x_i} \big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big] \mathrm{d}\mathbf{x},
     \end{align*}
     since $(\mathbf{w}^T \mathbf{x} - K) = 0$ on $S$.
 
     Similarly, let $\mathbf{G} = (G_1,\ldots,G_d)$ be the vector field such that
     \begin{align*}
-      G_i(\mathbf{x}) = c_{ij}(T,\mathbf{x}) x_i c_{lj}(T,\mathbf{x}) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t),
+      G_i(\mathbf{x}) = c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t),
     \end{align*}
     for $i=1,\ldots,d$, so that
     \begin{align*}
       I_j
       &= - \sum_{l=1}^{d} w_l \int_V \nabla \cdot \mathbf{G}(\mathbf{x}) \mathrm{d}\mathbf{x}
-      = - \sum_{l=1}^{d} w_l \int_S \mathbf{G}(\mathbf{x}) \cdot \mathrm{d}\mathbf{x}.
+      = - \sum_{l=1}^{d} w_l \int_S \mathbf{G}(\mathbf{x}) \cdot \mathrm{d}\mathbf{x},
     \end{align*}
-    Since $S$ is a level set of $\mathbf{x} \mapsto \mathbf{w}^T \mathbf{x}$, the gradient $\nabla (\mathbf{w}^T \mathbf{x}) = \mathbf{w}$ is perpendicular to the tangent plane of $S$ at any $\mathbf{x}$ and points in the direction of increasing values of $\mathbf{w}^T \mathbf{x}$, i.e. it points towards $V$. In other words, $- \frac{\mathbf{w}}{\|\mathbf{w}\|}$ is a normal vector of $S$ pointing outwards. Therefore,
+    by the Divergence Theorem. Since $S$ is a level set of $\mathbf{x} \mapsto \mathbf{w}^T \mathbf{x}$, the gradient $\nabla (\mathbf{w}^T \mathbf{x}) = \mathbf{w}$ is perpendicular to the tangent plane of $S$ at any $\mathbf{x}$ and points in the direction of increasing values of $\mathbf{w}^T \mathbf{x}$, i.e. it points inside $V$. In other words, $- \frac{\mathbf{w}}{\|\mathbf{w}\|}$ is a normal vector of $S$ pointing outwards. Therefore,
+    \begin{align}
+      I_j
+      &= - \sum_{l=1}^{d} w_l \int_S \mathbf{G}(\mathbf{x}) \cdot \frac{-\mathbf{w}}{\|\mathbf{w}\|} \mathrm{d}\mathbf{x}\notag\\
+      &= \sum_{i,l=1}^{d} \frac{w_i w_l}{\|\mathbf{w}\|} c_{ij}(T) c_{lj}(T) \int_S x_i x_l \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},\label{eq:generalisation-Ij}
+    \end{align}
+    since the volatility coefficients do not depend on $\mathbf{x}$, thus justifying the restriction made in this section.
+
+    Applying Lemma \ref{lem:generalisation-var-change} to \eqref{eq:generalisation-dC-dw}, we have
+    \begin{align*}
+      \frac{\partial}{\partial w_i} C(T,\mathbf{w})
+      &= - \frac{1}{w_i}e^{-\int_t^T r(s) \mathrm{d}s}
+      \int_V \left(\mathbf{w}^T \mathbf{x} - K\right) \frac{\partial}{\partial x_i}\left[x_i \rho(\mathbf{x},T;\mathbf{S}(t),t) \right] \mathrm{d}\mathbf{x},
+    \end{align*}
+    for $i=1,\ldots,d$. Hence, taking the vector field $\mathbf{H} = (0,\ldots,0,H_i,0,\ldots,0)$ with
+    \begin{align*}
+      H_i(\mathbf{x}) = x_i \rho(\mathbf{x},T;\mathbf{S}(t),t),
+    \end{align*}
+    we have
+    \begin{align*}
+      e^{\int_t^T r(s) \mathrm{d}s} &\frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
+      &= - \frac{1}{w_i} \left( \int_V \nabla \cdot ((\mathbf{w}^T \mathbf{x} - K) \mathbf{H}) \mathrm{d}\mathbf{x} - \int_V \nabla (\mathbf{w}^T \mathbf{x} - K) \cdot \mathbf{H}(\mathbf{x}) \mathrm{d}\mathbf{x} \right)\\
+      &= - \frac{1}{w_i} \left( \int_S (\mathbf{w}^T \mathbf{x} - K) \mathbf{H} \cdot \mathrm{d}\mathbf{x} - \int_V \mathbf{w}^T \mathbf{H}(\mathbf{x}) \mathrm{d}\mathbf{x} \right)\\
+      &= \frac{1}{w_i} \int_V \mathbf{w}^T \mathbf{H}(\mathbf{x}) \mathrm{d}\mathbf{x}
+      = \int_V x_i \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},
+    \end{align*}
+    by the Divergence Theorem since $(\mathbf{w}^T \mathbf{x} - K)$ vanishes on $S$. Differentiating with respect to $w_l$ for $l=1,\ldots,d$ and letting $\delta_{il} = 1$ if $i=l$, $\delta_{il} = 0$ otherwise, we thus have
+    \begin{align*}
+      e^{\int_t^T r(s) \mathrm{d}s} &\frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w})\\
+      &= \int_K^\infty \int_A \frac{\partial}{\partial w_l} \left(\frac{Q_i B}{w_i} \rho(\mathbf{x},T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \right) \mathrm{d}\mathbf{Q} \mathrm{d}B \tag{by Lemma \ref{lem:generalisation-var-change}}\\
+      &= \int_K^\infty \int_A \Bigg(
+        \delta_{il} \frac{- Q_i B}{w_i w_l} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d}\\
+        &\ \ \ \ \ \ \ \ \ + \frac{Q_i B}{w_i} \frac{\partial}{\partial x_l} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{- Q_l B}{w_l^2} \frac{B^{d-1}}{w_1 \cdots w_d}\\
+        &\ \ \ \ \ \ \ \ \ + \frac{Q_i B}{w_i} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{-1}{w_l} \frac{B^{d-1}}{w_1 \cdots w_d}
+      \Bigg) \mathrm{d}\mathbf{Q} \mathrm{d}B\\
+      &= -\frac{1}{w_l} \int_K^\infty \int_A \frac{B^{d-1}}{w_1 \cdots w_d} \Bigg(
+        (1 + \delta_{il}) \frac{Q_i B}{w_i} \rho(\mathbf{x},T;\mathbf{S}(t),t)\\
+        &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + \frac{Q_i B}{w_i} \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;\mathbf{S}(t),t) \frac{Q_l B}{w_l} \Bigg) \mathrm{d}\mathbf{Q} \mathrm{d}B\\
+      &= -\frac{1}{w_l} \int_V \left( (1 + \delta_{il}) x_i \rho(\mathbf{x},T;\mathbf{S}(t),t)
+        + x_i x_l \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;\mathbf{S}(t),t) \right) \mathrm{d}\mathbf{x}, \tag{by Lemma \ref{lem:generalisation-var-change}}
+    \end{align*}
+    but
+    \begin{align*}
+      \frac{\partial}{\partial x_l} \left(x_i x_l \rho(\mathbf{x},T;S(t),t)\right)
+      &= \frac{\partial x_i}{\partial x_l} x_l \rho(\mathbf{x},T;S(t),t)
+      + x_i \frac{\partial x_l}{\partial x_l} \rho(\mathbf{x},T;S(t),t)\\
+      &\ \ \ \ \ + x_i x_l \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;S(t),t)\\
+      &= \delta_{il} x_l \rho(\mathbf{x},T;S(t),t) + x_i \rho(\mathbf{x},T;S(t),t)\\
+      &\ \ \ \ \ + x_i x_l \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;S(t),t)\\
+      &= (1 + \delta_{il}) x_i \rho(\mathbf{x},T;S(t),t) + x_i x_l \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;S(t),t),
+    \end{align*}
+    so, taking the vector field $\mathbf{K} = (0,\ldots,0,K_l,0,\ldots,0)$ with
+    \begin{align*}
+      K_l &= x_i x_l \rho(\mathbf{x},T;S(t),t),
+    \end{align*}
+    we obtain
+    \begin{align*}
+      e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w})
+      &= -\frac{1}{w_l} \int_V \frac{\partial}{\partial x_l} \left(x_i x_l \rho(\mathbf{x},T;S(t),t)\right) \mathrm{d}\mathbf{x}\\
+      &= -\frac{1}{w_l} \int_V \nabla \cdot \mathbf{K} \mathrm{d}\mathbf{x}
+      = -\frac{1}{w_l} \int_S \mathbf{K} \cdot \mathrm{d}\mathbf{x}\\
+      &= -\frac{1}{w_l} \int_S \mathbf{K} \cdot \frac{-\mathbf{w}}{\|\mathbf{w}\|} \mathrm{d}\mathbf{x}\\
+      &= \frac{1}{\|\mathbf{w}\|} \int_S x_i x_l \rho(\mathbf{x},T;S(t),t) \mathrm{d}\mathbf{x},
+    \end{align*}
+    by the Divergence Theorem and since $\frac{-\mathbf{w}}{\|\mathbf{w}\|}$ is a normal vector of the surface $S$ of $V$ pointing outwards as before. Substituting in \eqref{eq:generalisation-Ij}, we obtain
     \begin{align*}
       I_j
-      = - \sum_{l=1}^{d} w_l \int_S \mathbf{G}(\mathbf{x}) \cdot \frac{-\mathbf{w}}{\|\mathbf{w}\|} \mathrm{d}\mathbf{x}.
+      &= e^{\int_t^T r(s) \mathrm{d}s} \sum_{i,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w}).
     \end{align*}
 
-    FIXME
+    Finally, substituting $I_j$ in \eqref{eq:generalisation-two-derivs} and dividing both sides by $e^{\int_t^T r(s) \mathrm{d}s}$, we have
+    \begin{align*}
+      \sum_{i=1}^{d} &r(T) w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
+      &= \frac{\partial}{\partial T} C(T,\mathbf{w}) - \frac{1}{2} \sum_{i,j,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w}),
+    \end{align*}
+    as required.
   \end{proof}
 \end{theorem}
 
