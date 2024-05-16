@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.27)
 project(dissertation)
 
 set(CXX_STANDARD 20)
+add_compile_options(-std=c++20)
 set(CXX_STANDARD_REQUIRED True)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -14,7 +15,5 @@ if(CMAKE_EXPORT_COMPILE_COMMANDS)
 endif()
 
 find_package(Boost 1.85.0)
-  # REQUIRED COMPONENTS ublas)
 
-add_executable(dissertation src/main.cpp)
-
+add_executable(dissertation src/main.cpp src/model.h src/monte_carlo.h src/pde.h)

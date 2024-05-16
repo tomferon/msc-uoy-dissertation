@@ -118,6 +118,8 @@ Supervisor: Maciej J. Capi\'nski
 
 FIXME: Quick intro to the topic and explanation of what is coming.
 
+Most results are provided with a reference. However, some results were required for which we could not find a reference. A proof is always provided in these cases.
+
 \section{Preliminaries}
 
 % Develop a preliminaries section, in which the tools of stochastic Ito calculus are introduced. Assume that your reader has background in the standard undergraduate modules in mathematics (including analysis, measure theory, probability theory and statistics), but introduce all the notions concerning stochastic processes from scratch. This section should not contain any proofs. Simply set up and state the needed results, providing citations to sources. While developing this section, restrict to the setup needed for the model from [2].
@@ -400,12 +402,12 @@ We call $\mathbf{a}$ the \textbf{drift} and $\mathbf{B}$ the \textbf{volatility}
   Then \eqref{eq:sde-init-value} has a unique solution with continuous paths such that $X_i \in \mathcal{M}^2$, for all $i=1,\ldots,d$.
 \end{theorem}
 
-\begin{theorem}
+\begin{definition}
 %%%%%%%%%%%%%
 \comment{why is this a theorem? This sounds more like a definition.}
 %%%%%%%%%%%%%
   An It\^o process of the form \eqref{eq:sde-init-value} whose characteristics satisfy the conditions of Theorem \ref{thm:sde-solution}, is called an \textbf{It\^o diffusion}.
-\end{theorem}
+\end{definition}
 
 \begin{lemma}\label{lem:ito-diffusion-characteristics-m2}
 %%%%%%%%%%%%%
@@ -565,6 +567,8 @@ where $r(t)$ is a deterministic function representing the continuous risk-free r
 \end{align}
 for $\mathbf{W}(t) = (W_1(t), \ldots, W_d(t))$ a Wiener process with respect to the probability $P$ in the filtered probability space $(\Omega, \mathcal{F}, \mathcal{F}^\mathbf{W}_t, P)$; some processes $\mu_i, i=1,\ldots,d$ and $c_{ij}, i,j=1,\ldots,d$; and $\mathbf{S}(0)$ such that $S_i(0) > 0$, for $i=1,\ldots,d$.
 
+Some references provided in this section refer to the equivalent results in the Black-Scholes model (single-asset, constant coefficients). We extend them here to the multi-asset Black-Scholes model with variable coefficients and provide proofs of the same. To distinguish these references, they are marked with an asterisk.
+
 Some further assumptions are made by the model.
 
 \begin{assumption}\label{ass:drift-vol-regularity}
@@ -627,6 +631,7 @@ A(t)-A(0) & =  \int_0^t \frac{d}{ds} \exp \left( \int_0^s r(u) \mathrm{d}u \righ
 \end{align*}
 as required.
 }
+\tomcomment{I wanted to highlight the fact that this is just a special case of the risky assets. Maybe not worth it?}
 %%%%%%%%%%%%%
 
     We can see \eqref{eq:multi-bs-eq-risk-free} as
@@ -645,7 +650,7 @@ as required.
 \subsection{Risk-neutral Probability}
 
 \begin{definition}
-  A \textbf{risk-neutral probability} is a probability measure $Q$ that is equivalent to $P$ and under which all assets are martingales.
+  A \textbf{risk-neutral probability} is a probability measure $Q$ that is equivalent to $P$ and under which the discounted prices of all assets are martingales.
   %%%%%%%%%%%%%
 \comment{The assets are not martingales. We need to discount.}
 %%%%%%%%%%%%%
@@ -661,7 +666,10 @@ as required.
 
 Note that since $e^{-\int_0^0 r(s) \mathrm{d}s} = 1$, a process agrees with its dicounted process at time 0, i.e. $X(0) = \widetilde{X}(0)$.
 
+The reference provided for the following lemma refers to a similar statement where $a_j, j=1,\ldots,n$ are deterministic. We extend it here to stochastic processes bounded by a deterministic constant.
+
 \begin{lemma}\label{lem:bs-exponential-martingale}
+  (\cite{capinski_blackscholes_2012}, Proposition 6.16)
   If $a_j(t), j=1,\ldots,n$ are $\mathcal{F}^\mathbf{W}_t$-adapted stochastic processes bounded by a deterministic constant $K > 0$, then the stochastic process
   \begin{align*}
     M(t) = \exp \left( - \frac{1}{2} \sum_{j=1}^{d} \int_0^t a_j(s)^2 \mathrm{d}s - \sum_{j=1}^{d} \int_0^t a_j(s) \mathrm{d}W_j(s) \right)
@@ -681,6 +689,7 @@ Note that since $e^{-\int_0^0 r(s) \mathrm{d}s} = 1$, a process agrees with its 
 \end{lemma}
 
 \begin{theorem}
+  (\cite{capinski_blackscholes_2012}, Theorem 6.17)
   Let $\mathbf{\theta}(t) = [\theta_j(t)]_{j=1,\ldots,d}$ be given by
   \begin{align}\label{eq:bs-def-theta}
     \mathbf{\theta}(t) = \mathbf{C}^{-1}(t) [\mu(t) - r(t)]
@@ -690,9 +699,6 @@ Note that since $e^{-\int_0^0 r(s) \mathrm{d}s} = 1$, a process agrees with its 
     M(t) = \exp \left( - \frac{1}{2} \sum_{j=1}^d \int_0^t \theta_j(s)^2 \mathrm{d}s - \sum_{j=1}^d \int_0^t \theta_j(s) \mathrm{d}W_j(s) \right).
   \end{align*}
   If $M(t)$ is a martingale under $P$, then the measure $Q$ with density $\frac{\mathrm{d}Q}{\mathrm{d}P} = M(T)$ is a risk-neutral probability, i.e. it is equivalent to $P$ and the processes $\widetilde{S}_i, i=1,\ldots,d$ are martingales under $Q$.
-  %%%%%%%%%%%%%
-%\comment{we should not be making definitions inside of a statement of a theorem.}
-%%%%%%%%%%%%%
 
   \begin{proof}
     For all $i=1,\ldots,d$, by Theorem \ref{thm:bs-solution},
@@ -764,7 +770,10 @@ Note that since $e^{-\int_0^0 r(s) \mathrm{d}s} = 1$, a process agrees with its 
   \end{proof}
 \end{theorem}
 
+Consequently, we will always refer to the filtration $\mathcal{F}^\mathbf{W}_t$ in the following, even when working with the risk-neutral probability $Q$ for brevity.
+
 \begin{theorem}\label{thm:bs-risk-neutral-dynamics}
+  (\cite{capinski_blackscholes_2012}, Corollary 2.3*)
   The risky assets satisfy
   \begin{align*}
     \mathrm{d}S_i(t) = r(t) S_i(t) \mathrm{d}t + \sum_{j=1}^{d} c_{ij}(t) S_i(t) \mathrm{d}W^Q_j(t),
@@ -775,8 +784,7 @@ Note that since $e^{-\int_0^0 r(s) \mathrm{d}s} = 1$, a process agrees with its 
     Taking $r(t)$ as the drift and $\mathrm{W}^Q$ as the Wiener process in Theorem \ref{thm:bs-solution}, we obtain the unique solution for this stochastic differential
     \begin{align}\label{eq:bs-risk-neutral-dynamics}
       S_i(t)
-      = S_i(0) \exp & \left( \int_0^t r(s) \mathrm{d}s - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s \right. \notag\\
-      &\ \ \ \ \ + \left.\sum_{j=1}^d \int_0^t c_{ij}(t) \mathrm{d}W^Q_j(s)\right).
+      = S_i(0) \exp  \left( \int_0^t r(s) \mathrm{d}s - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{ij}(t) \mathrm{d}W^Q_j(s)\right).
     \end{align}
 
     Multiplying both sides by the discounted factor $e^{-\int_0^t r(s) \mathrm{d}s}$, we can see that this is equivalent to \eqref{eq:bs-discounted-stock-price} which has been established earlier so the stochastic differential is indeed satisfied by $S_i$, for all $i=1,\ldots,d$.
@@ -784,6 +792,7 @@ Note that since $e^{-\int_0^0 r(s) \mathrm{d}s} = 1$, a process agrees with its 
 \end{theorem}
 
 \begin{theorem}\label{thm:bs-risk-neutral-dynamics-discounted}
+  (\cite{capinski_blackscholes_2012}, Corollary 2.3*)
   The risky assets satisfy
   \begin{align}\label{eq:bs-risk-neutral-dynamics-discounted}
     \mathrm{d}\widetilde{S}_i(t) = \sum_{j=1}^{d} c_{ij}(t) \widetilde{S}_i(t) \mathrm{d}W^Q_j(t),
@@ -884,10 +893,6 @@ The following definitions apply to strategies as well as extended strategies.
 
 \subsection{Pricing of Derivatives}
 
-%%%%%%%%%%%%%
-%\comment{OK. I will stop commenting but just browse through the content.}
-%%%%%%%%%%%%%
-
 \begin{definition}
   A \textbf{replicating strategy} for a derivative with payoff $H_\text{payoff}$ is an admissible self-financing strategy (in the basic market) with value process $V$ such that
   \begin{align*}
@@ -897,6 +902,13 @@ The following definitions apply to strategies as well as extended strategies.
 \end{definition}
 
 If there exists a replicating strategy for a derivative, we say that the strategy \textbf{replicates} the derivative and that the derivative is \textbf{replicable}.
+
+\begin{theorem}\label{thm:bs-repl-strat-derivative-prices}
+  (\cite{capinski_blackscholes_2012}, Theorem 2.16*)
+  If a derivate with payoff $H_\text{payoff}$ is replicable by a strategy with value process $V$ that has continuous paths, then $V(t) = H(t)$, for all $t \in [0,T]$.
+\end{theorem}
+
+In the reference given for the previous theorem (in the single-asset Black-Scholes model with constant coefficients), a proof is given directly. However, we find it easier to first prove a simpler statement in the following lemma. The proof, provided thereafter, is then straightforward.
 
 \begin{lemma}\label{lem:bs-non-negative-strat}%%%%%%%%%%%%%
 \comment{citation missing}
@@ -974,28 +986,25 @@ If there exists a replicating strategy for a derivative, we say that the strateg
 
 Note that by inspecting the proof, we can see that this lemma equally applies to strategies in the extended market.
 
-\begin{theorem}\label{thm:bs-repl-strat-derivative-prices}
-  If a derivate with payoff $H_\text{payoff}$ is replicable by a strategy with value process $V$ that has continuous paths, then $V(t) = H(t)$, for all $t \in [0,T]$.
+\begin{proof}[Proof of Theorem \ref{thm:bs-repl-strat-derivative-prices}]
+  Let $(x_1,\ldots,x_d,y)$ be the replicating strategy with value process $V$. Consider the two strategies in the extended market
+  \begin{align*}
+    (x_1^+,\ldots,x_d^+,y^+,z^+), && (x_1^-,\ldots,x_d^-,y^-,z^-),
+  \end{align*}
+  with value process $V^\pm$ and with $x_i^\pm(t) = \pm x_i(t)$ for $i=1,\ldots,d$, $y^\pm(t) = \pm y(t)$ and $z^\pm(t) = (-1) (\pm z(t))$ for all $t \in [0,T]$.  Then their values satisfy $V^+(t) = - V^-(t) = V(t) - H(t)$ for all $t \in [0,T]$.
 
-  \begin{proof}
-    Let $(x_1,\ldots,x_d,y)$ be the replicating strategy with value process $V$. Consider the two strategies in the extended market $(x_1^+,\ldots,x_d^+,y^+,z^+)$ and $(x_1^-,\ldots,x_d^-,y^-,z^-)$ with value process $V^\pm$ and with $x_i^\pm(t) = \pm x_i(t)$ for $i=1,\ldots,d$, $y^\pm(t) = \pm y(t)$ and $z^\pm(t) = (-1) (\pm z(t))$ for all $t \in [0,T]$.  Then their values satisfy $V^+(t) = - V^-(t) = V(t) - H(t)$ for all $t \in [0,T]$.
+  Note that since both $V(t)$ and $H(t)$ have continuous paths (by assumption of this theorem and by Assumption \ref{ass:bs-derivative-regularity} respectively), then so do $V^\pm$. Moreover, $V^\pm(T) = V(T) - H(T) = 0 \ge 0$. Hence, by Lemma \ref{lem:bs-non-negative-strat} twice, we have
+  \begin{align*}
+    V^+(t) \ge 0, && V^-(t) \ge 0,
+  \end{align*}
+  almost surely, for all $t \in [0,T]$. But then $V^+(t) = - V^+(t) \le 0$ so $V^+(t) = 0$.
 
-    Note that since both $V(t)$ and $H(t)$ have continuous paths (by assumption of this theorem and by Assumption \ref{ass:bs-derivative-regularity} respectively), then so do $V^\pm$. Moreover, $V^\pm(T) = V(T) - H(T) = 0 \ge 0$. Hence, by Lemma \ref{lem:bs-non-negative-strat} twice, we have
-    \begin{align*}
-      V^+(t) \ge 0, && V^-(t) \ge 0,
-    \end{align*}
-    almost surely, for all $t \in [0,T]$. But then $V^+(t) = - V^+(t) \le 0$ so $V^+(t) = 0$.
-
-    In other words, $V(t) - H(t) = 0$ or, equivalently, $V(t) = H(t)$ almost surely for all $t \in [0,T]$ as required.
-  \end{proof}
-\end{theorem}
-
-  %%%%%%%%%%%%%
-%\comment{It seems to me that this can be proven. In your email you have written that a proof would be technical. I am wondering if this indeed is the case. We could discuss this.}
-%%%%%%%%%%%%%
+  In other words, $V(t) - H(t) = 0$ or, equivalently, $V(t) = H(t)$ almost surely for all $t \in [0,T]$ as required.
+\end{proof}
 
 \begin{theorem}\label{thm:bs-replicability}
-  Let $H$ be a derivative with square-integrable payoff. If there exists a deterministic constant $L > 0$ such that $H(T) \ge -L$ almost surely, then the derivative is replicable by a strategy whose value process has continuous paths.
+  (\cite{capinski_blackscholes_2012}, Theorem 3.11*)
+  Let $H$ be a derivative with a square-integrable payoff. If there exists a deterministic constant $L > 0$ such that $H(T) \ge -L$ almost surely, then the derivative is replicable by a strategy whose value process has continuous paths.
 
   \begin{proof}
     We construct a replicating strategy $(x_1,\ldots,x_d,y)$ with value process $V$ for the derivative. Since it replicates the derivative, we must have that $V(T) = H(T)$ and its discounted value must be a $Q$-martingale. Hence, for all $t \in [0,T]$,
@@ -1081,6 +1090,7 @@ Note that by inspecting the proof, we can see that this lemma equally applies to
 \end{theorem}
 
 \begin{theorem}\label{thm:bs-derivative-pricing}
+  (\cite{capinski_blackscholes_2012}, Theorem 3.11*)
   If a derivative $H$ is replicable by a strategy whose value process $V$ has continuous paths, then
   \begin{align}\label{eq:bs-derivative-pricing}
     \widetilde{H}(t) = \mathbb{E}_Q(\widetilde{H}(T) \mid \mathcal{F}^\mathbf{W}_t),
@@ -1129,6 +1139,7 @@ for all $t \in [0,T]$. In particular at time 0, since $\mathcal{F}^\mathbf{W}_0$
 \end{definition}
 
 \begin{theorem}[Put-call parity]
+  (\cite{capinski_blackscholes_2012}, Theorem 3.16)
   Let $C(t)$ and $P(t)$ be the price processes of European call and put options respectively with expiry time $T$, strike prike $K$, and underlying $U$. Then
   \begin{align}\label{eq:put-call-parity}
     C(t) - P(t) = U(t) - e^{-\int_t^T r(s) \mathrm{d}s} K,
@@ -1251,11 +1262,12 @@ for some Borel function $\phi$ by the Doob-Dynkin Lemma (\cite{oksendal_stochast
   \end{align*}
 \end{definition}
 
-Note that, the function $\mathbf{\Gamma} \mapsto \nu(\mathbf{\Gamma}, t; \mathbf{x}, s)$ is a probability measure
+Note that, the function $\mathbf{\Gamma} \mapsto \nu(\mathbf{\Gamma}, t; \mathbf{x}, s)$ is a probability measure.
 %%%%%%%%%%%%%
 \comment{why? I think that $P(Y|F)$ is a random variable and not a number.}
+\tomcomment{$\nu$ is used as a function of $\mathbf{x}$ here instead of $\mathbf{X}(s)$ so it's a number.}
 %%%%%%%%%%%%%
-. In the rest of this section, we focus on such transition functions that have a density, leading to the following definition.
+In the rest of this section, we focus on such transition functions that have a density, leading to the following definition.
 
 \begin{definition}
   Let $\mathbf{X}(t)$ be a Markov process such that it has a transition function $\nu(\mathbf{\Gamma},t;\mathbf{x},s)$ that admits a density $\rho$ with respect to the Lebesgue measure, i.e.
@@ -1269,6 +1281,7 @@ Note that, the function $\mathbf{\Gamma} \mapsto \nu(\mathbf{\Gamma}, t; \mathbf
 In order to prove the main result of this section, we will make use of the following property of the transition probability density. There exist several versions of this equation including one in terms of the transition function that does not require the existence of a density. However, we only state a single version here for brevity.
 
 \begin{theorem}[Chapman-Kolmogorov Equation]\label{thm:fp-chapman-kolmogorov}
+  (\cite{pavliotis_stochastic_2014}, Section 2.2)
   Let $\mathbf{X}(t)$ be a Markov process with transition probability density $\rho$. Then
   \begin{align*}
     \rho(\mathbf{x}, t; \mathbf{y}, s) = \int_{\mathbb{R}^d} \rho(\mathbf{x}, t; \mathbf{z}, u) \rho(\mathbf{z}, u; \mathbf{y}, s) \mathrm{d}\mathbf{z},
@@ -1308,6 +1321,121 @@ In order to prove the main result of this section, we will make use of the follo
     \end{align*}
   \end{proof}
 \end{theorem}
+
+In the following, the notation $C^2_0(\mathbb{R}^d)$ denotes the set of twice-continuously differentiable functions on $\mathbb{R}^d$ such that they vanish at $\pm \infty$, i.e. for $f \in C^2_0(\mathbb{R}^d)$, we have
+\begin{align*}
+  \lim_{x \to \pm \infty} f(x) = 0.
+\end{align*}
+This implies that the first and second derivatives also vanish at $\pm \infty$.
+
+We can now state and prove the main result of this section. Note that it is also called the \textit{Forward Kolmogorov Equation} in other resources.
+
+\begin{theorem}[Fokker-Planck Equation]\label{thm:fokker-planck}
+  (\cite{pavliotis_stochastic_2014}, Theorem 2.2)
+  Let $\mathbf{X}(t)$ be an It\^o diffusion that is Markov, with transition probability density $\rho(\mathbf{x},t;\mathbf{y},s)$ that is in $C^2$ as a function of $\mathbf{x}$ and $t$, satisfying equations of the form
+  \begin{align*}
+    \mathrm{d}X_i(t) = a_i(t, \mathbf{X}(t)) \mathrm{d}t + \sum_{j=1}^d b_{ij}(t, \mathbf{X}(t)) \mathrm{d}W_j(t),
+  \end{align*}
+  for $i=1,\ldots,d$. Then, for all $0 \le s < t \le T$ and $\mathbf{y} \in \mathrm{supp}(\mathbf{X}(s))$, we have
+  \begin{align*}
+    \frac{\partial}{\partial t}\rho(\mathbf{x},t;\mathbf{y},s)
+    &= - \sum_{i=1}^d \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x})\rho(\mathbf{x},t;\mathbf{y},s)]\\
+      &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)].
+  \end{align*}
+
+  \begin{proof}
+    Let $f \in C^2_0(\mathbb{R}^d)$, let $0 \le s < t \le T$ and let $h$ be such that $0 \le t < t + h \le T$. Then, by the It\^o Formula (Theorem \ref{thm:ito-formula}),
+    \begin{align*}
+      f(\mathbf{X}&(t+h)) - f(\mathbf{X}(t))\\
+      &= \sum_{i=1}^{d} \int_t^{t+h} f_{x_i}(\mathbf{X}(s)) a_i(s,\mathbf{X}(s)) \mathrm{d}s\\
+        &\ \ \ \ \ + \sum_{i,j=1}^{d} \int_t^{t+h} f_{x_i}(\mathbf{X}(s)) b_{ij}(s,\mathbf{X}(s)) \mathrm{d}W_j(s)\\
+        &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \int_t^{t+h} f_{x_i x_l}(\mathbf{X}(s)) b_{ij}(s,\mathbf{X}(s)) b_{lj}(s,\mathbf{X}(s)) \mathrm{d}s.
+    \end{align*}
+
+    Since $f$ and its partial derivatives in the previous equation are in $C_0$, then they are bounded. Indeed, for any $g \in C_0(\mathbb{R}^d)$ and any $\epsilon > 0$, there exists a closed rectangle $R \subseteq \mathbb{R}$ such that $g(\mathbf{x}) < \epsilon$ for $\mathbf{x} \in \mathbb{R}^d \setminus R$. Moreover, $R$ is compact and $g$ is continuous so $g$ is bounded on $R$ by the Boundedness Theorem. Hence, it is bounded on the whole $\mathbb{R}^d$.
+
+    By Lemma \ref{lem:ito-diffusion-characteristics-m2}, $b_{ij}(s,\mathbf{X}(s)) \in \mathcal{M}^2$, so, together with the boundedness of $f_{x_i}(\mathbf{X}(s))$, we have that the integrands $f_{x_i}(\mathbf{X}(s))b_{ij}(s,\mathbf{X}(s)) \in \mathcal{M}^2$ in the previous equation are in $\mathcal{M}^2$. Therefore, by Theorem \ref{thm:stochastic-integral-expectation-m2} and by linearity of the expectation,
+    \begin{align*}
+      \mathbb{E}(f&(\mathbf{X}(t+h)) - f(\mathbf{X}(t)))\\
+      &= \sum_{i=1}^{d} \mathbb{E}\left(\int_t^{t+h} f_{x_i}(\mathbf{X}(s)) a_i(s,\mathbf{X}(s)) \mathrm{d}s\right)\\
+        &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \mathbb{E}\left(\int_t^{t+h} f_{x_i x_l}(\mathbf{X}(s)) b_{ij}(s,\mathbf{X}(s)) b_{lj}(s,\mathbf{X}(s)) \mathrm{d}s\right).
+    \end{align*}
+    By the Fubini Theorem, we have
+    \begin{align*}
+      \mathbb{E}(f&(\mathbf{X}(t+h)) - f(\mathbf{X}(t)))\\
+      &= \sum_{i=1}^{d} \int_t^{t+h} \mathbb{E}(f_{x_i}(\mathbf{X}(s)) a_i(s,\mathbf{X}(s))) \mathrm{d}s\\
+        &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \int_t^{t+h} \mathbb{E}\left(f_{x_i x_l}(\mathbf{X}(s)) b_{ij}(s,\mathbf{X}(s)) b_{lj}(s,\mathbf{X}(s))\right) \mathrm{d}s.
+    \end{align*}
+
+    Therefore, we have
+    \begin{align*}
+      \frac{\partial}{\partial t}&\mathbb{E}(f(\mathbf{X}(t)))\\
+      &= \lim_{h \to 0} \frac{1}{h} (\mathbb{E}(f(\mathbf{X}(t+h))) - \mathbb{E}(f(\mathbf{X}(t))))\\
+      &= \lim_{h \to 0} \frac{1}{h} \mathbb{E}(f(\mathbf{X}(t+h)) - f(\mathbf{X}(t))) \tag{linearity}\\
+      &= \sum_{i=1}^{d} \lim_{h \to 0} \frac{1}{h} \int_t^{t+h} \mathbb{E}(f_{x_i}(\mathbf{X}(s)) a_i(s,\mathbf{X}(s))) \mathrm{d}s\\
+        &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \lim_{h \to 0} \frac{1}{h} \int_t^{t+h} \mathbb{E}\left(f_{x_i x_l}(\mathbf{X}(s)) b_{ij}(s,\mathbf{X}(s)) b_{lj}(s,\mathbf{X}(s))\right) \mathrm{d}s\\
+      &= \sum_{i=1}^{d} \mathbb{E}(f_{x_i}(\mathbf{X}(t)) a_i(t,\mathbf{X}(t)))\\
+        &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \mathbb{E}\left(f_{x_i x_l}(\mathbf{X}(t)) b_{ij}(t,\mathbf{X}(t)) b_{lj}(t,\mathbf{X}(t))\right)\\
+      &= \sum_{i=1}^{d} \int_{\mathbb{R}^d} f_{x_i}(\mathbf{x}) a_i(t,\mathbf{x})\rho(\mathbf{x},t;\mathbf{X}(0),0) \mathrm{d}\mathbf{x}\\
+        &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \int_{\mathbb{R}^d} f_{x_i x_l}(\mathbf{x}) b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{X}(0),0) \mathrm{d}\mathbf{x}.
+    \end{align*}
+
+    Using the Chapman-Kolmogorov Equation (Theorem \ref{thm:fp-chapman-kolmogorov}), we get
+    \begin{align*}
+      \frac{\partial}{\partial t}&\mathbb{E}(f(\mathbf{X}(t)))\\
+      &= \sum_{i=1}^{d} \int_{\mathbb{R}^d} \int_{\mathbb{R}^d} f_{x_i}(\mathbf{x}) a_i(t,\mathbf{x})\rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0) \mathrm{d}\mathbf{y} \mathrm{d}\mathbf{x}\\
+        &\ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \int_{\mathbb{R}^d} \int_{\mathbb{R}^d} f_{x_i x_l}(\mathbf{x}) b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0) \mathrm{d}\mathbf{y} \mathrm{d}\mathbf{x}
+    \end{align*}
+    and, by the Fubini Theorem,
+    \begin{align*}
+      \frac{\partial}{\partial t}&\mathbb{E}(f(\mathbf{X}(t)))\\
+      &= \sum_{i=1}^{d} \int_{\mathbb{R}^d}  \rho(\mathbf{y},s;\mathbf{X}(0),0) \int_{\mathbb{R}^d} f_{x_i}(\mathbf{x}) a_i(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s) \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y}\\
+        &\ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \int_{\mathbb{R}^d} \rho(\mathbf{y},s;\mathbf{X}(0),0) \int_{\mathbb{R}^d} f_{x_i x_l}(\mathbf{x}) b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s) \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y}.
+    \end{align*}
+
+    By integration by parts and since $f$ and its partial derivatives vanish at $\pm \infty$, we have
+    \begin{align*}
+      \int_{\mathbb{R}^d} f_{x_i}(\mathbf{x}) a_i(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s) \mathrm{d}\mathbf{x}
+      &= - \int_{\mathbb{R}^d} f(\mathbf{x}) \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x},
+    \end{align*}
+    for all $i=1,\ldots,d$. Similarly using integration by parts twice, we have
+    \begin{align*}
+      \int_{\mathbb{R}^d} f_{x_i x_l}(\mathbf{x}) &b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s) \mathrm{d}\mathbf{x}\\
+      &= - \int_{\mathbb{R}^d} f_{x_i}(\mathbf{x}) \frac{\partial}{\partial x_l}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x}\\
+      &= \int_{\mathbb{R}^d} f(\mathbf{x}) \frac{\partial^2}{\partial x_l \partial x_i}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x}.
+    \end{align*}
+    Hence,
+    \begin{align}
+      \frac{\partial}{\partial t}&\mathbb{E}(f(\mathbf{X}(t)))\notag\\
+      &= \sum_{i=1}^{d} \int_{\mathbb{R}^d} \rho(\mathbf{y},s;\mathbf{X}(0),0) \left( - \int_{\mathbb{R}^d} f(\mathbf{x}) \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x} \right) \mathrm{d}\mathbf{y}\notag\\
+        &\ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \left.\int_{\mathbb{R}^d} \right(\rho(\mathbf{y},s;\mathbf{X}(0),0) \notag\\
+        &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \left.\int_{\mathbb{R}^d} f(\mathbf{x}) \frac{\partial^2}{\partial x_l \partial x_i}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x} \right)\mathrm{d}\mathbf{y}\notag\\
+      &= \int_{\mathbb{R}^d} \int_{\mathbb{R}^d} \rho(\mathbf{y},s;\mathbf{X}(0),0) f(\mathbf{x}) \left(- \sum_{i=1}^d \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)] \right.\notag\\
+        &\ \ \ \ \ + \left.\frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)] \right) \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y}.\label{eq:fp-proof-1}
+    \end{align}
+
+    But
+    \begin{align}
+      \frac{\partial}{\partial t}\mathbb{E}(f(\mathbf{X}(t)))
+      &= \frac{\partial}{\partial t}\int_{\mathbb{R}^d} f(\mathbf{x}) \rho(\mathbf{x},t;\mathbf{X}(0),0) \mathrm{d}\mathbf{y}\notag\\
+      &= \frac{\partial}{\partial t}\int_{\mathbb{R}^d} \int_{\mathbb{R}^d} f(\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0) \mathrm{d}\mathbf{y} \mathrm{d}\mathbf{x}\tag{Chapman-Kolmogorov}\\
+      &= \frac{\partial}{\partial t}\int_{\mathbb{R}^d} \int_{\mathbb{R}^d} f(\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0) \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y}\tag{Fubini}\\
+      &= \int_{\mathbb{R}^d} \int_{\mathbb{R}^d} \frac{\partial}{\partial t}[f(\mathbf{y}) \rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0)] \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y} \tag{by the Leibniz Integral Rule since $f\rho \in C^2$}\\
+      &= \int_{\mathbb{R}^d}\int_{\mathbb{R}^d} \rho(\mathbf{y},s;\mathbf{X}(0),0) f(\mathbf{x}) \frac{\partial}{\partial t}\rho(\mathbf{x},t;\mathbf{y},s) \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y}\label{eq:fp-proof-2}
+    \end{align}
+    since $f$ does not depend on $t$.
+
+    But then, since \eqref{eq:fp-proof-1} and \eqref{eq:fp-proof-2} are equal for any choice of $f \in C^2_0(\mathbb{R}^d)$, we have
+    \begin{align*}
+      \frac{\partial}{\partial t}\rho(\mathbf{x},t;\mathbf{y},s)
+      &= - \sum_{i=1}^d \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)]\\
+        &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)],
+    \end{align*}
+    for all $\mathbf{y} \in \mathbb{R}^d$ such that $\rho(\mathbf{y},s;\mathbf{X}(0),0) \neq 0$, i.e. for all $\mathbf{y} \in \mathrm{supp}(\mathbf{X}(s))$, thus completing the proof.
+  \end{proof}
+\end{theorem}
+
+For the rest of this section, we prove some results that will be used to show interesting properties of the local volatility model, which is the subject of the next section. In \textcite{oksendal_stochastic_2003}, it is shown that all It\^o diffusions are Markov. However, the following results were simpler to prove and sufficient for our purposes.
 
 \begin{lemma}\label{lem:fp-ito-diffusion-indep-increments}
   Let $\mathbf{X}$ be an It\^o diffusion satisfying
@@ -1381,119 +1509,9 @@ In order to prove the main result of this section, we will make use of the follo
   \end{proof}
 \end{theorem}
 
-In the following, the notation $C^2_0(\mathbb{R}^d)$ denotes the set of twice-continuously differentiable functions on $\mathbb{R}^d$ such that they vanish at $\pm \infty$, i.e. for $f \in C^2_0(\mathbb{R}^d)$, we have
-\begin{align*}
-  \lim_{x \to \pm \infty} f(x) = 0.
-\end{align*}
-This implies that the first and second derivatives also vanish at $\pm \infty$.
-
-We can finally state and prove the main result of this section. Note that it is also called the \textit{Forward Kolmogorov Equation} in other resources.
-
-\begin{theorem}[Fokker-Planck Equation]\label{thm:fokker-planck}
-  Let $\mathbf{X}(t)$ be an It\^o diffusion that is Markov, with transition probability density $\rho(\mathbf{x},t;\mathbf{y},s)$ that is in $C^2$ as a function of $\mathbf{x}$ and $t$, satisfying equations of the form
-  \begin{align*}
-    \mathrm{d}X_i(t) = a_i(t, \mathbf{X}(t)) \mathrm{d}t + \sum_{j=1}^d b_{ij}(t, \mathbf{X}(t)) \mathrm{d}W_j(t),
-  \end{align*}
-  for $i=1,\ldots,d$. Then, for all $0 \le s < t \le T$ and $\mathbf{y} \in \mathrm{supp}(\mathbf{X}(s))$, we have
-  \begin{align*}
-    \frac{\partial}{\partial t}\rho(\mathbf{x},t;\mathbf{y},s)
-    &= - \sum_{i=1}^d \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s)]\\
-      &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)].
-  \end{align*}
-
-  \begin{proof}
-    Let $f \in C^2_0(\mathbb{R}^d)$, let $0 \le s < t \le T$ and let $h$ be such that $0 \le t < t + h \le T$. Then, by the It\^o Formula (Theorem \ref{thm:ito-formula}),
-    \begin{align*}
-      f(\mathbf{X}&(t+h)) - f(\mathbf{X}(t))\\
-      &= \sum_{i=1}^{d} \int_t^{t+h} f_{x_i}(\mathbf{X}(s)) a_i(s,\mathbf{X}(s)) \mathrm{d}s\\
-        &\ \ \ \ \ + \sum_{i,j=1}^{d} \int_t^{t+h} f_{x_i}(\mathbf{X}(s)) b_{ij}(s,\mathbf{X}(s)) \mathrm{d}W_j(s)\\
-        &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \int_t^{t+h} f_{x_i x_l}(\mathbf{X}(s)) b_{ij}(s,\mathbf{X}(s)) b_{lj}(s,\mathbf{X}(s)) \mathrm{d}s.
-    \end{align*}
-
-    Since $f$ and its partial derivatives in the previous equation are in $C_0$, then they are bounded. Indeed, for any $g \in C_0(\mathbb{R}^d)$ and any $\epsilon > 0$, there exists a closed rectangle $R \subseteq \mathbb{R}$ such that $g(\mathbf{x}) < \epsilon$ for $\mathbf{x} \in \mathbb{R}^d \setminus R$. Moreover, $R$ is compact and $g$ is continuous so $g$ is bounded on $R$ by the Boundedness Theorem. Hence, it is bounded on the whole $\mathbb{R}^d$.
-
-    By Lemma \ref{lem:ito-diffusion-characteristics-m2}, $b_{ij}(s,\mathbf{X}(s)) \in \mathcal{M}^2$, so, together with the boundedness of $f_{x_i}(\mathbf{X}(s))$, we have that the integrands $f_{x_i}(\mathbf{X}(s))b_{ij}(s,\mathbf{X}(s)) \in \mathcal{M}^2$ in the previous equation are in $\mathcal{M}^2$. Therefore, by Theorem \ref{thm:stochastic-integral-expectation-m2} and by linearity of the expectation,
-    \begin{align*}
-      \mathbb{E}(f&(\mathbf{X}(t+h)) - f(\mathbf{X}(t)))\\
-      &= \sum_{i=1}^{d} \mathbb{E}\left(\int_t^{t+h} f_{x_i}(\mathbf{X}(s)) a_i(s,\mathbf{X}(s)) \mathrm{d}s\right)\\
-        &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \mathbb{E}\left(\int_t^{t+h} f_{x_i x_l}(\mathbf{X}(s)) b_{ij}(s,\mathbf{X}(s)) b_{lj}(s,\mathbf{X}(s)) \mathrm{d}s\right).
-    \end{align*}
-    By the Fubini Theorem, we have
-    \begin{align*}
-      \mathbb{E}(f&(\mathbf{X}(t+h)) - f(\mathbf{X}(t)))\\
-      &= \sum_{i=1}^{d} \int_t^{t+h} \mathbb{E}(f_{x_i}(\mathbf{X}(s)) a_i(s,\mathbf{X}(s))) \mathrm{d}s\\
-        &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \int_t^{t+h} \mathbb{E}\left(f_{x_i x_l}(\mathbf{X}(s)) b_{ij}(s,\mathbf{X}(s)) b_{lj}(s,\mathbf{X}(s))\right) \mathrm{d}s.
-    \end{align*}
-
-    Therefore, we have
-    \begin{align*}
-      \frac{\partial}{\partial t}&\mathbb{E}(f(\mathbf{X}(t)))\\
-      &= \lim_{h \to 0} \frac{1}{h} (\mathbb{E}(f(\mathbf{X}(t+h))) - \mathbb{E}(f(\mathbf{X}(t))))\\
-      &= \lim_{h \to 0} \frac{1}{h} \mathbb{E}(f(\mathbf{X}(t+h)) - f(\mathbf{X}(t))) \tag{linearity}\\
-      &= \sum_{i=1}^{d} \lim_{h \to 0} \frac{1}{h} \int_t^{t+h} \mathbb{E}(f_{x_i}(\mathbf{X}(s)) a_i(s,\mathbf{X}(s))) \mathrm{d}s\\
-        &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \lim_{h \to 0} \frac{1}{h} \int_t^{t+h} \mathbb{E}\left(f_{x_i x_l}(\mathbf{X}(s)) b_{ij}(s,\mathbf{X}(s)) b_{lj}(s,\mathbf{X}(s))\right) \mathrm{d}s\\
-      &= \sum_{i=1}^{d} \mathbb{E}(f_{x_i}(\mathbf{X}(t)) a_i(t,\mathbf{X}(t)))\\
-        &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \mathbb{E}\left(f_{x_i x_l}(\mathbf{X}(t)) b_{ij}(t,\mathbf{X}(t)) b_{lj}(t,\mathbf{X}(t))\right)\\
-      &= \sum_{i=1}^{d} \int_{\mathbb{R}^d} f_{x_i}(\mathbf{x}) a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{X}(0),0) \mathrm{d}\mathbf{x}\\
-        &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \int_{\mathbb{R}^d} f_{x_i x_l}(\mathbf{x}) b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{X}(0),0) \mathrm{d}\mathbf{x}.
-    \end{align*}
-
-    Using the Chapman-Kolmogorov Equation (Theorem \ref{thm:fp-chapman-kolmogorov}), we get
-    \begin{align*}
-      \frac{\partial}{\partial t}&\mathbb{E}(f(\mathbf{X}(t)))\\
-      &= \sum_{i=1}^{d} \int_{\mathbb{R}^d} \int_{\mathbb{R}^d} f_{x_i}(\mathbf{x}) a_i(t,\mathbf{x})\rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0) \mathrm{d}\mathbf{y} \mathrm{d}\mathbf{x}\\
-        &\ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \int_{\mathbb{R}^d} \int_{\mathbb{R}^d} f_{x_i x_l}(\mathbf{x}) b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0) \mathrm{d}\mathbf{y} \mathrm{d}\mathbf{x}
-    \end{align*}
-    and, by the Fubini Theorem,
-    \begin{align*}
-      \frac{\partial}{\partial t}&\mathbb{E}(f(\mathbf{X}(t)))\\
-      &= \sum_{i=1}^{d} \int_{\mathbb{R}^d}  \rho(\mathbf{y},s;\mathbf{X}(0),0) \int_{\mathbb{R}^d} f_{x_i}(\mathbf{x}) a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s) \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y}\\
-        &\ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \int_{\mathbb{R}^d} \rho(\mathbf{y},s;\mathbf{X}(0),0) \int_{\mathbb{R}^d} f_{x_i x_l}(\mathbf{x}) b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s) \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y}.
-    \end{align*}
-
-    By integration by parts and since $f$ and its partial derivatives vanish at $\pm \infty$, we have
-    \begin{align*}
-      \int_{\mathbb{R}^d} f_{x_i}(\mathbf{x}) a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s) \mathrm{d}\mathbf{x}
-      &= - \int_{\mathbb{R}^d} f(\mathbf{x}) \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x},
-    \end{align*}
-    for all $i=1,\ldots,d$. Similarly using integration by parts twice, we have
-    \begin{align*}
-      \int_{\mathbb{R}^d} f_{x_i x_l}(\mathbf{x}) &b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s) \mathrm{d}\mathbf{x}\\
-      &= - \int_{\mathbb{R}^d} f_{x_i}(\mathbf{x}) \frac{\partial}{\partial x_l}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x}\\
-      &= \int_{\mathbb{R}^d} f(\mathbf{x}) \frac{\partial^2}{\partial x_l \partial x_i}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x}.
-    \end{align*}
-    Hence,
-    \begin{align}
-      \frac{\partial}{\partial t}&\mathbb{E}(f(\mathbf{X}(t)))\notag\\
-      &= \sum_{i=1}^{d} \int_{\mathbb{R}^d} \rho(\mathbf{y},s;\mathbf{X}(0),0) \left( - \int_{\mathbb{R}^d} f(\mathbf{x}) \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x} \right) \mathrm{d}\mathbf{y}\notag\\
-        &\ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \left.\int_{\mathbb{R}^d} \right(\rho(\mathbf{y},s;\mathbf{X}(0),0) \notag\\
-        &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \left.\int_{\mathbb{R}^d} f(\mathbf{x}) \frac{\partial^2}{\partial x_l \partial x_i}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)] \mathrm{d}\mathbf{x} \right)\mathrm{d}\mathbf{y}\notag\\
-      &= \int_{\mathbb{R}^d} \int_{\mathbb{R}^d} \rho(\mathbf{y},s;\mathbf{X}(0),0) f(\mathbf{x}) \left(- \sum_{i=1}^d \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s)] \right.\notag\\
-        &\ \ \ \ \ + \left.\frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)] \right) \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y}.\label{eq:fp-proof-1}
-    \end{align}
-
-    But
-    \begin{align}
-      \frac{\partial}{\partial t}\mathbb{E}(f(\mathbf{X}(t)))
-      &= \frac{\partial}{\partial t}\int_{\mathbb{R}^d} f(\mathbf{x}) \rho(\mathbf{x},t;\mathbf{X}(0),0) \mathrm{d}\mathbf{y}\notag\\
-      &= \frac{\partial}{\partial t}\int_{\mathbb{R}^d} \int_{\mathbb{R}^d} f(\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0) \mathrm{d}\mathbf{y} \mathrm{d}\mathbf{x}\tag{Chapman-Kolmogorov}\\
-      &= \frac{\partial}{\partial t}\int_{\mathbb{R}^d} \int_{\mathbb{R}^d} f(\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0) \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y}\tag{Fubini}\\
-      &= \int_{\mathbb{R}^d} \int_{\mathbb{R}^d} \frac{\partial}{\partial t}[f(\mathbf{y}) \rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0)] \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y} \tag{by the Leibniz Integral Rule since $f\rho \in C^2$}\\
-      &= \int_{\mathbb{R}^d}\int_{\mathbb{R}^d} \rho(\mathbf{y},s;\mathbf{X}(0),0) f(\mathbf{x}) \frac{\partial}{\partial t}\rho(\mathbf{x},t;\mathbf{y},s) \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{y}\label{eq:fp-proof-2}
-    \end{align}
-    since $f$ does not depend on $t$.
-
-    But then, since \eqref{eq:fp-proof-1} and \eqref{eq:fp-proof-2} are equal for any choice of $f \in C^2_0(\mathbb{R}^d)$, we have
-    \begin{align*}
-      \frac{\partial}{\partial t}\rho(\mathbf{x},t;\mathbf{y},s)
-      &= - \sum_{i=1}^d \frac{\partial}{\partial x_i}[a_i(t,\mathbf{x}))\rho(\mathbf{x},t;\mathbf{y},s)]\\
-        &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}[b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{y},s)],
-    \end{align*}
-    for all $\mathbf{y} \in \mathbb{R}^d$ such that $\rho(\mathbf{y},s;\mathbf{X}(0),0) \neq 0$, i.e. for all $\mathbf{y} \in \mathrm{supp}(\mathbf{X}(s))$, thus completing the proof.
-  \end{proof}
-\end{theorem}
-
 \section{Local Volatility Model}
+
+Dupire's work and the work in \textcite{pablo_amster_towards_2009} were made in a local volatility model, developed here. Since this section is not based on any reference as we only derive what we need to show Dupire's Equation (Theorem \ref{thm:dupire}) and its generalisation (Theorem \ref{thm:generalisation}), no references are given.
 
 We specialise the multi-asset Black-Scholes model developed before by restricting the risky assets to be It\^o diffusions, i.e.
 \begin{align*}
@@ -1590,14 +1608,10 @@ For the rest of this dissertation, we restrict ourselves to local volatility mod
 
 \section{Dupire's Equation}
 
-\tomcomment{Still work in progress from here} %%%%%%%%%%%%%
-\comment{ok.}
-%%%%%%%%%%%%%
-
 % Give a detailed derivation of the Dupire’s equation (equation starting with ∂C = on page 171 in [2]). ∂T
 % Use section 2 from [2] and the section ‘The continuous time theory’ from [3] as a source for the proof.
 
-In the case where $d=1$, i.e. there is one risky asset driven by a unique Wiener process, an interesting result was derived by \textcite{dupire_pricing_1994} for local volatility models making use of the fact that, in such models, the price of the risky asset is a Markov process.
+In the case where $d=1$, i.e. there is one risky asset driven by a unique Wiener process, an interesting result was derived by \textcite{dupire_pricing_1993} for local volatility models making use of the fact that, in such models, the price of the risky asset is a Markov process.
 
 Since we work in a single-asset specialisation of the local volatility model developed in the previous section, we simply write $S$ for the risky asset, with dynamics
 \begin{align*}
@@ -1607,6 +1621,8 @@ Since we work in a single-asset specialisation of the local volatility model dev
 We can view an option on $S$ as a basket option with a single weight of 1 so the results from previous sections still hold in this degenerate case.
 
 In this section, we fix $t \ge 0$ and let $C(T,K)$ denote the price at time $t$ of a European call option on the underlying $S$ with expiry time $T$ and strike price $K$.
+
+In \textcite{dupire_pricing_1993}, the asymptotic behaviour of $C(T,K)$ and its partial derivatives is only mentioned in passing. Here, we first show some results about said behaviour before moving to proving Dupire's Equation itself. Just like in the paper, we merely assume the asymptotic behaviour of $\frac{\partial}{\partial T} C(T,K)$ (see Assumption \ref{ass:dupire-asymptotic-dT}). The paper proves the equation in the absence of interest rates for simplicity. Here, we do take them into account.
 
 \begin{theorem}\label{thm:dupire-asymptotic}
   The function $K \mapsto C(T,K)$ vanishes almost surely at infinity, i.e.
@@ -1703,7 +1719,8 @@ Considering Theorem \ref{thm:dupire-asymptotic}, it seems reasonable to make the
   \end{align*}
 \end{assumption}
 
-\begin{theorem}[Dupire Equation]
+\begin{theorem}[Dupire Equation]\label{thm:dupire}
+  (\cite{dupire_pricing_1993}, Section 3)
   The function $C(T,K)$ satisfies the partial differential equation
   \begin{align*}
     \frac{\partial}{\partial T}C(T,K) = \frac{1}{2} c(T,K)^2 \frac{\partial^2}{\partial K^2} C(T,K) - r(T) K \frac{\partial}{\partial K}C(T,K).
@@ -1783,17 +1800,26 @@ Considering Theorem \ref{thm:dupire-asymptotic}, it seems reasonable to make the
 
 % Provide the setup and give a detailed proof of Theorem 1 from [2]. This should be based on section 3 from [2]
 
-FIXME: Show that a similar approach than in the previous section doesn't lead anywhere.
+% FIXME: Show that a similar approach than in the previous section doesn't lead anywhere.
 
 Since, contrary to Dupire's Equation in the single-asset case, the partial differential equation that is satisfies by the prices of European basket call options will turn out to involve partial derivatives with respect to the expiry time $T$ and to the weights $w_i, i=1,\ldots,d$, we fix $t$ and $K$ and denote by $C(T,\mathbf{w})$ the price at time $t$ of a European basket call option with expiry time $T$, strike price $K$ and weights $\mathbf{w}$.
 
 We make yet another major restriction to the model, making the volatility coefficients depend on time only. As such, we write $c_{ij}(t)$ for $i,j=1,\ldots,d$ instead of $c_{ij}(t,\mathbf{S}(t))$.
 
-Similary to the proof of Dupire's equation, we will want to be able to express the integral without the positive part to make it differentiable. However, we have
+\begin{theorem}\label{thm:generalisation}
+  (\cite{pablo_amster_towards_2009}, Theorem 1)
+  In a local volatility model with time-dependent only volatility coefficients, the function $C(T,\mathbf{w})$ satisfies the partial differential equation
+  \begin{align*}
+      \sum_{i=1}^{d} &r(T) w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
+      &= \frac{\partial}{\partial T} C(T,\mathbf{w}) - \frac{1}{2} \sum_{i,j,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w}).
+  \end{align*}
+\end{theorem}
+
+Before proving the theorem, we introduce a useful lemma. Similary to the proof of Dupire's equation, we will want to be able to express the integral without the positive part to make it differentiable. However, we have
 \begin{align}\label{eq:generalisation-int-over-V}
   C(T,\mathbf{w}) = e^{-\int_t^T r(s) \mathrm{d}s} \int_V (\mathbf{w}^T\mathbf{x} - K) \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},
 \end{align}
-where $V = \{ \mathbf{x} \in \mathbb{R}^d : \mathbf{w}^T \mathbf{x} \ge K \}$ and the space $V$ depends on the weights, thus constituting a difficulty when calculating partial derivatives such as $\frac{\partial}{\partial w_i}C(T,\mathbf{w})$. Instead, we can circumvent this difficulty with a change of variable.
+where $V = \{ \mathbf{x} \in \mathbb{R}^d : \mathbf{w}^T \mathbf{x} \ge K \}$ and the space $V$ depends on the weights, thus constituting a difficulty when calculating partial derivatives such as $\frac{\partial}{\partial w_i}C(T,\mathbf{w})$. Instead, we can circumvent this difficulty with a change of variable. In the paper, this is embedded in the proof of the theorem but we prove it in greater details here as a separate lemma for clarity.
 
 \begin{lemma}\label{lem:generalisation-var-change}
   Let $B = \mathbf{w}^T \mathbf{x}$ and $\mathbf{Q} = (Q_1,\ldots,Q_{d-1})$ with
@@ -1869,234 +1895,228 @@ where $V = \{ \mathbf{x} \in \mathbb{R}^d : \mathbf{w}^T \mathbf{x} \ge K \}$ an
   \end{proof}
 \end{lemma}
 
-\begin{theorem}
-  In a local volatility model with time-dependent only volatility coefficients, the function $C(T,\mathbf{w})$ satisfies the partial differential equation
+We now prove the theorem in much greater details than in the paper but following the same structure.
+
+\begin{proof}[Proof of Theorem \ref{thm:generalisation}]
+  We begin by calculating the partial derivatives of $C(T,\mathbf{w})$ with respect to $w_i$ for some $i=1,\ldots,d$ and with respect to $T$ using the result from Lemma \ref{lem:generalisation-var-change}. For $i=1,\ldots,d$, we have
   \begin{align*}
-      \sum_{i=1}^{d} &r(T) w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
-      &= \frac{\partial}{\partial T} C(T,\mathbf{w}) - \frac{1}{2} \sum_{i,j,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w}).
+    &\frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
+    &= \frac{\partial}{\partial w_i} \left(e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty \int_A \left(B - K\right) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \mathrm{d}\mathbf{Q} \mathrm{d}B\right)\\
+    &= e^{-\int_t^T r(s) \mathrm{d}s}\int_K^\infty \int_A \left(B - K\right) \frac{\partial}{\partial w_i} \left(\rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d}\right) \mathrm{d}\mathbf{Q} \mathrm{d}B,
+  \end{align*}
+  by repeated use of the Leibniz integral rule since
+  \begin{align*}
+    \int_K^\infty \int_A & f(\mathbf{Q},B) \mathrm{d}\mathbf{Q} \mathrm{d}B \\
+    &= \int_K^\infty \int_0^1 \int_{Q_1}^1 \cdots \int_{Q_1 + \cdots + Q_{d-2}}^1 f(\mathbf{Q},B) \mathrm{d}Q_{d-1} \cdots \mathrm{d}Q_2 \mathrm{d}Q_1 \mathrm{d}B,
+  \end{align*}
+  for all integrable $f$. In this context, $\mathbf{Q}$ is quantified over by the integral rather than being defined as in \eqref{eq:generalisation-var-change-Q} so it does not depend on $\mathbf{w}$ and
+  \begin{align*}
+    \frac{\partial}{\partial w_i} x_i(\mathbf{Q},B)
+    &= \frac{\partial}{\partial w_i} \frac{Q_i B}{w_i}
+    = \frac{- Q_i B}{w_i^2}, \text{ for } i=1,\ldots,d-1,\\
+    \frac{\partial}{\partial w_d} x_d(\mathbf{Q},B)
+    &= \frac{\partial}{\partial w_d} \frac{(1 - \sum_{i=1}^{d-1} Q_i) B}{w_d}
+    = \frac{\partial}{\partial w_d} \frac{Q_d B}{w_d}
+    = \frac{- Q_d B}{w_d^2},
+  \end{align*}
+  where we take $Q_d = 1 - \sum_{i=1}^{d-1} Q_i$. Thus,
+  \begin{align*}
+    &\frac{\partial}{\partial w_i} \left(\rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d}\right)\\
+    &= \frac{\partial}{\partial w_i} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d}
+      + \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{\partial}{\partial w_i} \frac{B^{d-1}}{w_1 \cdots w_d}\\
+    &= \frac{\partial}{\partial x_i} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{\partial}{\partial w_i} x_i(\mathbf{Q},B) \frac{B^{d-1}}{w_1 \cdots w_d}\\
+      &\ \ \ \ \ + \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{\partial}{\partial w_i} \frac{B^{d-1}}{w_1 \cdots w_d} \\
+    &= \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{-Q_i B}{w_i^2} \frac{B^{d-1}}{w_1 \cdots w_d}
+      + \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{-1}{w_i} \frac{B^{d-1}}{w_1 \cdots w_d}\\
+    &= -\frac{1}{w_i} \left(\frac{\partial}{\partial x_i} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{Q_i B}{w_i}
+      + \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\right) \frac{B^{d-1}}{w_1 \cdots w_d}.
+  \end{align*}
+  Hence,
+  \begin{align}
+    &\frac{\partial}{\partial w_i} C(T,\mathbf{w})\notag\\
+    &= - \frac{1}{w_i}e^{-\int_t^T r(s) \mathrm{d}s}\int_K^\infty \int_A \left(B - K\right) \frac{B^{d-1}}{w_1 \cdots w_d}\notag\\
+      &\ \ \ \ \ \left(x_i(\mathbf{Q},B)\frac{\partial}{\partial x_i} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) + \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\right) \mathrm{d}\mathbf{Q} \mathrm{d}B.\notag\\
+    &= - \frac{1}{w_i}e^{-\int_t^T r(s) \mathrm{d}s}\notag\\
+    &\ \ \ \ \ \ \ \ \int_K^\infty \int_A \left(B - K\right) \frac{B^{d-1}}{w_1 \cdots w_d}
+        \frac{\partial}{\partial x_i}\left[x_i(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \right] \mathrm{d}\mathbf{Q} \mathrm{d}B.\label{eq:generalisation-dC-dw}
+  \end{align}
+
+  As in the proof of Dupire's Equation, we make use of the Fokker-Planck Equation (Theorem \ref{thm:fokker-planck}). For all $\mathbf{x} \in \mathrm{Im}(\mathbf{S}(T))$, we have
+  \begin{align}
+    &\sum_{i=1}^d \frac{\partial}{\partial x_i}[r(T) x_i \rho(\mathbf{x},T;\mathbf{S}(t),t)]\notag\\
+      &= \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}[c_{ij}(T) x_i(T) c_{lj}(T) x_l(T) \rho(\mathbf{x},T;\mathbf{S}(t),t)]
+        -\frac{\partial}{\partial T}\rho(\mathbf{x},T;\mathbf{S}(t),t).\label{eq:generalisation-fokker-planck}
+  \end{align}
+  Note that this equation holds almost surely since it holds if we substitute $\mathbf{S}(t)$ for any $\mathbf{y} \in \mathrm{supp}(\mathbf{S}(t))$.
+
+  But then, by \eqref{eq:generalisation-dC-dw},
+  \begin{align*}
+    \sum_{i=1}^{d} &r(T) e^{\int_t^T r(s) \mathrm{d}s} w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
+    &= - \sum_{i=1}^{d} \int_K^\infty \int_A \left(B - K\right) \frac{B^{d-1}}{w_1 \cdots w_d}\\
+        &\ \ \ \ \ \ \ \ \ \ \ \ \  r(T)\frac{\partial}{\partial x_i}\left[x_i(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \right] \mathrm{d}\mathbf{Q} \\
+    &= - \int_K^\infty \int_A \left(B - K\right) \frac{B^{d-1}}{w_1 \cdots w_d}\\
+        &\ \ \ \ \ \ \ \ \ \ \ \ \ \sum_{i=1}^{d} \left( r(T)\frac{\partial}{\partial x_i}\left[x_i(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \right] \right) \mathrm{d}\mathbf{Q} \mathrm{d}B,
+  \end{align*}
+  and therefore, by \eqref{eq:generalisation-fokker-planck},
+  \begin{align}
+    \sum_{i=1}^{d} &r(T) e^{\int_t^T r(s) \mathrm{d}s} w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\notag\\
+    &= \int_K^\infty \int_A \left(B - K\right) \frac{B^{d-1}}{w_1 \cdots w_d}
+      \left( \frac{\partial}{\partial T}\rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\right.\notag\\
+      &\ \ \ \ \ \ \ - \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T) x_i(\mathbf{Q},B) \notag\\
+      &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c_{lj}(T) x_l(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\big] \Bigg) \mathrm{d}\mathbf{Q} \mathrm{d}B. \label{eq:generalisation-one-deriv}
+  \end{align}
+
+  Next, we calculate the partial derivative of call prices with respect to expiry time. Using Lemma \ref{lem:generalisation-var-change} once again, we have
+  \begin{align*}
+    \frac{\partial}{\partial T} &C(T,\mathbf{w})\\
+    &= e^{-\int_t^T r(s) \mathrm{d}s} \frac{\partial}{\partial T}\int_K^\infty \int_A \left(B - K\right) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \mathrm{d}\mathbf{Q} \mathrm{d}B\\
+    &= e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty \int_A \left(B - K\right) \frac{\partial}{\partial T}\rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \mathrm{d}\mathbf{Q} \mathrm{d}B,
+  \end{align*}
+  by repeated use of the Leibniz integral rule. But then
+  \begin{align*}
+    e^{\int_t^T r(s) \mathrm{d}s} &\frac{\partial}{\partial T} C(T,\mathbf{w})\\
+    &= \int_K^\infty \int_A \left(B - K\right) \frac{\partial}{\partial T}\rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \mathrm{d}\mathbf{Q} \mathrm{d}B,
+  \end{align*}
+  so, substituting in \eqref{eq:generalisation-one-deriv}, we obtain
+  \begin{align*}
+    \sum_{i=1}^{d} &r(T) e^{\int_t^T r(s) \mathrm{d}s} w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\notag\\
+    &= e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial}{\partial T} C(T,\mathbf{w}) - \int_K^\infty \int_A \left(B - K\right) \frac{B^{d-1}}{w_1 \cdots w_d}\notag\\
+      &\ \ \ \ \ \ \ \Bigg( \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T) x_i(\mathbf{Q},B) \notag\\
+      &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c_{lj}(T) x_l(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\big] \Bigg) \mathrm{d}\mathbf{Q} \mathrm{d}B.
+  \end{align*}
+  Applying Lemma \ref{lem:generalisation-var-change} the other way around, we obtain
+  \begin{align}
+    \sum_{i=1}^{d} &r(T) e^{\int_t^T r(s) \mathrm{d}s} w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\notag\\
+    &= e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial}{\partial T} C(T,\mathbf{w}) - \frac{1}{2} \sum_{j=1}^{d} \int_V \left(\mathbf{w}^T \mathbf{x} - K\right) \notag\\
+      &\ \ \ \ \ \ \ \Bigg( \sum_{i,l=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big] \Bigg) \mathrm{d}\mathbf{x}. \label{eq:generalisation-two-derivs}
+  \end{align}
+
+  For any $j = 1,\ldots,d$, we are now concerned with the integral
+  \begin{align*}
+    I_j \coloneq \int_V \left(\mathbf{w}^T \mathbf{x} - K\right) \left( \sum_{i,l=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big] \right) \mathrm{d}\mathbf{x}.
   \end{align*}
 
-  \begin{proof}
-    We begin by calculating the partial derivatives of $C(T,\mathbf{w})$ with respect to $w_i$ for some $i=1,\ldots,d$ and with respect to $T$ using the result from Lemma \ref{lem:generalisation-var-change}. For $i=1,\ldots,d$, we have
-    \begin{align*}
-      &\frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
-      &= \frac{\partial}{\partial w_i} \left(e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty \int_A \left(B - K\right) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \mathrm{d}\mathbf{Q} \mathrm{d}B\right)\\
-      &= e^{-\int_t^T r(s) \mathrm{d}s}\int_K^\infty \int_A \left(B - K\right) \frac{\partial}{\partial w_i} \left(\rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d}\right) \mathrm{d}\mathbf{Q} \mathrm{d}B,
-    \end{align*}
-    by repeated use of the Leibniz integral rule since
-    \begin{align*}
-      \int_K^\infty \int_A & f(\mathbf{Q},B) \mathrm{d}\mathbf{Q} \mathrm{d}B \\
-      &= \int_K^\infty \int_0^1 \int_{Q_1}^1 \cdots \int_{Q_1 + \cdots + Q_{d-2}}^1 f(\mathbf{Q},B) \mathrm{d}Q_{d-1} \cdots \mathrm{d}Q_2 \mathrm{d}Q_1 \mathrm{d}B,
-    \end{align*}
-    for all integrable $f$. In this context, $\mathbf{Q}$ is quantified over by the integral rather than being defined as in \eqref{eq:generalisation-var-change-Q} so it does not depend on $\mathbf{w}$ and
-    \begin{align*}
-      \frac{\partial}{\partial w_i} x_i(\mathbf{Q},B)
-      &= \frac{\partial}{\partial w_i} \frac{Q_i B}{w_i}
-      = \frac{- Q_i B}{w_i^2}, \text{ for } i=1,\ldots,d-1,\\
-      \frac{\partial}{\partial w_d} x_d(\mathbf{Q},B)
-      &= \frac{\partial}{\partial w_d} \frac{(1 - \sum_{i=1}^{d-1} Q_i) B}{w_d}
-      = \frac{\partial}{\partial w_d} \frac{Q_d B}{w_d}
-      = \frac{- Q_d B}{w_d^2},
-    \end{align*}
-    where we take $Q_d = 1 - \sum_{i=1}^{d-1} Q_i$. Thus,
-    \begin{align*}
-      &\frac{\partial}{\partial w_i} \left(\rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d}\right)\\
-      &= \frac{\partial}{\partial w_i} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d}
-        + \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{\partial}{\partial w_i} \frac{B^{d-1}}{w_1 \cdots w_d}\\
-      &= \frac{\partial}{\partial x_i} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{\partial}{\partial w_i} x_i(\mathbf{Q},B) \frac{B^{d-1}}{w_1 \cdots w_d}\\
-        &\ \ \ \ \ + \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{\partial}{\partial w_i} \frac{B^{d-1}}{w_1 \cdots w_d} \\
-      &= \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{-Q_i B}{w_i^2} \frac{B^{d-1}}{w_1 \cdots w_d}
-        + \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{-1}{w_i} \frac{B^{d-1}}{w_1 \cdots w_d}\\
-      &= -\frac{1}{w_i} \left(\frac{\partial}{\partial x_i} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{Q_i B}{w_i}
-        + \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\right) \frac{B^{d-1}}{w_1 \cdots w_d}.
-    \end{align*}
-    Hence,
-    \begin{align}
-      &\frac{\partial}{\partial w_i} C(T,\mathbf{w})\notag\\
-      &= - \frac{1}{w_i}e^{-\int_t^T r(s) \mathrm{d}s}\int_K^\infty \int_A \left(B - K\right) \frac{B^{d-1}}{w_1 \cdots w_d}\notag\\
-        &\ \ \ \ \ \left(x_i(\mathbf{Q},B)\frac{\partial}{\partial x_i} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) + \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\right) \mathrm{d}\mathbf{Q} \mathrm{d}B.\notag\\
-      &= - \frac{1}{w_i}e^{-\int_t^T r(s) \mathrm{d}s}\notag\\
-      &\ \ \ \ \ \ \ \ \int_K^\infty \int_A \left(B - K\right) \frac{B^{d-1}}{w_1 \cdots w_d}
-         \frac{\partial}{\partial x_i}\left[x_i(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \right] \mathrm{d}\mathbf{Q} \mathrm{d}B.\label{eq:generalisation-dC-dw}
-    \end{align}
+  Let $\mathbf{F} = (F_1,\ldots,F_d)$ be the vector field such that
+  \begin{align*}
+    F_l(\mathbf{x}) = \frac{\partial}{\partial x_i} \big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big],
+  \end{align*}
+  for $l=1,\ldots,d$, whose divergence is
+  \begin{align*}
+    \nabla \cdot \mathbf{F} = \sum_{l=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big],
+  \end{align*}
+  so that
+  \begin{align*}
+    I_j = \sum_{i=1}^{d} \int_V \left(\mathbf{w}^T \mathbf{x} - K\right) (\nabla \cdot \mathbf{F})(\mathbf{x}) \mathrm{d}\mathbf{x}.
+  \end{align*}
+  Since
+  \begin{align*}
+    \nabla \cdot ((\mathbf{w}^T \mathbf{x} - K) \mathbf{F}
+    &= \nabla (\mathbf{w}^T \mathbf{x} - K) \cdot \mathbf{F} + (\mathbf{w}^T \mathbf{x} - K) (\nabla \cdot \mathbf{F})\\
+    &= \mathbf{w} \cdot \mathbf{F} + (\mathbf{w}^T \mathbf{x} - K) (\nabla \cdot \mathbf{F}),
+  \end{align*}
+  then
+  \begin{align*}
+    I_j = \sum_{i=1}^{d} \left[\int_V \nabla \cdot \left(\left(\mathbf{w}^T \mathbf{x} - K\right) \mathbf{F}(\mathbf{x})\right) \mathrm{d}\mathbf{x} - \int_V \mathbf{w}^T \mathbf{F}(\mathbf{x}) \mathrm{d}\mathbf{x} \right].
+  \end{align*}
+  Let $S$ be the boundary of $V$. Hence,
+  \begin{align*}
+    S = \{\mathbf{x} : \mathbf{w}^T \mathbf{x} = K\},
+  \end{align*}
+  so, by the Divergence Theorem, we have
+  \begin{align*}
+    I_j &= \sum_{i=1}^{d} \left[\int_S \left(\mathbf{w}^T \mathbf{x} - K\right) \mathbf{F}(\mathbf{x}) \cdot \mathrm{d}\mathbf{x} - \int_V \mathbf{w}^T \mathbf{F}(\mathbf{x}) \mathrm{d}\mathbf{x} \right]\\
+    &= - \sum_{i=1}^{d} \int_V \mathbf{w}^T \mathbf{F}(\mathbf{x}) \mathrm{d}\mathbf{x}\\
+    &= - \sum_{l=1}^{d} w_l \int_V \sum_{i=1}^d \frac{\partial}{\partial x_i} \big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big] \mathrm{d}\mathbf{x},
+  \end{align*}
+  since $(\mathbf{w}^T \mathbf{x} - K) = 0$ on $S$.
 
-    As in the proof of Dupire's Equation, we make use of the Fokker-Planck Equation (Theorem \ref{thm:fokker-planck}). For all $\mathbf{x} \in \mathrm{Im}(\mathbf{S}(T))$, we have
-    \begin{align}
-      &\sum_{i=1}^d \frac{\partial}{\partial x_i}[r(T) x_i \rho(\mathbf{x},T;\mathbf{S}(t),t)]\notag\\
-        &= \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}[c_{ij}(T) x_i(T) c_{lj}(T) x_l(T) \rho(\mathbf{x},T;\mathbf{S}(t),t)]
-         -\frac{\partial}{\partial T}\rho(\mathbf{x},T;\mathbf{S}(t),t).\label{eq:generalisation-fokker-planck}
-    \end{align}
-    Note that this equation holds almost surely since it holds if we substitute $\mathbf{S}(t)$ for any $\mathbf{y} \in \mathrm{supp}(\mathbf{S}(t))$.
+  Similarly, let $\mathbf{G} = (G_1,\ldots,G_d)$ be the vector field such that
+  \begin{align*}
+    G_i(\mathbf{x}) = c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t),
+  \end{align*}
+  for $i=1,\ldots,d$, so that
+  \begin{align*}
+    I_j
+    &= - \sum_{l=1}^{d} w_l \int_V \nabla \cdot \mathbf{G}(\mathbf{x}) \mathrm{d}\mathbf{x}
+    = - \sum_{l=1}^{d} w_l \int_S \mathbf{G}(\mathbf{x}) \cdot \mathrm{d}\mathbf{x},
+  \end{align*}
+  by the Divergence Theorem. Since $S$ is a level set of $\mathbf{x} \mapsto \mathbf{w}^T \mathbf{x}$, the gradient $\nabla (\mathbf{w}^T \mathbf{x}) = \mathbf{w}$ is perpendicular to the tangent plane of $S$ at any $\mathbf{x}$ and points in the direction of increasing values of $\mathbf{w}^T \mathbf{x}$, i.e. it points inside $V$. In other words, $- \frac{\mathbf{w}}{\|\mathbf{w}\|}$ is a normal vector of $S$ pointing outwards. Therefore,
+  \begin{align}
+    I_j
+    &= - \sum_{l=1}^{d} w_l \int_S \mathbf{G}(\mathbf{x}) \cdot \frac{-\mathbf{w}}{\|\mathbf{w}\|} \mathrm{d}\mathbf{x}\notag\\
+    &= \sum_{i,l=1}^{d} \frac{w_i w_l}{\|\mathbf{w}\|} c_{ij}(T) c_{lj}(T) \int_S x_i x_l \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},\label{eq:generalisation-Ij}
+  \end{align}
+  since the volatility coefficients do not depend on $\mathbf{x}$, thus justifying the restriction made in this section.
 
-    But then, by \eqref{eq:generalisation-dC-dw},
-    \begin{align*}
-      \sum_{i=1}^{d} &r(T) e^{\int_t^T r(s) \mathrm{d}s} w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
-      &= - \sum_{i=1}^{d} \int_K^\infty \int_A \left(B - K\right) \frac{B^{d-1}}{w_1 \cdots w_d}\\
-         &\ \ \ \ \ \ \ \ \ \ \ \ \  r(T)\frac{\partial}{\partial x_i}\left[x_i(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \right] \mathrm{d}\mathbf{Q} \\
-      &= - \int_K^\infty \int_A \left(B - K\right) \frac{B^{d-1}}{w_1 \cdots w_d}\\
-         &\ \ \ \ \ \ \ \ \ \ \ \ \ \sum_{i=1}^{d} \left( r(T)\frac{\partial}{\partial x_i}\left[x_i(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \right] \right) \mathrm{d}\mathbf{Q} \mathrm{d}B,
-    \end{align*}
-    and therefore, by \eqref{eq:generalisation-fokker-planck},
-    \begin{align}
-      \sum_{i=1}^{d} &r(T) e^{\int_t^T r(s) \mathrm{d}s} w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\notag\\
-      &= \int_K^\infty \int_A \left(B - K\right) \frac{B^{d-1}}{w_1 \cdots w_d}
-        \left( \frac{\partial}{\partial T}\rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\right.\notag\\
-        &\ \ \ \ \ \ \ - \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T) x_i(\mathbf{Q},B) \notag\\
-        &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c_{lj}(T) x_l(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\big] \Bigg) \mathrm{d}\mathbf{Q} \mathrm{d}B. \label{eq:generalisation-one-deriv}
-    \end{align}
+  Applying Lemma \ref{lem:generalisation-var-change} to \eqref{eq:generalisation-dC-dw}, we have
+  \begin{align*}
+    \frac{\partial}{\partial w_i} C(T,\mathbf{w})
+    &= - \frac{1}{w_i}e^{-\int_t^T r(s) \mathrm{d}s}
+    \int_V \left(\mathbf{w}^T \mathbf{x} - K\right) \frac{\partial}{\partial x_i}\left[x_i \rho(\mathbf{x},T;\mathbf{S}(t),t) \right] \mathrm{d}\mathbf{x},
+  \end{align*}
+  for $i=1,\ldots,d$. Hence, taking the vector field $\mathbf{H} = (0,\ldots,0,H_i,0,\ldots,0)$ with
+  \begin{align*}
+    H_i(\mathbf{x}) = x_i \rho(\mathbf{x},T;\mathbf{S}(t),t),
+  \end{align*}
+  we have
+  \begin{align*}
+    e^{\int_t^T r(s) \mathrm{d}s} &\frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
+    &= - \frac{1}{w_i} \left( \int_V \nabla \cdot ((\mathbf{w}^T \mathbf{x} - K) \mathbf{H}) \mathrm{d}\mathbf{x} - \int_V \nabla (\mathbf{w}^T \mathbf{x} - K) \cdot \mathbf{H}(\mathbf{x}) \mathrm{d}\mathbf{x} \right)\\
+    &= - \frac{1}{w_i} \left( \int_S (\mathbf{w}^T \mathbf{x} - K) \mathbf{H} \cdot \mathrm{d}\mathbf{x} - \int_V \mathbf{w}^T \mathbf{H}(\mathbf{x}) \mathrm{d}\mathbf{x} \right)\\
+    &= \frac{1}{w_i} \int_V \mathbf{w}^T \mathbf{H}(\mathbf{x}) \mathrm{d}\mathbf{x}
+    = \int_V x_i \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},
+  \end{align*}
+  by the Divergence Theorem since $(\mathbf{w}^T \mathbf{x} - K)$ vanishes on $S$. Differentiating with respect to $w_l$ for $l=1,\ldots,d$ and letting $\delta_{il} = 1$ if $i=l$, $\delta_{il} = 0$ otherwise, we thus have
+  \begin{align*}
+    e^{\int_t^T r(s) \mathrm{d}s} &\frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w})\\
+    &= \int_K^\infty \int_A \frac{\partial}{\partial w_l} \left(\frac{Q_i B}{w_i} \rho(\mathbf{x},T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \right) \mathrm{d}\mathbf{Q} \mathrm{d}B \tag{by Lemma \ref{lem:generalisation-var-change}}\\
+    &= \int_K^\infty \int_A \Bigg(
+      \delta_{il} \frac{- Q_i B}{w_i w_l} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d}\\
+      &\ \ \ \ \ \ \ \ \ + \frac{Q_i B}{w_i} \frac{\partial}{\partial x_l} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{- Q_l B}{w_l^2} \frac{B^{d-1}}{w_1 \cdots w_d}\\
+      &\ \ \ \ \ \ \ \ \ + \frac{Q_i B}{w_i} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{-1}{w_l} \frac{B^{d-1}}{w_1 \cdots w_d}
+    \Bigg) \mathrm{d}\mathbf{Q} \mathrm{d}B\\
+    &= -\frac{1}{w_l} \int_K^\infty \int_A \frac{B^{d-1}}{w_1 \cdots w_d} \Bigg(
+      (1 + \delta_{il}) \frac{Q_i B}{w_i} \rho(\mathbf{x},T;\mathbf{S}(t),t)\\
+      &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + \frac{Q_i B}{w_i} \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;\mathbf{S}(t),t) \frac{Q_l B}{w_l} \Bigg) \mathrm{d}\mathbf{Q} \mathrm{d}B\\
+    &= -\frac{1}{w_l} \int_V \left( (1 + \delta_{il}) x_i \rho(\mathbf{x},T;\mathbf{S}(t),t)
+      + x_i x_l \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;\mathbf{S}(t),t) \right) \mathrm{d}\mathbf{x}, \tag{by Lemma \ref{lem:generalisation-var-change}}
+  \end{align*}
+  but
+  \begin{align*}
+    \frac{\partial}{\partial x_l} \left(x_i x_l \rho(\mathbf{x},T;S(t),t)\right)
+    &= \frac{\partial x_i}{\partial x_l} x_l \rho(\mathbf{x},T;S(t),t)
+    + x_i \frac{\partial x_l}{\partial x_l} \rho(\mathbf{x},T;S(t),t)\\
+    &\ \ \ \ \ + x_i x_l \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;S(t),t)\\
+    &= \delta_{il} x_l \rho(\mathbf{x},T;S(t),t) + x_i \rho(\mathbf{x},T;S(t),t)\\
+    &\ \ \ \ \ + x_i x_l \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;S(t),t)\\
+    &= (1 + \delta_{il}) x_i \rho(\mathbf{x},T;S(t),t) + x_i x_l \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;S(t),t),
+  \end{align*}
+  so, taking the vector field $\mathbf{K} = (0,\ldots,0,K_l,0,\ldots,0)$ with
+  \begin{align*}
+    K_l &= x_i x_l \rho(\mathbf{x},T;S(t),t),
+  \end{align*}
+  we obtain
+  \begin{align*}
+    e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w})
+    &= -\frac{1}{w_l} \int_V \frac{\partial}{\partial x_l} \left(x_i x_l \rho(\mathbf{x},T;S(t),t)\right) \mathrm{d}\mathbf{x}\\
+    &= -\frac{1}{w_l} \int_V \nabla \cdot \mathbf{K} \mathrm{d}\mathbf{x}
+    = -\frac{1}{w_l} \int_S \mathbf{K} \cdot \mathrm{d}\mathbf{x}\\
+    &= -\frac{1}{w_l} \int_S \mathbf{K} \cdot \frac{-\mathbf{w}}{\|\mathbf{w}\|} \mathrm{d}\mathbf{x}\\
+    &= \frac{1}{\|\mathbf{w}\|} \int_S x_i x_l \rho(\mathbf{x},T;S(t),t) \mathrm{d}\mathbf{x},
+  \end{align*}
+  by the Divergence Theorem and since $\frac{-\mathbf{w}}{\|\mathbf{w}\|}$ is a normal vector of the surface $S$ of $V$ pointing outwards as before. Substituting in \eqref{eq:generalisation-Ij}, we obtain
+  \begin{align*}
+    I_j
+    &= e^{\int_t^T r(s) \mathrm{d}s} \sum_{i,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w}).
+  \end{align*}
 
-    Next, we calculate the partial derivative of call prices with respect to expiry time. Using Lemma \ref{lem:generalisation-var-change} once again, we have
-    \begin{align*}
-      \frac{\partial}{\partial T} &C(T,\mathbf{w})\\
-      &= e^{-\int_t^T r(s) \mathrm{d}s} \frac{\partial}{\partial T}\int_K^\infty \int_A \left(B - K\right) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \mathrm{d}\mathbf{Q} \mathrm{d}B\\
-      &= e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty \int_A \left(B - K\right) \frac{\partial}{\partial T}\rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \mathrm{d}\mathbf{Q} \mathrm{d}B,
-    \end{align*}
-    by repeated use of the Leibniz integral rule. But then
-    \begin{align*}
-      e^{\int_t^T r(s) \mathrm{d}s} &\frac{\partial}{\partial T} C(T,\mathbf{w})\\
-      &= \int_K^\infty \int_A \left(B - K\right) \frac{\partial}{\partial T}\rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \mathrm{d}\mathbf{Q} \mathrm{d}B,
-    \end{align*}
-    so, substituting in \eqref{eq:generalisation-one-deriv}, we obtain
-    \begin{align*}
-      \sum_{i=1}^{d} &r(T) e^{\int_t^T r(s) \mathrm{d}s} w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\notag\\
-      &= e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial}{\partial T} C(T,\mathbf{w}) - \int_K^\infty \int_A \left(B - K\right) \frac{B^{d-1}}{w_1 \cdots w_d}\notag\\
-        &\ \ \ \ \ \ \ \Bigg( \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T) x_i(\mathbf{Q},B) \notag\\
-        &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c_{lj}(T) x_l(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\big] \Bigg) \mathrm{d}\mathbf{Q} \mathrm{d}B.
-    \end{align*}
-    Applying Lemma \ref{lem:generalisation-var-change} the other way around, we obtain
-    \begin{align}
-      \sum_{i=1}^{d} &r(T) e^{\int_t^T r(s) \mathrm{d}s} w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\notag\\
-      &= e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial}{\partial T} C(T,\mathbf{w}) - \frac{1}{2} \sum_{j=1}^{d} \int_V \left(\mathbf{w}^T \mathbf{x} - K\right) \notag\\
-        &\ \ \ \ \ \ \ \Bigg( \sum_{i,l=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big] \Bigg) \mathrm{d}\mathbf{x}. \label{eq:generalisation-two-derivs}
-    \end{align}
-
-    For any $j = 1,\ldots,d$, we are now concerned with the integral
-    \begin{align*}
-      I_j \coloneq \int_V \left(\mathbf{w}^T \mathbf{x} - K\right) \left( \sum_{i,l=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big] \right) \mathrm{d}\mathbf{x}.
-    \end{align*}
-
-    Let $\mathbf{F} = (F_1,\ldots,F_d)$ be the vector field such that
-    \begin{align*}
-      F_l(\mathbf{x}) = \frac{\partial}{\partial x_i} \big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big],
-    \end{align*}
-    for $l=1,\ldots,d$, whose divergence is
-    \begin{align*}
-      \nabla \cdot \mathbf{F} = \sum_{l=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big],
-    \end{align*}
-    so that
-    \begin{align*}
-      I_j = \sum_{i=1}^{d} \int_V \left(\mathbf{w}^T \mathbf{x} - K\right) (\nabla \cdot \mathbf{F})(\mathbf{x}) \mathrm{d}\mathbf{x}.
-    \end{align*}
-    Since
-    \begin{align*}
-      \nabla \cdot ((\mathbf{w}^T \mathbf{x} - K) \mathbf{F}
-      &= \nabla (\mathbf{w}^T \mathbf{x} - K) \cdot \mathbf{F} + (\mathbf{w}^T \mathbf{x} - K) (\nabla \cdot \mathbf{F})\\
-      &= \mathbf{w} \cdot \mathbf{F} + (\mathbf{w}^T \mathbf{x} - K) (\nabla \cdot \mathbf{F}),
-    \end{align*}
-    then
-    \begin{align*}
-      I_j = \sum_{i=1}^{d} \left[\int_V \nabla \cdot \left(\left(\mathbf{w}^T \mathbf{x} - K\right) \mathbf{F}(\mathbf{x})\right) \mathrm{d}\mathbf{x} - \int_V \mathbf{w}^T \mathbf{F}(\mathbf{x}) \mathrm{d}\mathbf{x} \right].
-    \end{align*}
-    Let $S$ be the boundary of $V$. Hence,
-    \begin{align*}
-      S = \{\mathbf{x} : \mathbf{w}^T \mathbf{x} = K\},
-    \end{align*}
-    so, by the Divergence Theorem, we have
-    \begin{align*}
-      I_j &= \sum_{i=1}^{d} \left[\int_S \left(\mathbf{w}^T \mathbf{x} - K\right) \mathbf{F}(\mathbf{x}) \cdot \mathrm{d}\mathbf{x} - \int_V \mathbf{w}^T \mathbf{F}(\mathbf{x}) \mathrm{d}\mathbf{x} \right]\\
-      &= - \sum_{i=1}^{d} \int_V \mathbf{w}^T \mathbf{F}(\mathbf{x}) \mathrm{d}\mathbf{x}\\
-      &= - \sum_{l=1}^{d} w_l \int_V \sum_{i=1}^d \frac{\partial}{\partial x_i} \big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big] \mathrm{d}\mathbf{x},
-    \end{align*}
-    since $(\mathbf{w}^T \mathbf{x} - K) = 0$ on $S$.
-
-    Similarly, let $\mathbf{G} = (G_1,\ldots,G_d)$ be the vector field such that
-    \begin{align*}
-      G_i(\mathbf{x}) = c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t),
-    \end{align*}
-    for $i=1,\ldots,d$, so that
-    \begin{align*}
-      I_j
-      &= - \sum_{l=1}^{d} w_l \int_V \nabla \cdot \mathbf{G}(\mathbf{x}) \mathrm{d}\mathbf{x}
-      = - \sum_{l=1}^{d} w_l \int_S \mathbf{G}(\mathbf{x}) \cdot \mathrm{d}\mathbf{x},
-    \end{align*}
-    by the Divergence Theorem. Since $S$ is a level set of $\mathbf{x} \mapsto \mathbf{w}^T \mathbf{x}$, the gradient $\nabla (\mathbf{w}^T \mathbf{x}) = \mathbf{w}$ is perpendicular to the tangent plane of $S$ at any $\mathbf{x}$ and points in the direction of increasing values of $\mathbf{w}^T \mathbf{x}$, i.e. it points inside $V$. In other words, $- \frac{\mathbf{w}}{\|\mathbf{w}\|}$ is a normal vector of $S$ pointing outwards. Therefore,
-    \begin{align}
-      I_j
-      &= - \sum_{l=1}^{d} w_l \int_S \mathbf{G}(\mathbf{x}) \cdot \frac{-\mathbf{w}}{\|\mathbf{w}\|} \mathrm{d}\mathbf{x}\notag\\
-      &= \sum_{i,l=1}^{d} \frac{w_i w_l}{\|\mathbf{w}\|} c_{ij}(T) c_{lj}(T) \int_S x_i x_l \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},\label{eq:generalisation-Ij}
-    \end{align}
-    since the volatility coefficients do not depend on $\mathbf{x}$, thus justifying the restriction made in this section.
-
-    Applying Lemma \ref{lem:generalisation-var-change} to \eqref{eq:generalisation-dC-dw}, we have
-    \begin{align*}
-      \frac{\partial}{\partial w_i} C(T,\mathbf{w})
-      &= - \frac{1}{w_i}e^{-\int_t^T r(s) \mathrm{d}s}
-      \int_V \left(\mathbf{w}^T \mathbf{x} - K\right) \frac{\partial}{\partial x_i}\left[x_i \rho(\mathbf{x},T;\mathbf{S}(t),t) \right] \mathrm{d}\mathbf{x},
-    \end{align*}
-    for $i=1,\ldots,d$. Hence, taking the vector field $\mathbf{H} = (0,\ldots,0,H_i,0,\ldots,0)$ with
-    \begin{align*}
-      H_i(\mathbf{x}) = x_i \rho(\mathbf{x},T;\mathbf{S}(t),t),
-    \end{align*}
-    we have
-    \begin{align*}
-      e^{\int_t^T r(s) \mathrm{d}s} &\frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
-      &= - \frac{1}{w_i} \left( \int_V \nabla \cdot ((\mathbf{w}^T \mathbf{x} - K) \mathbf{H}) \mathrm{d}\mathbf{x} - \int_V \nabla (\mathbf{w}^T \mathbf{x} - K) \cdot \mathbf{H}(\mathbf{x}) \mathrm{d}\mathbf{x} \right)\\
-      &= - \frac{1}{w_i} \left( \int_S (\mathbf{w}^T \mathbf{x} - K) \mathbf{H} \cdot \mathrm{d}\mathbf{x} - \int_V \mathbf{w}^T \mathbf{H}(\mathbf{x}) \mathrm{d}\mathbf{x} \right)\\
-      &= \frac{1}{w_i} \int_V \mathbf{w}^T \mathbf{H}(\mathbf{x}) \mathrm{d}\mathbf{x}
-      = \int_V x_i \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},
-    \end{align*}
-    by the Divergence Theorem since $(\mathbf{w}^T \mathbf{x} - K)$ vanishes on $S$. Differentiating with respect to $w_l$ for $l=1,\ldots,d$ and letting $\delta_{il} = 1$ if $i=l$, $\delta_{il} = 0$ otherwise, we thus have
-    \begin{align*}
-      e^{\int_t^T r(s) \mathrm{d}s} &\frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w})\\
-      &= \int_K^\infty \int_A \frac{\partial}{\partial w_l} \left(\frac{Q_i B}{w_i} \rho(\mathbf{x},T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \right) \mathrm{d}\mathbf{Q} \mathrm{d}B \tag{by Lemma \ref{lem:generalisation-var-change}}\\
-      &= \int_K^\infty \int_A \Bigg(
-        \delta_{il} \frac{- Q_i B}{w_i w_l} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d}\\
-        &\ \ \ \ \ \ \ \ \ + \frac{Q_i B}{w_i} \frac{\partial}{\partial x_l} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{- Q_l B}{w_l^2} \frac{B^{d-1}}{w_1 \cdots w_d}\\
-        &\ \ \ \ \ \ \ \ \ + \frac{Q_i B}{w_i} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{-1}{w_l} \frac{B^{d-1}}{w_1 \cdots w_d}
-      \Bigg) \mathrm{d}\mathbf{Q} \mathrm{d}B\\
-      &= -\frac{1}{w_l} \int_K^\infty \int_A \frac{B^{d-1}}{w_1 \cdots w_d} \Bigg(
-        (1 + \delta_{il}) \frac{Q_i B}{w_i} \rho(\mathbf{x},T;\mathbf{S}(t),t)\\
-        &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + \frac{Q_i B}{w_i} \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;\mathbf{S}(t),t) \frac{Q_l B}{w_l} \Bigg) \mathrm{d}\mathbf{Q} \mathrm{d}B\\
-      &= -\frac{1}{w_l} \int_V \left( (1 + \delta_{il}) x_i \rho(\mathbf{x},T;\mathbf{S}(t),t)
-        + x_i x_l \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;\mathbf{S}(t),t) \right) \mathrm{d}\mathbf{x}, \tag{by Lemma \ref{lem:generalisation-var-change}}
-    \end{align*}
-    but
-    \begin{align*}
-      \frac{\partial}{\partial x_l} \left(x_i x_l \rho(\mathbf{x},T;S(t),t)\right)
-      &= \frac{\partial x_i}{\partial x_l} x_l \rho(\mathbf{x},T;S(t),t)
-      + x_i \frac{\partial x_l}{\partial x_l} \rho(\mathbf{x},T;S(t),t)\\
-      &\ \ \ \ \ + x_i x_l \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;S(t),t)\\
-      &= \delta_{il} x_l \rho(\mathbf{x},T;S(t),t) + x_i \rho(\mathbf{x},T;S(t),t)\\
-      &\ \ \ \ \ + x_i x_l \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;S(t),t)\\
-      &= (1 + \delta_{il}) x_i \rho(\mathbf{x},T;S(t),t) + x_i x_l \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;S(t),t),
-    \end{align*}
-    so, taking the vector field $\mathbf{K} = (0,\ldots,0,K_l,0,\ldots,0)$ with
-    \begin{align*}
-      K_l &= x_i x_l \rho(\mathbf{x},T;S(t),t),
-    \end{align*}
-    we obtain
-    \begin{align*}
-      e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w})
-      &= -\frac{1}{w_l} \int_V \frac{\partial}{\partial x_l} \left(x_i x_l \rho(\mathbf{x},T;S(t),t)\right) \mathrm{d}\mathbf{x}\\
-      &= -\frac{1}{w_l} \int_V \nabla \cdot \mathbf{K} \mathrm{d}\mathbf{x}
-      = -\frac{1}{w_l} \int_S \mathbf{K} \cdot \mathrm{d}\mathbf{x}\\
-      &= -\frac{1}{w_l} \int_S \mathbf{K} \cdot \frac{-\mathbf{w}}{\|\mathbf{w}\|} \mathrm{d}\mathbf{x}\\
-      &= \frac{1}{\|\mathbf{w}\|} \int_S x_i x_l \rho(\mathbf{x},T;S(t),t) \mathrm{d}\mathbf{x},
-    \end{align*}
-    by the Divergence Theorem and since $\frac{-\mathbf{w}}{\|\mathbf{w}\|}$ is a normal vector of the surface $S$ of $V$ pointing outwards as before. Substituting in \eqref{eq:generalisation-Ij}, we obtain
-    \begin{align*}
-      I_j
-      &= e^{\int_t^T r(s) \mathrm{d}s} \sum_{i,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w}).
-    \end{align*}
-
-    Finally, substituting $I_j$ in \eqref{eq:generalisation-two-derivs} and dividing both sides by $e^{\int_t^T r(s) \mathrm{d}s}$, we have
-    \begin{align*}
-      \sum_{i=1}^{d} &r(T) w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
-      &= \frac{\partial}{\partial T} C(T,\mathbf{w}) - \frac{1}{2} \sum_{i,j,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w}),
-    \end{align*}
-    as required.
-  \end{proof}
-\end{theorem}
+  Finally, substituting $I_j$ in \eqref{eq:generalisation-two-derivs} and dividing both sides by $e^{\int_t^T r(s) \mathrm{d}s}$, we have
+  \begin{align*}
+    \sum_{i=1}^{d} &r(T) w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
+    &= \frac{\partial}{\partial T} C(T,\mathbf{w}) - \frac{1}{2} \sum_{i,j,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w}),
+  \end{align*}
+  as required.
+\end{proof}
 
 \subsection{Numerical Example}
 
