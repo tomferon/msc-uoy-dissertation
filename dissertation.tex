@@ -1104,7 +1104,7 @@ for all $t \in [0,T]$. In particular at time 0, since $\mathcal{F}^\mathbf{W}_0$
   \end{align*}
 \end{definition}
 
-\begin{theorem}[Put-call parity]
+\begin{theorem}[Put-Call Parity]\label{thm:put-call-parity}
   (\cite{capinski_blackscholes_2012}, Theorem 3.16)
   Let $C(t)$ and $P(t)$ be the price processes of European call and put options respectively with expiry time $T$, strike prike $K$, and underlying $U$. Then
   \begin{align}\label{eq:put-call-parity}
@@ -1771,8 +1771,9 @@ We make yet another major restriction to the model, making the volatility coeffi
   (\cite{pablo_amster_towards_2009}, Theorem 1)
   In a local volatility model with time-dependent only volatility coefficients, the function $C(T,\mathbf{w})$ satisfies the partial differential equation
   \begin{align*}
-      \sum_{i=1}^{d} &r(T) w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
-      &= \frac{\partial}{\partial T} C(T,\mathbf{w}) - \frac{1}{2} \sum_{i,j,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w}).
+      \frac{\partial}{\partial T} C(T,\mathbf{w})
+      &= \sum_{i=1}^{d} r(T) w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
+      &\ \ \ \ \ + \frac{1}{2} \sum_{i,j,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w}).
   \end{align*}
 \end{theorem}
 
@@ -2083,7 +2084,124 @@ We now prove the theorem in much greater details than in the paper but following
 
 % Give a numerical example of how Theorem 1 can be applied to recover aij. You can restrict to the simplest setting of a two dimensional Black-Scholes model.
 
-FIXME
+\tomcomment{Still work in progress}
+
+In order to show how the result from Theorem \ref{thm:generalisation} could be used in practice, we now present a scheme to approximate the price of a basket option using the finite difference method. For the sake of comparison, we also use Monte Carlo simulations to price the same basket options. No effort is made here to optimise these methods and any concern about errors or how fast they converge are very much out of scope. Implementations for both are provided in the accompanying C++ files.
+
+For both methods, we use the example of a European basket call option with expiry time $T$, strike price $K$ and weights $\mathbf{w}$, whose price at time 0 we want to approximate. Corresponding put options can be priced using Put-Call Parity (Theorem \ref{thm:put-call-parity}).
+
+\subsubsection{Finite Difference Method}
+
+By Taylor's Theorem, for any function $f : \mathbb{R} \to \mathbb{R}$ in $C^2$, we have
+\begin{align*}
+  f(x-h) &= f(x) - f'(x) h + o(h),
+\end{align*}
+for $x \in \mathbb{R}$ and $h > 0$, so
+\begin{align*}
+  f'(x) &= \frac{f(x) - f(x-h)}{h} + o(h).
+\end{align*}
+Similarly, since
+\begin{align*}
+  f(x+h) &= f(x) + f'(x) h + \frac{1}{2} f''(x) h^2 + o(h^2),\\
+  f(x-h) &= f(x) - f'(x) h + \frac{1}{2} f''(x) h^2 + o(h^2),
+\end{align*}
+then, by subtracting the second from the first and after a bit of algebra, we get
+\begin{align*}
+  f'(x) &= \frac{f(x+h) - f(x-h)}{2h} + o(h^2),
+\end{align*}
+and by adding them together, we get
+\begin{align*}
+  f''(x) &= \frac{f(x+h) - 2f(x) + f(x-h)}{h^2} + o(h^2).
+\end{align*}
+
+Finally, for any function $f : \mathbb{R}^2 \to \mathbb{R}$ in $C^2$, we have
+\begin{align*}
+  f(x+h_x, y+h_y)
+  &= f(x,y) + \frac{\partial}{\partial x} f(x,y) h_x + \frac{\partial}{\partial y} f(x,y) h_y\\
+  &\ \ \ + \frac{1}{2} \frac{\partial^2}{\partial x^2} f(x,y) h_x^2 + \frac{\partial^2}{\partial x \partial y} f(x,y) h_x h_y + \frac{1}{2} \frac{\partial^2}{\partial y^2} f(x,y) h_y^2\\
+  &\ \ \ + o(h_x^2 + h_y^2),
+\end{align*}
+for $x,y \in \mathbb{R}$ and $h_x, h_y > 0$, by Taylor's Theorem and using the fact that $\frac{\partial^2 f}{\partial x \partial y} = \frac{\partial^2 f}{\partial y \partial x}$ by Schwarz's Theorem . Hence,
+\begin{align*}
+  \frac{\partial^2}{\partial x \partial y} f(x,y)
+  &= \frac{f(x+h_x, y+h_y) - f(x,y)}{h_x h_y} - \frac{1}{h_y}\frac{\partial}{\partial x} f(x,y) - \frac{1}{h_x} \frac{\partial}{\partial y} f(x,y)\\
+  &\ \ \ - \frac{h_x}{2 h_y} \frac{\partial^2}{\partial x^2} f(x,y) - \frac{h_y}{2 h_x} \frac{\partial^2}{\partial y^2} f(x,y) + o(h_x^2 + h_y^2).
+\end{align*}
+After substituting partial derivatives on the RHS by the previous results, we obtain
+\begin{align*}
+  \frac{\partial^2}{\partial x \partial y} f(x,y)
+  &= \frac{1}{h_x h_y} \Bigg( f(x+h_x, y+h_y) - f(x,y)\\
+  &\ \ \ \ \ - \frac{1}{2} \left(f(x+h_x,y) - f(x-h_x,y)\right)\\
+  &\ \ \ \ \ - \frac{1}{2} \left(f(x,y+h_y) - f(x,y-h_y)\right)\\
+  &\ \ \ \ \ - \frac{1}{2} \left(f(x+h_x,y) - 2 f(x,y) + 2f(x-h_x,y)\right)\\
+  &\ \ \ \ \ - \frac{1}{2} \left(f(x,y+h_y) - 2 f(x,y) + 2f(x,y-h_y) \right) \Bigg) + o(h_x^2 + h_y^2).
+\end{align*}
+
+By Theorem \ref{thm:generalisation}, we have
+\begin{align*}
+  \frac{\partial}{\partial T} C(T,\mathbf{w})
+  &= \sum_{i=1}^{d} r(T) w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
+  &\ \ \ \ \ + \frac{1}{2} \sum_{i,j,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w}).
+\end{align*}
+Using the results established here, we can approximate the partial derivatives as
+\begin{align*}
+  \frac{\hat{C}(T,\mathbf{w}) - \hat{C}(T-h_T,\mathbf{w})}{h_T}
+  &= \sum_{i=1}^{d} r(T) w_i \hat{\theta}_i(T,\mathbf{w})
+    + \frac{1}{2} \sum_{i,j,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \hat{\phi}_{il}(T,\mathbf{w}).
+\end{align*}
+FIXME: Edges of the tree
+
+For some $n$, we can break the interval $[0,T]$ into subintervals of equal length $h_T = \frac{T}{n}$. Similarly, for all $i=1,\ldots,d$, we take $h_{w_i}$ such that
+\begin{align*}
+  FIXME
+\end{align*}
+for $i=1,\ldots,d$ and $h_T, h_{w_i}$.
+
+
+\subsubsection{Monte Carlo Method}
+
+From \eqref{eq:bs-discounted-stock-price}, we get
+\begin{align*}
+  s_i = \ln \frac{\widetilde{S_i}(T)}{S_i(0)} = - \frac{1}{2} \sum_{j=1}^{d} \int_0^T c_{ij}(t)^2 \mathrm{d}t + \sum_{j=1}^{d} \int_0^T c_{ij}(t) \mathrm{d}W^Q_j(t),
+\end{align*}
+for all $i=1,\ldots,d$. We let $\mathbf{s} = (s_1,\ldots,s_d)$.
+
+By breaking the interval $[0,T]$ into $n$ subintervals of equal length $h = \frac{T}{n}$, for all $i,j=1,\ldots,d$, we can approximate $s_i$ by
+\begin{align*}
+  \hat{s_i} &= - \frac{1}{2} \sum_{j=1}^{d} \sum_{k=1}^{n} c_{ij}(kh)^2 h + \sum_{j=1}^{d} \sum_{k=1}^{n}  c_{ij}(t) (W^Q_j((k+1)h) - W^Q_j(kh)).
+\end{align*}
+As $n \to \infty$, both sums over $k$ converge to the corresponding integral by definition of Riemann and It\^o integrals. Letting $\hat{\mathbf{s}} = (\hat{s}_1,\ldots,\hat{s}_d)$, note that we can write
+\begin{align*}
+  \hat{\mathbf{s}} &= \sum_{k=1}^{n} \left( - \frac{1}{2} \mathbf{C}(kh) \mathbf{C}(kh)^T h + \mathbf{C}(kh) \mathbf{\Delta}_k \right),
+\end{align*}
+where $\mathbf{\Delta}_k$ is the vector of increments of the Wiener processes. We can simulate realisations of $\mathbf{\Delta}_k$ since each of the increments of the Wiener processes (for each $k=1,\ldots,n$ and $j=1,\ldots,d$) follow a normal distribution with mean 0 and variance $h$, independent from one another.
+
+Similarly, we can approximate the discounting factor $e^{-\int_0^T r(s) \mathrm{d}s}$ by
+\begin{align*}
+  \hat{D} = \exp \left(-\sum_{k=1}^{n} r(kh) h\right).
+\end{align*}
+Note that, by definition of Riemann integrals, $\hat{D}$ converges to the discounting factor as $n \to \infty$.
+
+Therefore, by choosing a large enough $n$, we can compute a realisation of $\hat{\mathbf{s}}$ and therefore approximate a realisation of $\mathbf{S}(T)$ by
+\begin{align*}
+  \hat{S}_i(T) = \hat{D}^{-1} S_i(0) \exp\left(\hat{s_i}\right),
+\end{align*}
+for all $i=1,\ldots,d$. We can then approximate a realisation of the discounted payoff
+\begin{align}\label{eq:monte-carlo-discounted-payoff}
+  e^{-\int_0^T r(s) \mathrm{d}s} (\mathbf{w}^T \mathbf{S}(T) - K)^+
+\end{align}
+by
+\begin{align*}
+  \hat{D} (\mathbf{w}^T \hat{\mathbf{S}}(T) - K)^+.
+\end{align*}
+
+Sampling a large enough amount $m$ of simulations, we can approximate the $Q$-expectation of \eqref{eq:monte-carlo-discounted-payoff} by taking the sample average since the sample average converges to the expectation by the Law of Large Numbers. That is, we can approximate the price of the basket option $C(T,\mathbf{w})$ by
+\begin{align*}
+  \hat{C}(T,\mathbf{w}) = \hat{D} \frac{1}{m} \sum_{l=1}^{m} (\mathbf{w}^T \hat{\mathbf{S}}_l(T) - K)^+,
+\end{align*}
+where $\hat{\mathbf{S}}_l$ denotes the $l$-th simulation as described above.
+
+This method is implemented in \path{src/monte_carlo.h}.
 
 %%%%%%%%%%%%%
 \comment{we should fix the bibliography items so that they do not stick out onto the margin.}
