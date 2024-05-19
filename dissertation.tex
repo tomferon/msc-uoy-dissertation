@@ -2084,13 +2084,13 @@ We now prove the theorem in much greater details than in the paper but following
 
 % Give a numerical example of how Theorem 1 can be applied to recover aij. You can restrict to the simplest setting of a two dimensional Black-Scholes model.
 
-\tomcomment{Still work in progress}
-
 In order to show how the result from Theorem \ref{thm:generalisation} could be used in practice, we now present a scheme to approximate the price of a basket option using the finite difference method. For the sake of comparison, we also use Monte Carlo simulations to price the same basket options. No effort is made here to optimise these methods and any concern about errors or how fast they converge are very much out of scope. Implementations for both are provided in the accompanying C++ files.
 
 For both methods, we use the example of a European basket call option with expiry time $T$, strike price $K$ and weights $\mathbf{w}$, whose price at time 0 we want to approximate. Corresponding put options can be priced using Put-Call Parity (Theorem \ref{thm:put-call-parity}).
 
 \subsubsection{Finite Difference Method}
+
+\tomcomment{Still work in progress but the next section Monte Carlo Method should be done.}
 
 By Taylor's Theorem, for any function $f : \mathbb{R} \to \mathbb{R}$ in $C^2$, we have
 \begin{align*}
