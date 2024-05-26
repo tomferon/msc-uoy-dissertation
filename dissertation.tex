@@ -1168,7 +1168,7 @@ for all $t \in [0,T]$. In particular at time 0, since $\mathcal{F}^\mathbf{W}_0$
   \begin{align*}
     B_\mathbf{w}(t) = \sum_{i=1}^{d} w_i S_i(t) = \mathbf{w}^T \mathbf{S}(t)
   \end{align*}
-  with $\mathbf{w} = (w_1, \ldots, w_d)$, called the \textbf{weights}, such that $\sum_{i=1}^{d} w_i = 1$.
+  with $\mathbf{w} = (w_1, \ldots, w_d)$, called the \textbf{weights}, such that $w_i \ge 0, i=1,\ldots,d$.
 \end{definition}
 
 Note that this is well-defined since $U$ is clearly replicable by the constant strategy $(w_1, \ldots, w_d, 0)$.
@@ -2094,11 +2094,11 @@ For both methods, we use the example of a European basket call option with expir
 
 By Taylor's Theorem, for any function $f : \mathbb{R} \to \mathbb{R}$ in $C^2$, we have
 \begin{align*}
-  f(x-h) &= f(x) - f'(x) h + o(h),
+  f(x+h) &= f(x) + f'(x) h + o(h),
 \end{align*}
 for $x \in \mathbb{R}$ and $h > 0$, so
 \begin{align*}
-  f'(x) &= \frac{f(x) - f(x-h)}{h} + o(h).
+  f'(x) &= \frac{f(x+h) - f(x)}{h} + o(h).
 \end{align*}
 Similarly, since
 \begin{align*}
@@ -2129,12 +2129,13 @@ for $x,y \in \mathbb{R}$ and $h_x, h_y > 0$, by Taylor's Theorem and using the f
 \end{align*}
 After substituting partial derivatives on the RHS by the previous results, we obtain
 \begin{align*}
-  \frac{\partial^2}{\partial x \partial y} f(x,y)
+  &\frac{\partial^2}{\partial x \partial y} f(x,y)\\
   &= \frac{1}{h_x h_y} \Bigg( f(x+h_x, y+h_y) - f(x,y)\\
   &\ \ \ \ \ - \frac{1}{2} \left(f(x+h_x,y) - f(x-h_x,y)\right)\\
   &\ \ \ \ \ - \frac{1}{2} \left(f(x,y+h_y) - f(x,y-h_y)\right)\\
-  &\ \ \ \ \ - \frac{1}{2} \left(f(x+h_x,y) - 2 f(x,y) + 2f(x-h_x,y)\right)\\
-  &\ \ \ \ \ - \frac{1}{2} \left(f(x,y+h_y) - 2 f(x,y) + 2f(x,y-h_y) \right) \Bigg) + o(h_x^2 + h_y^2).
+  &\ \ \ \ \ - \frac{1}{2} \left(f(x+h_x,y) - 2 f(x,y) + f(x-h_x,y)\right)\\
+  &\ \ \ \ \ - \frac{1}{2} \left(f(x,y+h_y) - 2 f(x,y) + f(x,y-h_y) \right) \Bigg) + o(h_x^2 + h_y^2)\\
+  &= \frac{f(x+h_x, y+h_y) - f(x+h_x,y) - f(x,y+h_y) + f(x,y)}{h_x h_y} + o(h_x^2 + h_y^2).
 \end{align*}
 
 By Theorem \ref{thm:generalisation}, we have
@@ -2143,20 +2144,48 @@ By Theorem \ref{thm:generalisation}, we have
   &= \sum_{i=1}^{d} r(T) w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
   &\ \ \ \ \ + \frac{1}{2} \sum_{i,j,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w}).
 \end{align*}
-Using the results established here, we can approximate the partial derivatives as
+Using the results established here and assuming that we choose the steps $h_T, h_{w_i}$ for $i=1,\ldots,d$ to be small enough that the error is negligeable, we can approximate the partial derivatives as
+\begin{align}\label{eq:fd-implicit}
+  \frac{\hat{C}(T+h_T,\mathbf{w}) - \hat{C}(T,\mathbf{w})}{h_T}
+  &= \sum_{i=1}^{d} r(T) w_i \hat{\theta}_i(T,\mathbf{w})\notag\\
+    &\ \ \ \ \ + \frac{1}{2} \sum_{i,j,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \hat{\phi}_{il}(T,\mathbf{w}),
+\end{align}
+where
 \begin{align*}
-  \frac{\hat{C}(T,\mathbf{w}) - \hat{C}(T-h_T,\mathbf{w})}{h_T}
-  &= \sum_{i=1}^{d} r(T) w_i \hat{\theta}_i(T,\mathbf{w})
-    + \frac{1}{2} \sum_{i,j,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \hat{\phi}_{il}(T,\mathbf{w}).
+  \hat{\theta}_i(T,\mathbf{w})
+  &= \frac{\hat{C}(T,w_1,\ldots,w_i+h_{w_i},\ldots,w_d) - \hat{C}(T,w_1,\ldots,w_i-h_{w_i},\ldots,w_d)}{2h_{w_i}},
 \end{align*}
-FIXME: Edges of the tree
-
-For some $n$, we can break the interval $[0,T]$ into subintervals of equal length $h_T = \frac{T}{n}$. Similarly, for all $i=1,\ldots,d$, we take $h_{w_i}$ such that
+for $i=1,\ldots,d$, and
 \begin{align*}
-  FIXME
+  \hat{\phi}_{il}(T,\mathbf{w})
+  &= \frac{1}{h_{w_i} h_{w_l}} \Bigg( \hat{C}(T,w_1,\ldots,w_i+h_{w_i},\ldots,w_l+h_{w_l},\ldots,w_d)\\
+  &\ \ \ \ \ - \hat{C}(T,w_1,\ldots,w_i+h_{w_i},\ldots,w_d)\\
+  &\ \ \ \ \ - \hat{C}(T,w_1,\ldots,w_l+h_{w_l},\ldots,w_d) + \hat{C}(T,\mathbf{w}) \Bigg),
 \end{align*}
-for $i=1,\ldots,d$ and $h_T, h_{w_i}$.
+for $i,l=1,\ldots,d$. Making $\hat{C}(T+h_T, \mathbf{w})$ the subject of \eqref{eq:fd-implicit}, we have
+\begin{align}
+  \hat{C}&(T+h_T,\mathbf{w})\notag\\
+  &= \hat{C}(T,\mathbf{w}) + h_T \sum_{i=1}^{d} r(T) w_i \hat{\theta}_i(T,\mathbf{w})
+     + \frac{h_T}{2} \sum_{i,j,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \hat{\phi}_{il}(T,\mathbf{w})\notag\\
+  &= \hat{C}(T,\mathbf{w}) + h_T r(T) \sum_{i=1}^{d} w_i \hat{\theta}_i(T,\mathbf{w}) + \frac{h_T}{2} \sum_{i,l=1}^{d} w_i w_l \hat{\phi}_{il}(T,\mathbf{w}) \sum_{j=1}^d c_{ij}(T) c_{lj}(T)\notag\\
+  &= \hat{C}(T,\mathbf{w}) + h_T r(T) \sum_{i=1}^{d} w_i \hat{\theta}_i(T,\mathbf{w}) + h_T \sum_{i,l=1}^{d} w_i w_l \hat{\phi}_{il}(T,\mathbf{w}) A_{ij}(T),\label{eq:fd-chat-recur}
+\end{align}
+where $\mathbf{A}(T) = \frac{1}{2} C(T) C(T)^T$, thus giving us an explicit formula to compute the nodes at time $T+h_T$ given those at time $T$.
 
+Moreover, we take
+\begin{align}
+  \hat{C}(0, \mathbf{w})
+  &\coloneq C(0, \mathbf{w})\notag\\
+  &= e^{-\int_0^0 r(s) \mathrm{d}s} \mathbb{E}_Q((\mathbf{w}^T \mathbf{S}(0) - B)^+)
+  = (\mathbf{w}^T \mathbf{S}(0) - B)^+,\label{eq:fd-chat-base}
+\end{align}
+since $\mathbf{S}(0)$ is deterministic, thereby providing a base case for the recursive definition of $\hat{C}$.
+
+Therefore, we can approximate $C(T^*, \mathbf{w}^*)$ by computing $\hat{C}(T^*, \mathbf{w}^*)$ following the previous formulae by choosing $h_T = \frac{T^*}{n}$ for a large enough $n$ and small enough values of $h_{w_i}, i=1,\ldots,d$. We can visualise $\hat{C}(T^*, \mathbf{w}^*)$ and its transitive dependencies as a tree in the $(T,\mathbf{w})$ space, whose root is at $(T^*, \mathbf{w}^*)$ and leaves are at $(0,\mathbf{w})$ for $w_i = w_i^* - n h_{w_i}, \ldots, w_i^* + (n-1) h_{w_i}, w_i^* + n h_{w_i}$ for $i=1,\ldots,d$. In order to ensure that $w_i \ge 0$, we can choose to $h_{w_i} = \frac{w_i^*}{n+1}$ for $i=1,\ldots,d$, dividing by $n+1$ rather than $n$ to not have a node at $(0,\mathbf{0})$.
+
+Since C++ does not lend itself to recursion, we instead compute the values of the nodes at time 0 using \eqref{eq:fd-chat-base} and then loop over each subsequent time step $k h_T$ for $k=1,\ldots,n$ to compute the values $\hat{C}(k h_T, \mathbf{w})$ for each $\mathbf{w}$ using \eqref{eq:fd-chat-recur} and the values from the previous loop iteration. This process ends with computing the desired $\hat{C}(T^*, \mathbf{w}^*)$.
+
+This method is implemented in \path{src/pde.h}.
 
 \subsubsection{Monte Carlo Method}
 
@@ -2172,9 +2201,9 @@ By breaking the interval $[0,T]$ into $n$ subintervals of equal length $h = \fra
 \end{align*}
 As $n \to \infty$, both sums over $k$ converge to the corresponding integral by definition of Riemann and It\^o integrals. Letting $\hat{\mathbf{s}} = (\hat{s}_1,\ldots,\hat{s}_d)$, note that we can write
 \begin{align*}
-  \hat{\mathbf{s}} &= \sum_{k=1}^{n} \left( - \frac{1}{2} \mathbf{C}(kh) \mathbf{C}(kh)^T h + \mathbf{C}(kh) \mathbf{\Delta}_k \right),
+  \hat{\mathbf{s}} &= \sum_{k=1}^{n} \left( - \frac{1}{2} (\mathbf{C}(kh) * \mathbf{C}(kh)) [h\ h \cdots h]^T + \mathbf{C}(kh) \mathbf{\Delta}_k \right),
 \end{align*}
-where $\mathbf{\Delta}_k$ is the vector of increments of the Wiener processes. We can simulate realisations of $\mathbf{\Delta}_k$ since each of the increments of the Wiener processes (for each $k=1,\ldots,n$ and $j=1,\ldots,d$) follow a normal distribution with mean 0 and variance $h$, independent from one another.
+where $\mathbf{\Delta}_k$ is the vector of increments of the Wiener processes and $*$ denotes the entry-wise product of two matrices. We can simulate realisations of $\mathbf{\Delta}_k$ since each of the increments of the Wiener processes (for each $k=1,\ldots,n$ and $j=1,\ldots,d$) follow a normal distribution with mean 0 and variance $h$, independent from one another.
 
 Similarly, we can approximate the discounting factor $e^{-\int_0^T r(s) \mathrm{d}s}$ by
 \begin{align*}

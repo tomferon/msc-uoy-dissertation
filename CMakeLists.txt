@@ -15,5 +15,9 @@ if(CMAKE_EXPORT_COMPILE_COMMANDS)
 endif()
 
 find_package(Boost 1.85.0)
+find_package(OpenMP)
 
 add_executable(dissertation src/main.cpp src/model.h src/monte_carlo.h src/pde.h)
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(dissertation PUBLIC OpenMP::OpenMP_CXX)
+endif()

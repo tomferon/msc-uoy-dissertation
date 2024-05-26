@@ -8,6 +8,7 @@ pkgs.clangStdenv.mkDerivation (rec {
     clang
     cmake
     cmake-language-server
+    llvmPackages.openmp
     texlive.combined.scheme-full
   ];
 })

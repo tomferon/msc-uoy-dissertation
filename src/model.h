@@ -16,7 +16,7 @@ using interest_rate = double(const double);
 template <int D>
 struct Model {
   ublas::c_vector<double, D> initial_prices; // S(0)
-  volatility_matrix<D>& volatility_matrix; // C(t)
+  volatility_matrix<D>& volatility; // C(t)
   interest_rate& riskfree_rate; // r(t)
 };
 
