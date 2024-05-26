@@ -173,7 +173,9 @@ where $\mathcal{F}_{Y}$ denotes the sub-$\sigma$-field of $\mathcal{F}$ generate
 \comment{citation to some source?}
 %%%%%%%%%%%%%
   Let $X, Y$ be stochastic processes. If there exists a Borel function $f : \mathbb{R} \times \mathbb{R}^d \to \mathbb{R}^d$ such that $\mathbf{x} \mapsto f(t,\mathbf{x})$ is a bijection and $Y(t) = f(t, X(t))$ for all $t \in [0,T]$, then $X$ and $Y$ generate the same filtration.
-
+%%%%%%%%%%%%%
+\comment{This result seems rather evident. I think that maybe we do not need to write this as a separate theorem. We could simply use this fact in the argument where it is needed.}
+%%%%%%%%%%%%%
   \begin{proof}
     It is enough to show that $\mathcal{F}_{X(t)} = \mathcal{F}_{Y(t)}$ for all $t \in [0,T]$ since the filtration is defined in terms of those $\sigma$-fields.
 
@@ -379,14 +381,14 @@ We call $\mathbf{a}$ the \textbf{drift} and $\mathbf{B}$ the \textbf{volatility}
 
 \begin{definition}
 %%%%%%%%%%%%%
-\comment{why is this a theorem? This sounds more like a definition.}
+%\comment{why is this a theorem? This sounds more like a definition.}
 %%%%%%%%%%%%%
   An It\^o process of the form \eqref{eq:sde-init-value} whose characteristics satisfy the conditions of Theorem \ref{thm:sde-solution}, is called an \textbf{It\^o diffusion}.
 \end{definition}
 
 \begin{lemma}\label{lem:ito-diffusion-characteristics-m2}
 %%%%%%%%%%%%%
-\comment{citation to a source?}
+%\comment{citation to a source?}
 %%%%%%%%%%%%%
   The characteristics of an It\^o diffusion $\mathbf{X}$ are in $\mathcal{M}^2$, i.e.
   \begin{align*}
@@ -526,7 +528,9 @@ We call $\mathbf{a}$ the \textbf{drift} and $\mathbf{B}$ the \textbf{volatility}
     \mathrm{supp}(X) = \{x : f(x) > 0\}.
   \end{align*}
 \end{definition}
-
+%%%%%%%%%%%%%
+\comment{in places the section is a bit dry, so we should remember to add comments here and there linking the definitions and results so that they constitute a `story'.}
+%%%%%%%%%%%%%
 \section{Multi-Asset Black-Scholes Model}
 
 In this section, we discuss a market model -- often referred to as the \textit{multi-asset Black-Scholes model with variable coefficients} -- consisting of one risk-free asset with price $A(t)$ satisfying
@@ -557,6 +561,9 @@ Some further assumptions are made by the model.
     S_i(t) &= S_i(0) \exp \left( \int_0^t \mu_i(s) \mathrm{d}s - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right),
   \end{align*}
   for all $i=1,\ldots,d$.
+  %%%%%%%%%%%%%
+\comment{if we are squeezed for space then maybe this proof can be skipped. This is a standard result so I am sure that a reference can be found. The same can be said for other results concerning the multidimensional BS model.}
+%%%%%%%%%%%%%
 
   \begin{proof}
     Let $i = 1,\ldots,d$. By the It\^o Formula (Theorem \ref{thm:ito-formula}) with $F(t,x) = \ln x$ so that $F_t(t,x) = 0, F_x(t,x) = \frac{1}{x}$ and $F_{xx} = \frac{-1}{x^2}$, we have
@@ -605,6 +612,8 @@ as required.
 }
 \tomcomment{I wanted to highlight the fact that this is just a special case of the risky assets. Maybe not worth it?}
 %%%%%%%%%%%%%
+\comment{Solving an ODE as an SDE looks a bit artificial.}
+%%%%%%%%%%%%%
 
     We can see \eqref{eq:multi-bs-eq-risk-free} as
     \begin{align*}
@@ -624,7 +633,7 @@ as required.
 \begin{definition}
   A \textbf{risk-neutral probability} is a probability measure $Q$ that is equivalent to $P$ and under which the discounted prices of all assets are martingales.
   %%%%%%%%%%%%%
-\comment{The assets are not martingales. We need to discount.}
+%\comment{The assets are not martingales. We need to discount.}
 %%%%%%%%%%%%%
 \end{definition}
 
@@ -742,7 +751,11 @@ The reference provided for the following lemma refers to a similar statement whe
 Consequently, we will always refer to the filtration $\mathcal{F}^\mathbf{W}_t$ in the following, even when working with the risk-neutral probability $Q$ for brevity.
 
 \begin{theorem}\label{thm:bs-risk-neutral-dynamics}
-  (\cite{capinski_blackscholes_2012}, Corollary 2.3*)
+  (\cite{capinski_blackscholes_2012}, Corollary 2.3*
+  %%%%%%%%%%%%%
+\comment{why *?}
+%%%%%%%%%%%%%
+  )
   The risky assets satisfy
   \begin{align*}
     \mathrm{d}S_i(t) = r(t) S_i(t) \mathrm{d}t + \sum_{j=1}^{d} c_{ij}(t) S_i(t) \mathrm{d}W^Q_j(t),
@@ -787,6 +800,10 @@ Consequently, we will always refer to the filtration $\mathcal{F}^\mathbf{W}_t$ 
 \end{assumption}
 
 \subsection{Strategies}
+
+%%%%%%%%%%%%%
+\comment{short introduction missing}
+%%%%%%%%%%%%%
 
 \begin{definition}
   A (European) \textbf{derivative security} with expiry time $T$ is a security whose value is a stochastic process $H : [0,T] \times \Omega \to \mathbb{R}$ called its \textbf{price process} and such that $H(T) = H_\text{payoff}$ for some $\mathcal{F}^\mathbf{W}_T$-measurable random variable $H_\text{payoff}$ called the \textbf{payoff} of the derivative.
@@ -870,7 +887,11 @@ The following definitions apply to strategies as well as extended strategies.
 If there exists a replicating strategy for a derivative, we say that the strategy \textbf{replicates} the derivative and that the derivative is \textbf{replicable}.
 
 \begin{theorem}\label{thm:bs-repl-strat-derivative-prices}
-  (\cite{capinski_blackscholes_2012}, Theorem 2.16*)
+  (\cite{capinski_blackscholes_2012}, Theorem 2.16*
+  %%%%%%%%%%%%%
+\comment{why *?}
+%%%%%%%%%%%%%
+  )
   If a derivate with payoff $H_\text{payoff}$ is replicable by a strategy with value process $V$ that has continuous paths, then $V(t) = H(t)$, for all $t \in [0,T]$.
 \end{theorem}
 
@@ -1230,8 +1251,8 @@ This justifies the following definition since it ensures that it exists.
 
 Note that, the function $\mathbf{\Gamma} \mapsto \nu(\mathbf{\Gamma}, t; \mathbf{x}, s)$ is a probability measure.
 %%%%%%%%%%%%%
-\comment{why? I think that $P(Y|F)$ is a random variable and not a number.}
-\tomcomment{$\nu$ is used as a function of $\mathbf{x}$ here instead of $\mathbf{X}(s)$ so it's a number.}
+%\comment{why? I think that $P(Y|F)$ is a random variable and not a number.}
+%\tomcomment{$\nu$ is used as a function of $\mathbf{x}$ here instead of $\mathbf{X}(s)$ so it's a number.}
 %%%%%%%%%%%%%
 In the rest of this section, we focus on such transition functions that have a density, leading to the following definition.
 
@@ -1270,7 +1291,7 @@ In order to prove the main result of this section, we will make use of the follo
     \end{align*}
     by Fubini's Theorem since the integral of a density is finite.
     %%%%%%%%%%%%%
-\comment{again, we should not use sources from the outside.}
+%\comment{again, we should not use sources from the outside.}
 %%%%%%%%%%%%%
 
     Since this holds for all $\mathbf{\Gamma}$, the integrand must be equal for almost all $\mathbf{x}$, i.e.
@@ -1418,6 +1439,9 @@ For the rest of this section, we prove some results that will be used to show in
       &= \int_s^t a(u) \mathrm{d}u + \int_s^s b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u)
       = \int_s^t a(u) \mathrm{d}u
     \end{align*}
+    %%%%%%%%%%%%%
+\comment{above we should have $\mathbb{E}\left(\int_s^s b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u)\right)$ and not $\int_s^s b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u)$.}
+%%%%%%%%%%%%%
     since the assumption that $b(t,\mathbf{S}(t)) \in \mathcal{M}^2$ implies that the stochastic integral is a martingale.
 
     Secondly,
@@ -1537,7 +1561,7 @@ for all $i=1,\ldots,d$, where $\mu_i(t,\mathbf{S}(t)), c_{ij}(t,\mathbf{S}(t)), 
 
 Since $\widetilde{H}(t) = e^{-\int_0^t r(s) \mathrm{d}s} H(t)$, then dividing both sides of \eqref{eq:local-derivative-pricing} by the discounting factor in $\widetilde{H}(t)$, we obtain
 %%%%%%%%%%%%%
-\comment{unclear why "hence".}
+%\comment{unclear why "hence".}
 %%%%%%%%%%%%%
 \begin{align*}
   H(t) = e^{-\int_t^T r(s) \mathrm{d}s} \int_{\mathbb{R}^d} f(\mathbf{x}) \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},
@@ -1562,7 +1586,7 @@ for all $t \in [0,T]$.
 \end{corollary}
 
 %%%%%%%%%%%%%
-\comment{The work is looking good. I suggest to add citations (cross-references to bibliography items) for all the theorems and lemmas given in the thesis.}
+%\comment{The work is looking good. I suggest to add citations (cross-references to bibliography items) for all the theorems and lemmas given in the thesis.}
 %%%%%%%%%%%%%
 
 For the rest of this dissertation, we restrict ourselves to local volatility models.
@@ -1765,7 +1789,9 @@ Considering Theorem \ref{thm:dupire-asymptotic}, it seems reasonable to make the
 
 Since, contrary to Dupire's Equation in the single-asset case, the partial differential equation that is satisfies by the prices of European basket call options will turn out to involve partial derivatives with respect to the expiry time $T$ and to the weights $w_i, i=1,\ldots,d$, we fix $t$ and $K$ and denote by $C(T,\mathbf{w})$ the price at time $t$ of a European basket call option with expiry time $T$, strike price $K$ and weights $\mathbf{w}$.
 
-We make yet another major restriction to the model, making the volatility coefficients depend on time only. As such, we write $c_{ij}(t)$ for $i,j=1,\ldots,d$ instead of $c_{ij}(t,\mathbf{S}(t))$.
+We make yet another major restriction to the model, making the volatility coefficients depend on time only. As such, we write $c_{ij}(t)$ for $i,j=1,\ldots,d$ instead of $c_{ij}(t,\mathbf{S}(t))$. %%%%%%%%%%%%%
+\comment{we could write out the assumption on the asset dynamics here.}
+%%%%%%%%%%%%%
 
 \begin{theorem}\label{thm:generalisation}
   (\cite{pablo_amster_towards_2009}, Theorem 1)
@@ -2092,6 +2118,10 @@ For both methods, we use the example of a European basket call option with expir
 
 \tomcomment{Still work in progress but the next section Monte Carlo Method should be done.}
 
+%%%%%%%%%%%%%
+\comment{ok. The work looks good. Once an example, introduction etc is added the work will be done. Good job.}
+%%%%%%%%%%%%%
+
 By Taylor's Theorem, for any function $f : \mathbb{R} \to \mathbb{R}$ in $C^2$, we have
 \begin{align*}
   f(x+h) &= f(x) + f'(x) h + o(h),
@@ -2233,7 +2263,7 @@ where $\hat{\mathbf{S}}_l$ denotes the $l$-th simulation as described above.
 This method is implemented in \path{src/monte_carlo.h}.
 
 %%%%%%%%%%%%%
-\comment{we should fix the bibliography items so that they do not stick out onto the margin.}
+%\comment{we should fix the bibliography items so that they do not stick out onto the margin.}
 %%%%%%%%%%%%%
 
 \pagebreak
