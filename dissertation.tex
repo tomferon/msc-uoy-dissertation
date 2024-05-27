@@ -2146,26 +2146,22 @@ and by adding them together, we get
 
 Finally, for any function $f : \mathbb{R}^2 \to \mathbb{R}$ in $C^2$, we have
 \begin{align*}
-  f(x+h_x, y+h_y)
-  &= f(x,y) + \frac{\partial}{\partial x} f(x,y) h_x + \frac{\partial}{\partial y} f(x,y) h_y\\
-  &\ \ \ + \frac{1}{2} \frac{\partial^2}{\partial x^2} f(x,y) h_x^2 + \frac{\partial^2}{\partial x \partial y} f(x,y) h_x h_y + \frac{1}{2} \frac{\partial^2}{\partial y^2} f(x,y) h_y^2\\
+  f(x&+ (-1)^a h_x, y + (-1)^b h_y)\\
+  &= f(x,y) + (-1)^a \frac{\partial}{\partial x} f(x,y) h_x + (-1)^b \frac{\partial}{\partial y} f(x,y) h_y\\
+  &\ \ \ + \frac{1}{2} \frac{\partial^2}{\partial x^2} f(x,y) h_x^2 + (-1)^{a+b} \frac{\partial^2}{\partial x \partial y} f(x,y) h_x h_y + \frac{1}{2} \frac{\partial^2}{\partial y^2} f(x,y) h_y^2\\
   &\ \ \ + o(h_x^2 + h_y^2),
 \end{align*}
-for $x,y \in \mathbb{R}$ and $h_x, h_y > 0$, by Taylor's Theorem and using the fact that $\frac{\partial^2 f}{\partial x \partial y} = \frac{\partial^2 f}{\partial y \partial x}$ by Schwarz's Theorem . Hence,
+for $x,y \in \mathbb{R}$, $h_x, h_y > 0$ and $a,b=0,1$, by Taylor's Theorem and using the fact that $\frac{\partial^2 f}{\partial x \partial y} = \frac{\partial^2 f}{\partial y \partial x}$ by Schwarz's Theorem . Hence,
+\begin{align*}
+  f(x+h_x,y+h_y) &- f(x+h_x,y-h_y) - f(x-h_x,y+h_y) + f(x-h_x,y-h_y)\\
+  &= 4 \frac{\partial^2}{\partial x \partial y} f(x,y) h_x h_y + o(h_x^2 + h_y^2),
+\end{align*}
+or equivalently,
 \begin{align*}
   \frac{\partial^2}{\partial x \partial y} f(x,y)
-  &= \frac{f(x+h_x, y+h_y) - f(x,y)}{h_x h_y} - \frac{1}{h_y}\frac{\partial}{\partial x} f(x,y) - \frac{1}{h_x} \frac{\partial}{\partial y} f(x,y)\\
-  &\ \ \ - \frac{h_x}{2 h_y} \frac{\partial^2}{\partial x^2} f(x,y) - \frac{h_y}{2 h_x} \frac{\partial^2}{\partial y^2} f(x,y) + o(h_x^2 + h_y^2).
-\end{align*}
-After substituting partial derivatives on the RHS by the previous results, we obtain
-\begin{align*}
-  &\frac{\partial^2}{\partial x \partial y} f(x,y)\\
-  &= \frac{1}{h_x h_y} \Bigg( f(x+h_x, y+h_y) - f(x,y)\\
-  &\ \ \ \ \ - \frac{1}{2} \left(f(x+h_x,y) - f(x-h_x,y)\right)\\
-  &\ \ \ \ \ - \frac{1}{2} \left(f(x,y+h_y) - f(x,y-h_y)\right)\\
-  &\ \ \ \ \ - \frac{1}{2} \left(f(x+h_x,y) - 2 f(x,y) + f(x-h_x,y)\right)\\
-  &\ \ \ \ \ - \frac{1}{2} \left(f(x,y+h_y) - 2 f(x,y) + f(x,y-h_y) \right) \Bigg) + o(h_x^2 + h_y^2)\\
-  &= \frac{f(x+h_x, y+h_y) - f(x+h_x,y) - f(x,y+h_y) + f(x,y)}{h_x h_y} + o(h_x^2 + h_y^2).
+  &= \frac{1}{4 h_x h_y} [f(x+h_x,y+h_y) - f(x+h_x,y-h_y)\\
+  &\ \ \ \ \ \ \ \ - f(x-h_x,y+h_y) + f(x-h_x,y-h_y)]\\
+  &\ \ \ \ + o(h_x^2 + h_y^2).
 \end{align*}
 
 By Theorem \ref{thm:generalisation}, we have
@@ -2180,19 +2176,25 @@ Using the results established here and assuming that we choose the steps $h_T, h
   &= \sum_{i=1}^{d} r(T) w_i \hat{\theta}_i(T,\mathbf{w})\notag\\
     &\ \ \ \ \ + \frac{1}{2} \sum_{i,j,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \hat{\phi}_{il}(T,\mathbf{w}),
 \end{align}
-where
+where, for $i,j=1,\ldots,d$,
 \begin{align*}
   \hat{\theta}_i(T,\mathbf{w})
   &= \frac{\hat{C}(T,w_1,\ldots,w_i+h_{w_i},\ldots,w_d) - \hat{C}(T,w_1,\ldots,w_i-h_{w_i},\ldots,w_d)}{2h_{w_i}},
 \end{align*}
-for $i=1,\ldots,d$, and
 \begin{align*}
   \hat{\phi}_{il}(T,\mathbf{w})
-  &= \frac{1}{h_{w_i} h_{w_l}} \Bigg( \hat{C}(T,w_1,\ldots,w_i+h_{w_i},\ldots,w_l+h_{w_l},\ldots,w_d)\\
-  &\ \ \ \ \ - \hat{C}(T,w_1,\ldots,w_i+h_{w_i},\ldots,w_d)\\
-  &\ \ \ \ \ - \hat{C}(T,w_1,\ldots,w_l+h_{w_l},\ldots,w_d) + \hat{C}(T,\mathbf{w}) \Bigg),
+  &= \frac{1}{4 h_{w_i} h_{w_l}} \Bigg( \hat{C}(T,w_1,\ldots,w_i+h_{w_i},\ldots,w_l+h_{w_l},\ldots,w_d)\\
+  &\ \ \ \ \ - \hat{C}(T,w_1,\ldots,w_i+h_{w_i},\ldots,w_l-h_{w_l},\ldots,w_d)\\
+  &\ \ \ \ \ - \hat{C}(T,w_1,\ldots,w_i-h_{w_i},\ldots,w_l+h_{w_l},\ldots,w_d)\\
+  &\ \ \ \ \ + \hat{C}(T,w_1,\ldots,w_i-h_{w_i},\ldots,w_l-h_{w_l},\ldots,w_d) \Bigg),\\
 \end{align*}
-for $i,l=1,\ldots,d$. Making $\hat{C}(T+h_T, \mathbf{w})$ the subject of \eqref{eq:fd-implicit}, we have
+for $i \neq l$, and
+\begin{align*}
+  \hat{\phi}_{ii}(T,\mathbf{w})
+  &= \frac{1}{2 h_{w_i}^2} \Bigg( \hat{C}(T,w_1,\ldots,w_i+h_{w_i},\ldots,w_d)\\
+  & \ \ \ \ \ \ - 2\hat{C}(T,\mathbf{w}) + \hat{C}(T,w_1,\ldots,w_i-h_{w_i},\ldots,w_d) \Bigg).
+\end{align*}
+Making $\hat{C}(T+h_T, \mathbf{w})$ the subject of \eqref{eq:fd-implicit}, we have
 \begin{align}
   \hat{C}&(T+h_T,\mathbf{w})\notag\\
   &= \hat{C}(T,\mathbf{w}) + h_T \sum_{i=1}^{d} r(T) w_i \hat{\theta}_i(T,\mathbf{w})
@@ -2211,9 +2213,9 @@ Moreover, we take
 \end{align}
 since $\mathbf{S}(0)$ is deterministic, thereby providing a base case for the recursive definition of $\hat{C}$.
 
-Therefore, we can approximate $C(T^*, \mathbf{w}^*)$ by computing $\hat{C}(T^*, \mathbf{w}^*)$ following the previous formulae by choosing $h_T = \frac{T^*}{n}$ for a large enough $n$ and small enough values of $h_{w_i}, i=1,\ldots,d$. We can visualise $\hat{C}(T^*, \mathbf{w}^*)$ and its transitive dependencies as a tree in the $(T,\mathbf{w})$ space, whose root is at $(T^*, \mathbf{w}^*)$ and leaves are at $(0,\mathbf{w})$ for $w_i = w_i^* - n h_{w_i}, \ldots, w_i^* + (n-1) h_{w_i}, w_i^* + n h_{w_i}$ for $i=1,\ldots,d$. In order to ensure that $w_i \ge 0$, we can choose to $h_{w_i} = \frac{w_i^*}{n+1}$ for $i=1,\ldots,d$, dividing by $n+1$ rather than $n$ to not have a node at $(0,\mathbf{0})$.
+Therefore, we can approximate $C(T^*, \mathbf{w}^*)$ by computing $\hat{C}(T^*, \mathbf{w}^*)$ following the previous formulae by choosing $h_T = \frac{T^*}{n}$ for a large enough $n$ and small enough values of $h_{w_i}, i=1,\ldots,d$. We can visualise $\hat{C}(T^*, \mathbf{w}^*)$ and its transitive dependencies as a tree in the $(T,\mathbf{w})$ space, whose root is at $(T^*, \mathbf{w}^*)$ and leaves are at $(0,\mathbf{w})$ for $w_i = w_i^* - n h_{w_i}, \ldots, w_i^* + (n-1) h_{w_i}, w_i^* + n h_{w_i}$ for each $i=1,\ldots,d$. In order to avoid numerical instability caused by the term in $\frac{h_T}{h_{w_i} h_{w_l}}$, we can choose $h_{w_i} = \frac{w_i^*}{\sqrt{n}}$ for $i=1,\ldots,d$.
 
-Since C++ does not lend itself to recursion, we instead compute the values of the nodes at time 0 using \eqref{eq:fd-chat-base} and then loop over each subsequent time step $k h_T$ for $k=1,\ldots,n$ to compute the values $\hat{C}(k h_T, \mathbf{w})$ for each $\mathbf{w}$ using \eqref{eq:fd-chat-recur} and the values from the previous loop iteration. This process ends with computing the desired $\hat{C}(T^*, \mathbf{w}^*)$.
+Since C++ does not lend itself well to recursion, we instead compute the values of the nodes at expiry time 0 using \eqref{eq:fd-chat-base} and then loop over each subsequent expiry time step $k h_T$ for $k=1,\ldots,n$ to compute the values $\hat{C}(k h_T, \mathbf{w})$ for each $\mathbf{w}$ using \eqref{eq:fd-chat-recur} and using the values from the previous loop iteration. This process ends with computing the desired $\hat{C}(T^*, \mathbf{w}^*)$.
 
 This method is implemented in \path{src/pde.h}.
 
@@ -2261,6 +2263,28 @@ Sampling a large enough amount $m$ of simulations, we can approximate the $Q$-ex
 where $\hat{\mathbf{S}}_l$ denotes the $l$-th simulation as described above.
 
 This method is implemented in \path{src/monte_carlo.h}.
+
+\subsubsection*{Result}
+
+Running the program outputs the following, where we can see that the pricer using the finite difference method produces similar prices than the ones we get from Monte Carlo simulations.
+
+{\scriptsize
+\begin{verbatim}
+=== Test for basket option in the money ===
+
+Initial basket value: 360
+Option:               BasketOption(weights={2.5, 3, 1}, expiry_time=0.273973, strike_price=250)
+Monte Carlo price:    115.998
+PDE price:            116.027
+
+=== Test for basket option out of the money ===
+
+Initial basket value: 730
+Option:               BasketOption(weights={4, 1.5, 6}, expiry_time=0.273973, strike_price=850)
+Monte Carlo price:    41.3468
+PDE price:            40.6889
+\end{verbatim}
+}
 
 %%%%%%%%%%%%%
 %\comment{we should fix the bibliography items so that they do not stick out onto the margin.}

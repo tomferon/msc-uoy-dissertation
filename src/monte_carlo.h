@@ -26,21 +26,34 @@ double pricer(
     const Model<D>& model, // Market model.
     const BasketOption<D>& option) { // Specification of basket option to price.
 
-  std::mt19937 generator{seed}; // Pseudo-random number generator.
-  double total = 0.0;
+  std::mutex total_mutex{};
+  double total = 0.0; // Accumulator for sums of all simulations' results.
+  int done = 0; // Number of simulations completed.
 
   // Estimate discounting factor by \hat{D}.
   double df = discounting_factor(n, model, option.expiry_time);
 
-  for (auto _ : std::views::iota(0, m)) {
+  #pragma omp parallel for
+  for (auto i : std::views::iota(0, m)) {
+    // Pseudo-random number generator. Each loop iteration gets its own
+    // generator with a deterministic seed such that the whole pricing process
+    // produces the same result between each run of the program.
+    std::mt19937 generator{seed+i};
     // Simulate a realisation of the random vector S(T).
     const ublas::c_vector<double, D> discounted_prices =
       discounted_simulation(generator, n, model, option.expiry_time);
     // B = w^T S(T) = w \cdot (\widetilde{S}(T) / D)
     double basket_value = ublas::inner_prod(option.weights, discounted_prices / df);
     // Add the payoff of the basket option for this simulation to the total.
-    total += std::max(0.0, basket_value - option.strike_price);
+    {
+      std::lock_guard<std::mutex> lock{total_mutex};
+      total += std::max(0.0, basket_value - option.strike_price);
+      ++done;
+      double progress = static_cast<double>(done) / m;
+      std::cout << "\r" << round(100 * progress) << "% " << std::flush;
+    }
   }
+  std::cout << "\r    \r" << std::flush;
 
   // \hat{C} = \hat{D} \sum_{k=1}^n (w^T \hat{S}(T))^+
   return df * total / m;

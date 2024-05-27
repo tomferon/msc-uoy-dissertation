@@ -56,16 +56,6 @@ private:
   std::array<int, D> coords{};
 };
 
-template <int D>
-std::ostream& operator<<(std::ostream& os, const Coordinates<D>& coords) {
-  os << "(" << coords(0);
-  for (auto i : std::views::iota(1, D)) {
-    os << ", " << coords(i);
-  }
-  os << ")";
-  return os;
-}
-
 // All nodes for a fixed expiry time T, required to calculate the values of the
 // next layer until reaching \hat{C}(T^*, \mathbf{w}^*).
 template <int D>
@@ -77,11 +67,12 @@ public:
   // values will contain (1+2*span)^D values, which we reserve straightaway.
   TreeLayer(int span): span{span}, node_values(pow(1+2*span, D)) {}
 
+  // Iterator such that we can easily loop over all nodes in a layer.
   class coordinates_iterator {
   public:
     using iterator_category = std::output_iterator_tag;
     using value_type = Coordinates<D>;
-    using difference_type = Coordinates<D>;
+    using difference_type = int;
     using pointer = Coordinates<D>*;
     using reference = Coordinates<D>&;
 
@@ -97,7 +88,7 @@ public:
 
     coordinates_iterator& operator++() {
       for (auto i : std::views::iota(0, D)) {
-        coords(i)++;
+        ++coords(i);
         if (coords(i) > span && i < D-1) {
           coords(i) = -span;
         } else {
@@ -107,7 +98,34 @@ public:
       return *this;
     }
 
-    Coordinates<D>& operator*() {
+    coordinates_iterator& operator+=(difference_type diff) {
+      for (auto i : std::views::iota(0, D)) {
+        difference_type subdiff = diff % (1+2*span);
+        coords(i) += subdiff;
+        diff = (diff - subdiff) / (1+2*span);
+        if (coords(i) > span) {
+          ++diff;
+          coords(i) -= 1+2*span;
+        }
+      }
+      return *this;
+    }
+
+    coordinates_iterator operator+(difference_type diff) const {
+      coordinates_iterator iter = *this;
+      iter += diff;
+      return iter;
+    }
+
+    difference_type operator-(const coordinates_iterator& other) const {
+      difference_type diff = 0;
+      for (auto i : std::views::iota(0, D)) {
+        diff += (coords(i) - other.coords(i)) * pow(1+2*span, i);
+      }
+      return diff;
+    }
+
+    reference operator*() {
       return coords;
     }
 
@@ -167,31 +185,33 @@ double pricer(
   const double time_step = option.expiry_time / n; // h_T = T^* / n.
 
   // Values of \hat{C}(T, \mathbf{w}) for a fixed T.
-  TreeLayer<D> node_values{n}; // First layer has a span equal to the time steps.
+  // First layer has a span equal to the number  of time steps.
+  TreeLayer<D> node_values{n};
 
   // Calculate (h_{w_1}, ..., h_{w_d}) based on option.weights and n.
   ublas::c_vector<double, D> weight_steps{};
   for (auto i : std::views::iota(0, D)) {
-    weight_steps(i) = option.weights(i) / sqrt(n); // FIXME
+    weight_steps(i) = option.weights(i) / sqrt(n);
   }
 
-  // std::cout << "h_T = " << time_step << "\n";
-  // for (auto i : std::views::iota(0, D)) {
-  //   std::cout << "h_{w_" << i << "} = " << weight_steps(i) << "\n";
-  // }
+  // Bookkeeping for progress feedback.
+  int done = 0; // Number of nodes computed.
+  int total_node_count = 0;
+  for (auto span : std::views::iota(0, n+1)) {
+    total_node_count += pow(1+2*span, D);
+  }
 
   // Calculate the values in the first layer using the payoff values.
+  #pragma omp parallel for
   for (auto& coords : node_values) {
     ublas::c_vector<double, D> weights =
       coords.to_weights(option.weights, weight_steps);
     double basket_value = ublas::inner_prod(weights, model.initial_prices);
     node_values(coords) = std::max(0.0, basket_value - option.strike_price);
-    // std::cout << "C(0, " << coords << ") = " << node_values(coords) << std::endl;
   }
 
   // Loop over each subsequent layer of the tree until its root.
   for (auto layer : std::views::iota(1, n+1)) {
-    std::cout << "\r" << layer << " / " << n << std::flush;
     const double time = time_step * (layer - 1); // T
     const double interest_rate = model.riskfree_rate(time); // r(T)
     const ublas::c_matrix<double, D, D> vol = model.volatility(time); // C(T)
@@ -200,96 +220,62 @@ double pricer(
     const ublas::c_matrix<double, D, D> vol_sums =
       ublas::prod(vol, ublas::trans(vol)) / 2.0;
 
-    // std::cout << "C(" << time << ") = {";
-    // for (auto i : std::views::iota(0, D)) {
-    //   std::cout << "{";
-    //   for (auto j : std::views::iota(0, D)) {
-    //     std::cout << vol(i, j);
-    //     if (j != D-1) std::cout << ", ";
-    //   }
-    //   std::cout << "}";
-    //   if (i != D-1) std::cout << ", ";
-    // }
-    // std::cout << std::endl;
-
-    // std::cout << "A(" << time << ") = {";
-    // for (auto i : std::views::iota(0, D)) {
-    //   std::cout << "{";
-    //   for (auto j : std::views::iota(0, D)) {
-    //     std::cout << vol_sums(i, j);
-    //     if (j != D-1) std::cout << ", ";
-    //   }
-    //   std::cout << "}";
-    //   if (i != D-1) std::cout << ", ";
-    // }
-    // std::cout << std::endl;
-
     const int span = n - layer;
     // new_node_values corresponds to \hat{C}(T + h_T, \cdot) while node_values
     // corresponds to \hat{C}(T, \cdot).
-    TreeLayer<D> new_node_values(span);
+    TreeLayer<D> new_node_values{span};
 
     // Compute the node's value using the recursive formula.
-// #pragma omp parallel for
+    #pragma omp parallel for
     for (auto coords : new_node_values) {
       // \mathbf{w}
       ublas::c_vector<double, D> weights =
         coords.to_weights(option.weights, weight_steps);
-      // // Accumulator to compute \hat{C}(T + h_T, \mathbf{w}).
-      // double value = node_values(coords);
-
-      double first_term = node_values(coords);
-      double second_term = 0.0;
-      double third_term = 0.0;
+      // Accumulator to compute \hat{C}(T + h_T, \mathbf{w}).
+      double value = node_values(coords);
 
       for (auto i : std::views::iota(0, D)) {
-        double theta_i;
-        if (coords(i) > -span && coords(i) < span) {
-          theta_i =
-            ( - node_values(coords.inc(i).inc(i))
-              + 8 * node_values(coords.inc(i))
-              - 8 * node_values(coords.dec(i))
-              + node_values(coords.dec(i).dec(i)) )
-            / (12 * weight_steps(i));
-        } else {
-          theta_i =
-            (node_values(coords.inc(i)) - node_values(coords.dec(i)))
-            / (2.0 * weight_steps(i));
-        }
-        second_term += time_step * interest_rate * weights(i) * theta_i;
-
-        // second_term += (time_step / 2.0 / weight_steps(i))
-        //   * (node_values(coords.inc(i)) - node_values(coords.dec(i)))
-        //   * interest_rate * weights(i);
+        double theta_i =
+          (node_values(coords.inc(i)) - node_values(coords.dec(i)))
+          / (2.0 * weight_steps(i));
+        value += time_step * interest_rate * weights(i) * theta_i;
 
         for (auto l : std::views::iota(0, D)) {
-          // double phi_il =
-          //   ( node_values(coords.inc(i).inc(l))
-          //     - node_values(coords.inc(i))
-          //     - node_values(coords.inc(l))
-          //     + node_values(coords) )
-          //   / (weight_steps(i) * weight_steps(l));
           double phi_il;
           if (i == l) {
-            phi_il = (node_values(coords.inc(i)) - 2 * node_values(coords) + node_values(coords.dec(i))) / pow(weight_steps(i), 2);
+            phi_il =
+              ( node_values(coords.inc(i))
+                - 2 * node_values(coords)
+                + node_values(coords.dec(i)) )
+              / pow(weight_steps(i), 2);
           } else {
-            phi_il = (node_values(coords.inc(i).inc(l)) - node_values(coords.inc(i).dec(l)) - node_values(coords.dec(i).inc(l)) + node_values(coords.dec(i).dec(l))) / (4 * weight_steps(i) * weight_steps(l));
+            phi_il =
+              ( node_values(coords.inc(i).inc(l))
+                - node_values(coords.inc(i).dec(l))
+                - node_values(coords.dec(i).inc(l))
+                + node_values(coords.dec(i).dec(l)) )
+              / (4 * weight_steps(i) * weight_steps(l));
           }
-          // std::cout << "phi_" << i << l << " = " << phi_il << std::endl;
 
-          third_term += weights(i) * weights(l) * phi_il * vol_sums(i, l) * time_step / 2.0;
+          value += weights(i) * weights(l) * phi_il * vol_sums(i, l) * time_step;
         }
       }
 
-      // new_node_values(coords) = std::max(-1000.0, std::min(1000.0, first_term + second_term + third_term));
-      new_node_values(coords) = first_term + second_term + third_term;
-      // std::cout << "C(" << layer << ", " << coords << ") = " << first_term << " + " << second_term << " + " << third_term << " = " << new_node_values(coords) << std::endl;
+      new_node_values(coords) = value;
     }
 
+    // The next layer will be computed based on this layer.
     node_values = new_node_values;
-  }
-  std::cout << "                   \r" << std::flush;
 
+    // Progress feedback.
+    done += pow(1+2*span, D);
+    double progress = static_cast<double>(done) / total_node_count;
+    std::cout << "\r" << round(100 * progress) << "% " << std::flush;
+  }
+  std::cout << "\r    \r" << std::flush;
+
+  // Return the value of the unique node for the last layer, i.e.
+  // \hat{C}(T^*, \mathbf{w}^*).
   return node_values.value();
 }
 
