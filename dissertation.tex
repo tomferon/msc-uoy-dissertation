@@ -168,22 +168,13 @@ where $\mathcal{F}_{Y}$ denotes the sub-$\sigma$-field of $\mathcal{F}$ generate
   for all $0 \le s < t \le T$.
 \end{definition}
 
-\begin{theorem}\label{thm:bijection-filtration}
 %%%%%%%%%%%%%
 \comment{citation to some source?}
 %%%%%%%%%%%%%
-  Let $X, Y$ be stochastic processes. If there exists a Borel function $f : \mathbb{R} \times \mathbb{R}^d \to \mathbb{R}^d$ such that $\mathbf{x} \mapsto f(t,\mathbf{x})$ is a bijection and $Y(t) = f(t, X(t))$ for all $t \in [0,T]$, then $X$ and $Y$ generate the same filtration.
+\tomcomment{[deleted]}
 %%%%%%%%%%%%%
 \comment{This result seems rather evident. I think that maybe we do not need to write this as a separate theorem. We could simply use this fact in the argument where it is needed.}
 %%%%%%%%%%%%%
-  \begin{proof}
-    It is enough to show that $\mathcal{F}_{X(t)} = \mathcal{F}_{Y(t)}$ for all $t \in [0,T]$ since the filtration is defined in terms of those $\sigma$-fields.
-
-    Let $t \in [0,T]$ and let $B \in \mathcal{B}(\mathbb{R}^d)$. Then $A = X^{-1}(t,B) \in \mathcal{F}_{X(t)}$. Take $C = f(t, B)$ so that $C \in \mathcal{B}(\mathbb{R}^d)$ since $f$ is Borel. Hence, $A = X^{-1}(t,f^{-1}(t,C)) = Y^{-1}(t,C) \in \mathcal{F}_{Y(t)}$. Therefore, $\mathcal{F}_{Y(t)} \subseteq \mathcal{F}_{X(t)}$.
-
-    Since $f$ is a bijection, we get $\mathcal{F}_{Y(t)} \supseteq \mathcal{F}_{X(t)}$ by symmetry. Hence, the $\sigma$-fields are equal as required and so are the filtrations.
-  \end{proof}
-\end{theorem}
 
 The Wiener process is a central stochastic process to stochastic calculus. Here, we give an axiomatic definition. For a construction of such a process and thus a proof of existence, see \textcite{capinski_stochastic_2012}.
 
@@ -380,16 +371,10 @@ We call $\mathbf{a}$ the \textbf{drift} and $\mathbf{B}$ the \textbf{volatility}
 \end{theorem}
 
 \begin{definition}
-%%%%%%%%%%%%%
-%\comment{why is this a theorem? This sounds more like a definition.}
-%%%%%%%%%%%%%
   An It\^o process of the form \eqref{eq:sde-init-value} whose characteristics satisfy the conditions of Theorem \ref{thm:sde-solution}, is called an \textbf{It\^o diffusion}.
 \end{definition}
 
 \begin{lemma}\label{lem:ito-diffusion-characteristics-m2}
-%%%%%%%%%%%%%
-%\comment{citation to a source?}
-%%%%%%%%%%%%%
   The characteristics of an It\^o diffusion $\mathbf{X}$ are in $\mathcal{M}^2$, i.e.
   \begin{align*}
     a_i(t,\mathbf{X}(t)) \in \mathcal{M}^2, &&
@@ -543,7 +528,7 @@ where $r(t)$ is a deterministic function representing the continuous risk-free r
 \end{align}
 for $\mathbf{W}(t) = (W_1(t), \ldots, W_d(t))$ a Wiener process with respect to the probability $P$ in the filtered probability space $(\Omega, \mathcal{F}, \mathcal{F}^\mathbf{W}_t, P)$; some processes $\mu_i, i=1,\ldots,d$ and $c_{ij}, i,j=1,\ldots,d$; and $\mathbf{S}(0)$ such that $S_i(0) > 0$, for $i=1,\ldots,d$.
 
-Some references provided in this section refer to the equivalent results in the Black-Scholes model (single-asset, constant coefficients). We extend them here to the multi-asset Black-Scholes model with variable coefficients and provide proofs of the same. To distinguish these references, they are marked with an asterisk.
+Some references provided in this section refer to the equivalent results in the Black-Scholes model (single-asset, constant coefficients). We extend them here to the multi-asset Black-Scholes model with variable coefficients and provide proofs of the same. These references are marked as such.
 
 Some further assumptions are made by the model.
 
@@ -568,13 +553,9 @@ Some further assumptions are made by the model.
   \begin{proof}
     Let $i = 1,\ldots,d$. By the It\^o Formula (Theorem \ref{thm:ito-formula}) with $F(t,x) = \ln x$ so that $F_t(t,x) = 0, F_x(t,x) = \frac{1}{x}$ and $F_{xx} = \frac{-1}{x^2}$, we have
     \begin{align*}
-      \mathrm{d}F(t,S_i(t))
+      &\mathrm{d}F(t,S_i(t))\\
       &= F_t(t,S_i(t)) \mathrm{d}t + F_x(t,S_i(t)) \mu_i(t) S_i(t) \mathrm{d}t\\
-      &\ \ \ \ \ + F_x(t,S_i(t)) \sum_{j=1}^d c_{ij}(t) S_i(t) \mathrm{d}W_j(t)\\
-      &\ \ \ \ \ + \frac{1}{2} \sum_{j=1}^d F_{xx}(t,S_i(t)) (c_{ij}(t) S_i(t))^2 \mathrm{d}t\\
-      &= 0 \mathrm{d}t + \frac{1}{S_i(t)} \mu_i(t) S_i(t) \mathrm{d}t\\
-      &\ \ \ \ \ + \frac{1}{S_i(t)} \sum_{j=1}^d c_{ij}(t) S_i(t) \mathrm{d}W_j(t)\\
-      &\ \ \ \ \ + \frac{1}{2} \sum_{j=1}^d \frac{-1}{S_i(t)^2} c_{ij}(t)^2 S_i(t)^2 \mathrm{d}t\\
+      &\ \ \ \ \ + F_x(t,S_i(t)) \sum_{j=1}^d c_{ij}(t) S_i(t) \mathrm{d}W_j(t) + \frac{1}{2} \sum_{j=1}^d F_{xx}(t,S_i(t)) (c_{ij}(t) S_i(t))^2 \mathrm{d}t\\
       &= \mu_i(t) \mathrm{d}t
       - \frac{1}{2} \sum_{j=1}^d c_{ij}(t)^2 \mathrm{d}t
       + \sum_{j=1}^d c_{ij}(t) \mathrm{d}W_j(t).
@@ -615,16 +596,23 @@ as required.
 \comment{Solving an ODE as an SDE looks a bit artificial.}
 %%%%%%%%%%%%%
 
-    We can see \eqref{eq:multi-bs-eq-risk-free} as
+    Rewriting \eqref{eq:multi-bs-eq-risk-free} in its integral form, we have
     \begin{align*}
-      \mathrm{d}A(t) = \mu_0(t) A(t) \mathrm{d}t + \sum_{j=1}^{d} c_{0j}(t) A(t) \mathrm{d}W_j(t)
+      A(t) = A(0) + \int_0^t r(s) A(s) \mathrm{d}s.
     \end{align*}
-    with $\mu_0(t) = r(t)$ and $c_{0j}(t) = 0$ for all $t \in [0,T]$ so, by the previous theorem,
+    Differentiating both sides with respect to $t$, we get
     \begin{align*}
-      A(t) &= A(0) \exp \left( \int_0^t \mu_0(s) \mathrm{d}s - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{0j}(s)^2 \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{0j}(s) \mathrm{d}W_j(s) \right)\\
-      &= \exp \left( \int_0^t r(s) \mathrm{d}s\right),
+      \frac{\mathrm{d}}{\mathrm{d}t}A(t) = r(t) A(t).
     \end{align*}
-    substituting $\mu_0$ and $c_{0j}$ and since $A(0) = 1$.
+    Putting all terms on the LHS and multiplying by $e^{-\int_0^t r(s) \mathrm{d}s}$, we obtain
+    \begin{align*}
+      e^{-\int_0^t r(s) \mathrm{d}s} \frac{\mathrm{d}}{\mathrm{d}t}A(t) - r(t) e^{-\int_0^t r(s) \mathrm{d}s} A(t) = 0.
+    \end{align*}
+    Therefore, recognising the LHS as the derivative of $e^{-\int_0^t r(s) \mathrm{d}s} A(t)$, it must be constant since its derivative is zero. That is,
+    \begin{align*}
+      A(t) = k \exp\left(\int_0^t r(s) \mathrm{d}s\right),
+    \end{align*}
+    for some constant $k$. But then, $A(0) = k e^{\int_0^0 r(s) \mathrm{d}s}$ so $k = A(0) = 1$, thus completing the proof.
   \end{proof}
 \end{theorem}
 
@@ -632,9 +620,6 @@ as required.
 
 \begin{definition}
   A \textbf{risk-neutral probability} is a probability measure $Q$ that is equivalent to $P$ and under which the discounted prices of all assets are martingales.
-  %%%%%%%%%%%%%
-%\comment{The assets are not martingales. We need to discount.}
-%%%%%%%%%%%%%
 \end{definition}
 
 \begin{definition}
@@ -744,14 +729,14 @@ The reference provided for the following lemma refers to a similar statement whe
   $\mathbf{W}$ and $\mathbf{W}^Q$ generate the same filtration, i.e. $\mathcal{F}^\mathbf{W}_t = \mathcal{F}^{\mathbf{W}^Q}_t$ for all $t \in [0,T]$.
 
   \begin{proof}
-    Since $f(t, \mathbf{x}) = \int_0^t \mathbf{\theta}(s) \mathrm{d}s + \mathbf{x}$ is an invertible Borel function with respect to its second variable such that $\mathbf{W}^Q = f(t,\mathbf{W}(t))$, then the result follows from Theorem \ref{thm:bijection-filtration}.
+    Since $f(t, \mathbf{x}) = \int_0^t \mathbf{\theta}(s) \mathrm{d}s + \mathbf{x}$ is an invertible Borel function with respect to its second variable (take $g$ to be its inverse function), then $\mathcal{F}^{\mathbf{W}^Q}_t \subseteq \mathcal{F}^{\mathbf{W}}_t$ since $\mathbf{W}^Q(t) = f(t,\mathbf{W}(t))$ and $\mathcal{F}^{\mathbf{W}}_t \subseteq \mathcal{F}^{\mathbf{W}^Q}_t$ since $\mathbf{W}(t) = g(t,\mathbf{W}^Q(t))$. Therefore, the filtrations are equal as required.
   \end{proof}
 \end{theorem}
 
 Consequently, we will always refer to the filtration $\mathcal{F}^\mathbf{W}_t$ in the following, even when working with the risk-neutral probability $Q$ for brevity.
 
 \begin{theorem}\label{thm:bs-risk-neutral-dynamics}
-  (\cite{capinski_blackscholes_2012}, Corollary 2.3*
+  (\cite{capinski_blackscholes_2012}, Corollary 2.3 \footnote{This reference is to the equivalent statement in the single-asset, constant coefficients Black-Scholes model. The proof is extended here to the multi-asset Black-Scholes model with variable coefficients.\label{foot:basic-bs-model}}
   %%%%%%%%%%%%%
 \comment{why *?}
 %%%%%%%%%%%%%
@@ -774,7 +759,7 @@ Consequently, we will always refer to the filtration $\mathcal{F}^\mathbf{W}_t$ 
 \end{theorem}
 
 \begin{theorem}\label{thm:bs-risk-neutral-dynamics-discounted}
-  (\cite{capinski_blackscholes_2012}, Corollary 2.3*)
+  (\cite{capinski_blackscholes_2012}, Corollary 2.3 \footref{foot:basic-bs-model})
   The risky assets satisfy
   \begin{align}\label{eq:bs-risk-neutral-dynamics-discounted}
     \mathrm{d}\widetilde{S}_i(t) = \sum_{j=1}^{d} c_{ij}(t) \widetilde{S}_i(t) \mathrm{d}W^Q_j(t),
@@ -887,7 +872,7 @@ The following definitions apply to strategies as well as extended strategies.
 If there exists a replicating strategy for a derivative, we say that the strategy \textbf{replicates} the derivative and that the derivative is \textbf{replicable}.
 
 \begin{theorem}\label{thm:bs-repl-strat-derivative-prices}
-  (\cite{capinski_blackscholes_2012}, Theorem 2.16*
+  (\cite{capinski_blackscholes_2012}, Theorem 2.16 \footref{foot:basic-bs-model}
   %%%%%%%%%%%%%
 \comment{why *?}
 %%%%%%%%%%%%%
@@ -990,7 +975,7 @@ Note that by inspecting the proof, we can see that this lemma equally applies to
 \end{proof}
 
 \begin{theorem}\label{thm:bs-replicability}
-  (\cite{capinski_blackscholes_2012}, Theorem 3.11*)
+  (\cite{capinski_blackscholes_2012}, Theorem 3.11 \footref{foot:basic-bs-model})
   Let $H$ be a derivative with a square-integrable payoff. If there exists a deterministic constant $L > 0$ such that $H(T) \ge -L$ almost surely, then the derivative is replicable by a strategy whose value process has continuous paths.
 
   \begin{proof}
@@ -1077,7 +1062,7 @@ Note that by inspecting the proof, we can see that this lemma equally applies to
 \end{theorem}
 
 \begin{theorem}\label{thm:bs-derivative-pricing}
-  (\cite{capinski_blackscholes_2012}, Theorem 3.11*)
+  (\cite{capinski_blackscholes_2012}, Theorem 3.11 \footref{foot:basic-bs-model})
   If a derivative $H$ is replicable by a strategy whose value process $V$ has continuous paths, then
   \begin{align}\label{eq:bs-derivative-pricing}
     \widetilde{H}(t) = \mathbb{E}_Q(\widetilde{H}(T) \mid \mathcal{F}^\mathbf{W}_t),
@@ -1236,7 +1221,7 @@ For $0 \le s < t \le T$ and $\mathbf{\Gamma} \in \mathcal{B}({\mathbb{R}^d})$, t
   = \mathbb{E}(\mathbf{1}_\mathbf{\Gamma}(\mathbf{X}(t)) \mid \mathcal{F}_{\mathbf{X}(s)})
   = \phi(\mathbf{X}(s)),
 \end{align*}
-for some Borel function $\phi$ by the Doob-Dynkin Lemma.
+for some Borel function $\phi$ since any $\mathcal{F}_{\mathbf{X}(s)}$-measurable random variable can be expressed as a Borel function of $\mathbf{X}(s)$.
 %%%%%%%%%%%%%
 \comment{The dissertation needs to be self contained. We should not call upon theorems without including them in preliminaries.}
 %%%%%%%%%%%%%
@@ -1249,12 +1234,7 @@ This justifies the following definition since it ensures that it exists.
   \end{align*}
 \end{definition}
 
-Note that, the function $\mathbf{\Gamma} \mapsto \nu(\mathbf{\Gamma}, t; \mathbf{x}, s)$ is a probability measure.
-%%%%%%%%%%%%%
-%\comment{why? I think that $P(Y|F)$ is a random variable and not a number.}
-%\tomcomment{$\nu$ is used as a function of $\mathbf{x}$ here instead of $\mathbf{X}(s)$ so it's a number.}
-%%%%%%%%%%%%%
-In the rest of this section, we focus on such transition functions that have a density, leading to the following definition.
+Note that, the function $\mathbf{\Gamma} \mapsto \nu(\mathbf{\Gamma}, t; \mathbf{x}, s)$ is a probability measure. In the rest of this section, we focus on such transition functions that have a density, leading to the following definition.
 
 \begin{definition}
   Let $\mathbf{X}(t)$ be a Markov process such that it has a transition function $\nu(\mathbf{\Gamma},t;\mathbf{x},s)$ that admits a density $\rho$ with respect to the Lebesgue measure, i.e.
@@ -1290,9 +1270,6 @@ In order to prove the main result of this section, we will make use of the follo
       &= \int_\mathbf{\Gamma} \int_{\mathbb{R}^d} \rho(\mathbf{x},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{z} \mathrm{d}\mathbf{x},
     \end{align*}
     by Fubini's Theorem since the integral of a density is finite.
-    %%%%%%%%%%%%%
-%\comment{again, we should not use sources from the outside.}
-%%%%%%%%%%%%%
 
     Since this holds for all $\mathbf{\Gamma}$, the integrand must be equal for almost all $\mathbf{x}$, i.e.
     \begin{align*}
@@ -1431,25 +1408,28 @@ For the rest of this section, we prove some results that will be used to show in
   where $a$ is a deterministic function and $b(t,\mathbf{S}(t)) \in \mathcal{M}^2$. Then the increments $\mathbf{X}(t) - \mathbf{X}(s)$ are independent from $\mathcal{F}^\mathbf{W}_s$, for all $0 \le s < t \le T$.
 
   \begin{proof}
-    Let $0 \le s < t \le T$. Firstly,
+    Let $0 \le s < t \le T$. Firstly, the assumption that $b(t,\mathbf{S}(t)) \in \mathcal{M}^2$ implies that the stochastic integral is a martingale (as a function of the upper endpoint of integration), so that
+    \begin{align}\label{eq:fp-ito-diffusion-indep-increments-martingale}
+      \mathbb{E}\left(\int_s^t b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u) \mid \mathcal{F}^\mathbf{W}_s\right)
+      &= \int_s^s b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u) = 0.
+    \end{align}
+    Therefore,
     \begin{align*}
       \mathbb{E}&(\mathbf{X}(t) - \mathbf{X}(s) \mid \mathcal{F}^\mathbf{W}_s)\\
       &= \mathbb{E}\left(\int_s^t a(u) \mathrm{d}u \mid \mathcal{F}^\mathbf{W}_s\right) + \mathbb{E}\left(\int_s^t b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u) \mid \mathcal{F}^\mathbf{W}_s\right)\\
       &= \int_s^t a(u) \mathrm{d}u + \mathbb{E}\left(\int_s^t b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u) \mid \mathcal{F}^\mathbf{W}_s\right) \tag{$a$ deterministic}\\
-      &= \int_s^t a(u) \mathrm{d}u + \int_s^s b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u)
-      = \int_s^t a(u) \mathrm{d}u
+      &= \int_s^t a(u) \mathrm{d}u.
     \end{align*}
     %%%%%%%%%%%%%
 \comment{above we should have $\mathbb{E}\left(\int_s^s b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u)\right)$ and not $\int_s^s b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u)$.}
 %%%%%%%%%%%%%
-    since the assumption that $b(t,\mathbf{S}(t)) \in \mathcal{M}^2$ implies that the stochastic integral is a martingale.
 
     Secondly,
     \begin{align*}
       \mathbb{E}&(\mathbf{X}(t) - \mathbf{X}(s))\\
       &= \mathbb{E}\left(\int_s^t a(u) \mathrm{d}u\right) + \mathbb{E}\left(\int_s^t b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u)\right)\\
       &= \mathbb{E}\left(\int_s^t a(u) \mathrm{d}u\right) + \mathbb{E}\left(\mathbb{E}\left(\int_s^t b(u,\mathbf{X}(u)) \mathrm{d}\mathbf{W}(u) \mid \mathcal{F}^\mathbf{W}_s\right)\right) \tag{tower property}\\
-      &= \int_s^t a(u) \mathrm{d}u + \mathbb{E}\left(0\right) \tag{as before}\\
+      &= \int_s^t a(u) \mathrm{d}u + \mathbb{E}\left(0\right) \tag{by \eqref{eq:fp-ito-diffusion-indep-increments-martingale}}\\
       &= \int_s^t a(u) \mathrm{d}u.
     \end{align*}
 
@@ -1487,7 +1467,7 @@ For the rest of this section, we prove some results that will be used to show in
   Let $g$ be an invertible Borel function and let $\mathbf{X}$ be a Markov process. If $\mathbf{Y}$ is a stochastic process given by $\mathbf{Y}(t) = g(\mathbf{X}(t))$, then $\mathbf{Y}$ is Markov.
 
   \begin{proof}
-    Let $f$ be a bounded Borel function and let $0 \le s < t \le T$. Since $g$ is an invertible Borel function, then $\mathcal{F}_{\mathbf{X}(s)} = \mathcal{F}_{\mathbf{Y}(s)}$ by Theorem \ref{thm:bijection-filtration}. Morover, since $g$ is Borel, then $f^* = f \circ g$ is a bounded Borel function. Hence,
+    Let $f$ be a bounded Borel function and let $0 \le s < t \le T$. Since $g$ is an invertible Borel function, then $\mathcal{F}_{\mathbf{X}(s)} = \mathcal{F}_{\mathbf{Y}(s)}$. Indeed, $\mathcal{F}_{\mathbf{Y}(s)} \subseteq \mathcal{F}_{\mathbf{X}(s)}$ since $\mathbf{Y}(s) = g(\mathbf{X}(s))$ and $\mathcal{F}_{\mathbf{X}(s)} \subseteq \mathcal{F}_{\mathbf{Y}(s)}$ since $\mathbf{X}(s) = g^{-1}(\mathbf{Y}(s))$. Morover, since $g$ is Borel, then $f^* = f \circ g$ is a bounded Borel function. Hence,
     \begin{align*}
       \mathbb{E}(f(\mathbf{Y}(t)) \mid \mathcal{F}^\mathbf{W}_s)
       &= \mathbb{E}(f^*(\mathbf{X}(t)) \mid \mathcal{F}^\mathbf{W}_s)\\
@@ -1560,9 +1540,6 @@ for all $i=1,\ldots,d$, where $\mu_i(t,\mathbf{S}(t)), c_{ij}(t,\mathbf{S}(t)), 
 \end{theorem}
 
 Since $\widetilde{H}(t) = e^{-\int_0^t r(s) \mathrm{d}s} H(t)$, then dividing both sides of \eqref{eq:local-derivative-pricing} by the discounting factor in $\widetilde{H}(t)$, we obtain
-%%%%%%%%%%%%%
-%\comment{unclear why "hence".}
-%%%%%%%%%%%%%
 \begin{align*}
   H(t) = e^{-\int_t^T r(s) \mathrm{d}s} \int_{\mathbb{R}^d} f(\mathbf{x}) \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},
 \end{align*}
@@ -1584,10 +1561,6 @@ for all $t \in [0,T]$.
     The same argument with $g(\mathbf{x}) = (K - \mathbf{w}^T \mathbf{x})$ gives us the result for $P_\mathbf{w}$.
   \end{proof}
 \end{corollary}
-
-%%%%%%%%%%%%%
-%\comment{The work is looking good. I suggest to add citations (cross-references to bibliography items) for all the theorems and lemmas given in the thesis.}
-%%%%%%%%%%%%%
 
 For the rest of this dissertation, we restrict ourselves to local volatility models.
 
@@ -1789,7 +1762,13 @@ Considering Theorem \ref{thm:dupire-asymptotic}, it seems reasonable to make the
 
 Since, contrary to Dupire's Equation in the single-asset case, the partial differential equation that is satisfies by the prices of European basket call options will turn out to involve partial derivatives with respect to the expiry time $T$ and to the weights $w_i, i=1,\ldots,d$, we fix $t$ and $K$ and denote by $C(T,\mathbf{w})$ the price at time $t$ of a European basket call option with expiry time $T$, strike price $K$ and weights $\mathbf{w}$.
 
-We make yet another major restriction to the model, making the volatility coefficients depend on time only. As such, we write $c_{ij}(t)$ for $i,j=1,\ldots,d$ instead of $c_{ij}(t,\mathbf{S}(t))$. %%%%%%%%%%%%%
+We make yet another major restriction to the model, making the volatility coefficients depend on time only. As such, we write $c_{ij}(t)$ for $i,j=1,\ldots,d$ instead of $c_{ij}(t,\mathbf{S}(t))$. That is, the risky assets have dynamics
+\begin{align*}
+  \mathrm{d}S_i(t) &= r(t) S_i(t) \mathrm{d}t + \sum_{j=1}^{d} c_{ij}(t) S_i(t) \mathrm{d}W^Q_j(t),
+\end{align*}
+for $i=1,\ldots,d$, where $c_{ij}(t), i,j=1,\ldots,d$ are deterministic.
+
+%%%%%%%%%%%%%
 \comment{we could write out the assumption on the asset dynamics here.}
 %%%%%%%%%%%%%
 
@@ -2116,8 +2095,6 @@ For both methods, we use the example of a European basket call option with expir
 
 \subsubsection{Finite Difference Method}
 
-\tomcomment{Still work in progress but the next section Monte Carlo Method should be done.}
-
 %%%%%%%%%%%%%
 \comment{ok. The work looks good. Once an example, introduction etc is added the work will be done. Good job.}
 %%%%%%%%%%%%%
@@ -2200,7 +2177,7 @@ Making $\hat{C}(T+h_T, \mathbf{w})$ the subject of \eqref{eq:fd-implicit}, we ha
   &= \hat{C}(T,\mathbf{w}) + h_T \sum_{i=1}^{d} r(T) w_i \hat{\theta}_i(T,\mathbf{w})
      + \frac{h_T}{2} \sum_{i,j,l=1}^{d} w_i w_l c_{ij}(T) c_{lj}(T) \hat{\phi}_{il}(T,\mathbf{w})\notag\\
   &= \hat{C}(T,\mathbf{w}) + h_T r(T) \sum_{i=1}^{d} w_i \hat{\theta}_i(T,\mathbf{w}) + \frac{h_T}{2} \sum_{i,l=1}^{d} w_i w_l \hat{\phi}_{il}(T,\mathbf{w}) \sum_{j=1}^d c_{ij}(T) c_{lj}(T)\notag\\
-  &= \hat{C}(T,\mathbf{w}) + h_T r(T) \sum_{i=1}^{d} w_i \hat{\theta}_i(T,\mathbf{w}) + h_T \sum_{i,l=1}^{d} w_i w_l \hat{\phi}_{il}(T,\mathbf{w}) A_{ij}(T),\label{eq:fd-chat-recur}
+  &= \hat{C}(T,\mathbf{w}) + h_T r(T) \sum_{i=1}^{d} w_i \hat{\theta}_i(T,\mathbf{w}) + h_T \sum_{i,l=1}^{d} w_i w_l \hat{\phi}_{il}(T,\mathbf{w}) A_{il}(T),\label{eq:fd-chat-recur}
 \end{align}
 where $\mathbf{A}(T) = \frac{1}{2} C(T) C(T)^T$, thus giving us an explicit formula to compute the nodes at time $T+h_T$ given those at time $T$.
 
@@ -2264,7 +2241,7 @@ where $\hat{\mathbf{S}}_l$ denotes the $l$-th simulation as described above.
 
 This method is implemented in \path{src/monte_carlo.h}.
 
-\subsubsection*{Result}
+\subsubsection{Result}
 
 Running the program outputs the following, where we can see that the pricer using the finite difference method produces similar prices than the ones we get from Monte Carlo simulations.
 
@@ -2285,10 +2262,6 @@ Monte Carlo price:    41.3468
 PDE price:            40.6889
 \end{verbatim}
 }
-
-%%%%%%%%%%%%%
-%\comment{we should fix the bibliography items so that they do not stick out onto the margin.}
-%%%%%%%%%%%%%
 
 \pagebreak
 \printbibliography
