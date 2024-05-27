@@ -14,8 +14,8 @@ if(CMAKE_EXPORT_COMPILE_COMMANDS)
       ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
 endif()
 
-find_package(Boost 1.85.0)
-find_package(OpenMP)
+find_package(Boost 1.85.0 REQUIRED)
+find_package(OpenMP 5.0)
 
 add_executable(dissertation src/main.cpp src/model.h src/monte_carlo.h src/pde.h)
 if(OpenMP_CXX_FOUND)
