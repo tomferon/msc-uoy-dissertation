@@ -24,7 +24,7 @@ template <int D>
 struct BasketOption {
   ublas::c_vector<double, D> weights; // w
   double expiry_time; // T
-  double strike_price;
+  double strike_price; // K
 };
 
 template <int D>
