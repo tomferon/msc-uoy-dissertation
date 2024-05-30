@@ -26,17 +26,3 @@ struct BasketOption {
   double expiry_time; // T
   double strike_price; // K
 };
-
-template <int D>
-std::ostream& operator<<(std::ostream& os, const BasketOption<D>& option) {
-  os << "BasketOption(weights={";
-  for (auto i : std::views::iota(0, D)) {
-    if (i != 0) {
-      os << ", ";
-    }
-    os << option.weights(i);
-  }
-  os << "}, expiry_time=" << option.expiry_time <<
-    ", strike_price=" << option.strike_price << ")";
-  return os;
-}
