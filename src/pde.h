@@ -28,29 +28,30 @@ public:
   // Convert (k_1, ..., k_d) to (w_1^* + k_1 h_{w_1}, ..., w_d^* + k_d h_{w_d}).
   ublas::c_vector<double, D> to_weights(
       const ublas::c_vector<double, D>& base_weights, // \mathbf{w}^*
-      const ublas::c_vector<double, D>& weight_steps) {
+      const ublas::c_vector<double, D>& weight_steps) const {
 
     ublas::c_vector<double, D> coords_vector{};
-    for (auto i : std::views::iota(0, D)) {
-      coords_vector(i) = coords[i];
-    }
+    std::copy(coords.begin(), coords.end(), coords_vector.begin());
 
     return base_weights + ublas::element_prod(coords_vector, weight_steps);
   }
 
   // Return new coordinates (k_1, ..., k_i + 1, ..., k_d) given i.
-  Coordinates<D> inc(int i) {
+  Coordinates<D> inc(int i) const {
     Coordinates<D> new_coords = *this;
     ++new_coords(i);
     return new_coords;
   }
 
   // Return new coordinates (k_1, ..., k_i - 1, ..., k_d) given i.
-  Coordinates<D> dec(int i) {
+  Coordinates<D> dec(int i) const {
     Coordinates<D> new_coords = *this;
     --new_coords(i);
     return new_coords;
   }
+
+  std::array<int, D>::iterator begin() { return coords.begin(); }
+  std::array<int, D>::iterator end() { return coords.end(); }
 
 private:
   std::array<int, D> coords{};
@@ -87,7 +88,7 @@ public:
     }
 
     coordinates_iterator& operator++() {
-      for (auto i : std::views::iota(0, D)) {
+      for (const auto i : std::views::iota(0, D)) {
         ++coords(i);
         if (coords(i) > span && i < D-1) {
           coords(i) = -span;
@@ -99,7 +100,7 @@ public:
     }
 
     coordinates_iterator& operator+=(difference_type diff) {
-      for (auto i : std::views::iota(0, D)) {
+      for (const auto i : std::views::iota(0, D)) {
         difference_type subdiff = diff % (1+2*span);
         coords(i) += subdiff;
         diff = (diff - subdiff) / (1+2*span);
@@ -119,7 +120,7 @@ public:
 
     difference_type operator-(const coordinates_iterator& other) const {
       difference_type diff = 0;
-      for (auto i : std::views::iota(0, D)) {
+      for (const auto i : std::views::iota(0, D)) {
         diff += (coords(i) - other.coords(i)) * pow(1+2*span, i);
       }
       return diff;
@@ -137,9 +138,7 @@ public:
   // We start iterating from (-span, ..., -span) ...
   coordinates_iterator begin() const {
     Coordinates<D> coords{};
-    for (auto i : std::views::iota(0, D)) {
-      coords(i) = -span;
-    }
+    std::fill(coords.begin(), coords.end(), -span);
     return coordinates_iterator(span, coords);
   }
 
@@ -147,9 +146,7 @@ public:
   // sentinel value.
   coordinates_iterator end() const {
     Coordinates<D> coords{};
-    for (auto i : std::views::iota(0, D-1)) {
-      coords(i) = -span;
-    }
+    std::fill(coords.begin(), coords.end()-1, -span);
     coords(D-1) = span + 1;
     return coordinates_iterator(span, coords);
   }
@@ -158,7 +155,7 @@ public:
   // integers ranging from -span to span included.
   double& operator()(const Coordinates<D> coords) {
     std::vector<double>::size_type index = 0;
-    for (auto d : std::views::iota(0, D)) {
+    for (const auto d : std::views::iota(0, D)) {
       index *= 1+2*span;
       index += span + coords(d);
     }
@@ -190,20 +187,19 @@ double pricer(
 
   // Calculate (h_{w_1}, ..., h_{w_d}) based on option.weights and n.
   ublas::c_vector<double, D> weight_steps{};
-  for (auto i : std::views::iota(0, D)) {
-    weight_steps(i) = option.weights(i) / sqrt(n);
-  }
+  std::copy(option.weights.begin(), option.weights.end(), weight_steps.begin());
+  weight_steps /= sqrt(n);
 
   // Bookkeeping for progress feedback.
   int done = 0; // Number of nodes computed.
   int total_node_count = 0;
-  for (auto span : std::views::iota(0, n+1)) {
+  for (const auto span : std::views::iota(0, n+1)) {
     total_node_count += pow(1+2*span, D);
   }
 
   // Calculate the values in the first layer using the payoff values.
   #pragma omp parallel for
-  for (auto& coords : node_values) {
+  for (const auto& coords : node_values) {
     ublas::c_vector<double, D> weights =
       coords.to_weights(option.weights, weight_steps);
     double basket_value = ublas::inner_prod(weights, model.initial_prices);
@@ -211,7 +207,7 @@ double pricer(
   }
 
   // Loop over each subsequent layer of the tree until its root.
-  for (auto layer : std::views::iota(1, n+1)) {
+  for (const auto layer : std::views::iota(1, n+1)) {
     const double time = time_step * (layer - 1); // T
     const double interest_rate = model.riskfree_rate(time); // r(T)
     const ublas::c_matrix<double, D, D> vol = model.volatility(time); // C(T)
@@ -227,20 +223,20 @@ double pricer(
 
     // Compute the node's value using the recursive formula.
     #pragma omp parallel for
-    for (auto coords : new_node_values) {
+    for (const auto& coords : new_node_values) {
       // \mathbf{w}
       ublas::c_vector<double, D> weights =
         coords.to_weights(option.weights, weight_steps);
       // Accumulator to compute \hat{C}(T + h_T, \mathbf{w}).
       double value = node_values(coords);
 
-      for (auto i : std::views::iota(0, D)) {
+      for (const auto i : std::views::iota(0, D)) {
         double theta_i =
           (node_values(coords.inc(i)) - node_values(coords.dec(i)))
           / (2.0 * weight_steps(i));
         value += time_step * interest_rate * weights(i) * theta_i;
 
-        for (auto l : std::views::iota(0, D)) {
+        for (const auto l : std::views::iota(0, D)) {
           double phi_il;
           if (i == l) {
             phi_il =
@@ -270,7 +266,7 @@ double pricer(
     // Progress feedback.
     done += pow(1+2*span, D);
     double progress = static_cast<double>(done) / total_node_count;
-    std::cout << "\r" << round(100 * progress) << "% " << std::flush;
+    std::cout << '\r' << round(100 * progress) << "% " << std::flush;
   }
   std::cout << "\r    \r" << std::flush;
 

@@ -15,8 +15,8 @@ constexpr unsigned int seed = 20240524;
 
 ublas::c_matrix<double, 3, 3> example_volatility_matrix(const double t) {
   ublas::c_matrix<double, 3, 3> coefficients{};
-  for (auto i : std::views::iota(0, 3)) {
-    for (auto j : std::views::iota(0, 3)) {
+  for (const auto i : std::views::iota(0, 3)) {
+    for (const auto j : std::views::iota(0, 3)) {
       // We introduce some shifts so entries change differently over time.
       int shift1 = i + j % 5 - 2;
       int shift2 = i + j % 4 - 2;
@@ -37,16 +37,16 @@ void test(const Model<D>& model, const BasketOption<D>& basket_option) {
   double initial_basket_value =
     ublas::inner_prod(basket_option.weights, model.initial_prices);
   std::cout << "Weights:              {";
-  for (auto i : std::views::iota(0, D)) {
+  for (const auto i : std::views::iota(0, D)) {
     if (i != 0) {
       std::cout << ", ";
     }
     std::cout << basket_option.weights(i);
   }
   std::cout << "}\n"
-    << "Expiry time:          " << basket_option.expiry_time << "\n"
-    << "Strike price:         " << basket_option.strike_price << "\n"
-    << "Initial basket value: " << initial_basket_value << "\n" << std::endl;
+    << "Expiry time:          " << basket_option.expiry_time << '\n'
+    << "Strike price:         " << basket_option.strike_price << '\n'
+    << "Initial basket value: " << initial_basket_value << '\n' << std::endl;
 
   double monte_carlo_price = MonteCarlo::pricer(
     seed,  monte_carlo_simulation_count, monte_carlo_time_step_count,
@@ -84,6 +84,4 @@ int main(int argc, char *argv[]) {
   test(model, basket_option1);
   std::cout << "\n=== Test for basket option out of the money ===\n" << std::endl;
   test(model, basket_option2);
-
-  return 0;
 }
