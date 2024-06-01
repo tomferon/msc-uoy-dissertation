@@ -136,31 +136,27 @@ Supervisor: Maciej J. Capi\'nski
 
 \pagebreak
 
-FIXME: Quick intro to the topic and explanation of what is coming.
+The classic Black-Scholes model assumes that the volatility is constant. This has the advantage that the model is simple and interesting results can be derived, most notably the Black-Scholes formula that allows us find the price of European options given a certain volatility. By inverting this relation, we can also find the so-called \textit{implied volatility} from prices of traded European options. Unfortunately, the implied volatility is not constant and, in fact, vary as a function of expiry time and strike price. These relationships is referred to as the \textit{volatility smile} due to the shape of their graphs.
 
-FIXME: Explain the problem with the volatility smile.
+Several extensions of the Black-Scholes model have been proposed to solve this discrepancy. In particular, \textit{local volatility models} have the advantage of being simpler than \textit{stochastic volatility models} while still being able to fit the volatility smile. In such a model, \textcite{dupire_pricing_1993} has shown that the price of European call options satisfy some partial differential equation, the so-called \textit{Dupire's Equation}.
 
-FIXME: The BS model can be extended to solve this discrepancy. Mention stochastic volatility models and say local volatility models have the advantage of being simpler.
+Later, \textcite{pablo_amster_towards_2009} attempted to generalise Dupire's Equation to multiple assets. They showed that the price of European \textit{basket} call options, option whose underlying is a basket of assets with fixed weights, also satisfies some partial differential equation, related to but with a different form than Dupire's Equation. Nonetheless, we will refer to it as the \textit{generalisation} of Dupire's Equation here for simplicity.
 
-FIXME: Explain that the prices of call options satisfy a PDE (Dupire's Equation) and explain the advantage.
+The goal of this dissertation is to present all the background necessary for this latter result and to present it in details, taking particular care to make each step explicit.
 
-FIXME: Introduce the paper this dissertation is based on.
+We begin by establishing the prerequisites about stochastic processes and stochastic calculus in Section \ref{sec:preliminaries}. Most results in this section are stated without proofs but references are provided in each case. The \textit{multi-asset Black-Scholes model with variable coefficients} is then presented in Section \ref{sec:black-scholes}, where we also define many concepts and show important results to \textit{price} basket options. In Section \ref{sec:fokker-planck}, we define \textit{Markov processes} and derive the Fokker-Planck Equation that they satisfy. This equation will then be used to prove both Dupire's Equation and its generalisation. Section \ref{sec:local-vol} present a restriction of the model developed in Section \ref{sec:black-scholes}, the so-called \textit{local volatility model}. In this restriction, we then prove Dupire's Equation in Section \ref{sec:dupire}. Finally, we show its generalisation in Section \ref{sec:generalisation}, together with a numerical example that uses this generalisation to price basket options. The implementation of that method in C++ is provided in the appendix as well as in accompanying source code files.
 
-FIXME: Provide a step-by-step description of what's covered by the dissertation. "In Section 2, we introduce ..."
-
-FIXME: Rephrase: Most results are provided with a reference. However, some results were required for which no references were found. A proof is always provided in these cases.
+Most results are provided with the reference on which they are based. However, some results were required for which no references were found. A proof is always provided in these cases.
 
 \section{Contribution}
 
-FIXME
-
-FIXME: Collated and harmonised material from different sources using different notations, definitions and terminologies into something coherent.
+In general, the main contributions of this dissertation is to collate and harmonise the material from different sources using various notations, terminologies, or even definitions, into a coherent text, as well as expanding on the proofs from the references to present into finer details.
 
 Lemma \ref{lem:ito-diffusion-characteristics-m2} was needed by some proof but no references to this result could be found, so a proof is provided here.
 
-The construction of a risk-neutral probability for the multi-asset Black-Scholes model in Theorem \ref{thm:bs-risk-neutral-prob} is based on \textcite{capinski_blackscholes_2012} where the proof is fairly short (about half a page). A proof is provided here in finer details in one page and a half. Moreover, the extension of such a risk-neutral probability is proved here for stochastic drift and volatility coefficients that are bounded by a deterministic constant, while the reference merely proves it when these coefficients are deterministic.
+The construction of a risk-neutral probability for the multi-asset Black-Scholes model in Theorem \ref{thm:bs-risk-neutral-prob} is based on \textcite{capinski_blackscholes_2012} where the proof is fairly short (about half a page). A proof is provided here in more details in one page and a half. Moreover, the extension of such a risk-neutral probability is proved here for stochastic drift and volatility coefficients that are bounded by a deterministic constant, while the reference merely proves it when these coefficients are deterministic.
 
-FIXME: All theorems that were extended to the multi-asset case.
+The multi-asset Black-Scholes model with variable coefficients is presented here based on \textcite{capinski_blackscholes_2012}. Most results from the reference are concerned with the classic Black Scholes model (single asset, constant coefficients). Here, they are extended and the proofs are adapted to this more general model. More specifically, this is the case for Theorem \ref{thm:bs-risk-neutral-dynamics}, Theorem \ref{thm:bs-risk-neutral-dynamics-discounted}, Theorem \ref{thm:bs-repl-strat-derivative-prices}, Theorem \ref{thm:bs-replicability} and Theorem \ref{thm:bs-derivative-pricing}.
 
 In the reference the proof of Theorem \ref{thm:bs-repl-strat-derivative-prices} is based on, the theorem is proved directly. Here, besides extending the proof to the multi-asset case, we first prove a simpler lemma (Lemma \ref{lem:bs-non-negative-strat}) which is easier to prove and makes the proof of theorem trivial.
 
@@ -176,7 +172,7 @@ The proof of the generalisation of Dupire's Equation to higher dimensions in \te
 
 Finally, we present a discretisation of the PDE from Theorem \ref{thm:generalisation} using a finite difference method. An implementation of the method in C++ is also provided. The C++ code also implements Monte Carlo simulations to compare the results as a sanity check.
 
-\section{Preliminaries}
+\section{Preliminaries}\label{sec:preliminaries}
 
 % Develop a preliminaries section, in which the tools of stochastic Ito calculus are introduced. Assume that your reader has background in the standard undergraduate modules in mathematics (including analysis, measure theory, probability theory and statistics), but introduce all the notions concerning stochastic processes from scratch. This section should not contain any proofs. Simply set up and state the needed results, providing citations to sources. While developing this section, restrict to the setup needed for the model from [2].
 
@@ -610,7 +606,7 @@ The following result will be required by some proof in the next sections.
 %%%%%%%%%%%%%
 \comment{in places the section is a bit dry, so we should remember to add comments here and there linking the definitions and results so that they constitute a `story'.}
 %%%%%%%%%%%%%
-\section{Multi-Asset Black-Scholes Model}
+\section{Multi-Asset Black-Scholes Model}\label{sec:black-scholes}
 
 In this section, we discuss a market model -- often referred to as the \textit{multi-asset Black-Scholes model with variable coefficients} -- consisting of one risk-free asset with price $A(t)$ satisfying
 \begin{align}\label{eq:multi-bs-eq-risk-free}
@@ -1323,7 +1319,7 @@ We denote the price of a European basket call option with weights $\mathbf{w}$ b
   \end{proof}
 \end{corollary}
 
-\section{The Fokker-Planck Equation}
+\section{The Fokker-Planck Equation}\label{sec:fokker-planck}
 
 % Introduce the Fokker-Planck equation. Use [4] as a reference.
 
@@ -1606,7 +1602,7 @@ For the rest of this section, we prove some results that will be used to show in
   \end{proof}
 \end{theorem}
 
-\section{Local Volatility Model}
+\section{Local Volatility Model}\label{sec:local-vol}
 
 Dupire's work and the work in \textcite{pablo_amster_towards_2009} applies in a local volatility model, developed here. Since this section is not based on any reference as we only derive what we need to show Dupire's Equation (Theorem \ref{thm:dupire}) and its generalisation (Theorem \ref{thm:generalisation}), no references are given.
 
@@ -1620,9 +1616,9 @@ for all $i=1,\ldots,d$ for some $a,b$ as in Theorem \ref{thm:sde-solution}. By T
   && c_{ij}(t,\mathbf{S}(t)) = \frac{b_{ij}(t, \mathbf{S}(t))}{S_i(t)},
 \end{align*}
 for $i,j=1,\ldots,d$, so that
-\begin{align*}
+\begin{align}\label{eq:local-dynamics}
   \mathrm{d}S_i(t) = \mu_i(t,\mathbf{S}(t)) S_i(t) \mathrm{d}t + \sum_{j=1}^{d} c_{ij}(t,\mathbf{S}(t)) S_i(t) \mathrm{d}W_j(t),
-\end{align*}
+\end{align}
 for all $i=1,\ldots,d$, where $\mu_i(t,\mathbf{S}(t)), c_{ij}(t,\mathbf{S}(t)), i,j=1,\ldots,d$ satisfy Assumptions \ref{ass:drift-vol-regularity} and \ref{ass:vol-matrix-invertible}. Such a model is called a \textit{local volatility model}.
 
 The crucial property of such a model for our purposes is that prices of risky assets are Markov, as shown below.
@@ -1696,7 +1692,7 @@ for all $t \in [0,T]$.
 
 For the remaining of this dissertation, we restrict ourselves to local volatility models.
 
-\section{Dupire's Equation}
+\section{Dupire's Equation}\label{sec:dupire}
 
 % Give a detailed derivation of the Dupire’s equation (equation starting with ∂C = on page 171 in [2]). ∂T
 % Use section 2 from [2] and the section ‘The continuous time theory’ from [3] as a source for the proof.
@@ -1888,17 +1884,21 @@ Having shown the asymptotic behavious of the call option price and its partial d
   \end{proof}
 \end{theorem}
 
-\section{Generalisation to Multiple Assets}
+\section{Generalisation to Multiple Assets}\label{sec:generalisation}
 
 % Provide the setup and give a detailed proof of Theorem 1 from [2]. This should be based on section 3 from [2]
 
 Since, contrary to Dupire's Equation in the single-asset case, the partial differential equation that is satisfied by the prices of European basket call options will turn out to involve partial derivatives with respect to the expiry time $T$ and to the weights $w_i, i=1,\ldots,d$, we fix $t$ and $K$ and denote by $C(T,\mathbf{w})$ the price at time $t$ of a European basket call option with expiry time $T$, strike price $K$ and weights $\mathbf{w}$.
 
-We make yet another major restriction to the model, making the volatility coefficients depend on time only. As such, we write $c_{ij}(t)$ for $i,j=1,\ldots,d$ instead of $c_{ij}(t,\mathbf{S}(t))$. That is, the risky assets have dynamics
+We make yet another major restriction to the model, making the volatility coefficients depend on time only. As such, we write $c_{ij}(t)$ for $i,j=1,\ldots,d$ instead of $c_{ij}(t,\mathbf{S}(t))$. That is, we rewrite \eqref{eq:local-dynamics} as
+\begin{align*}
+  \mathrm{d}S_i(t) &= \mu_i(t, \mathbf{S}(t)) S_i(t) \mathrm{d}t + \sum_{j=1}^{d} c_{ij}(t) S_i(t) \mathrm{d}W^Q_j(t),
+\end{align*}
+such that the risky assets have dynamics
 \begin{align*}
   \mathrm{d}S_i(t) &= r(t) S_i(t) \mathrm{d}t + \sum_{j=1}^{d} c_{ij}(t) S_i(t) \mathrm{d}W^Q_j(t),
 \end{align*}
-for $i=1,\ldots,d$, where $c_{ij}(t), i,j=1,\ldots,d$ are deterministic.
+for $i=1,\ldots,d$, where $c_{ij}(t), i,j=1,\ldots,d$ are deterministic, as shown by Theorem \ref{thm:bs-risk-neutral-dynamics}. Note that, in that theorem, the volatility coefficients $c_{ij}, i,j=1,\ldots,d$ were stochastic while they are deterministic in this restriction of the local volatiliy model.
 
 %%%%%%%%%%%%%
 \comment{we could write out the assumption on the asset dynamics here.}
