@@ -36,14 +36,14 @@ template <int D>
 void test(const Model<D>& model, const BasketOption<D>& basket_option) {
   double initial_basket_value =
     ublas::inner_prod(basket_option.weights, model.initial_prices);
-  std::cout << "Weights:              {";
+  std::cout << "Weights:              (";
   for (const auto i : std::views::iota(0, D)) {
     if (i != 0) {
       std::cout << ", ";
     }
     std::cout << basket_option.weights(i);
   }
-  std::cout << "}\n"
+  std::cout << ")\n"
     << "Expiry time:          " << basket_option.expiry_time << '\n'
     << "Strike price:         " << basket_option.strike_price << '\n'
     << "Initial basket value: " << initial_basket_value << '\n' << std::endl;

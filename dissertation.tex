@@ -136,41 +136,41 @@ Supervisor: Maciej J. Capi\'nski
 
 \pagebreak
 
-The classic Black-Scholes model assumes that the volatility is constant. This has the advantage that the model is simple and interesting results can be derived, most notably the Black-Scholes formula that allows us find the price of European options given a certain volatility. By inverting this relation, we can also find the so-called \textit{implied volatility} from prices of traded European options. Unfortunately, the implied volatility is not constant and, in fact, vary as a function of expiry time and strike price. These relationships is referred to as the \textit{volatility smile} due to the shape of their graphs.
+The classic Black-Scholes model assumes that the volatility is constant. This has the advantage that the model is simple and interesting results can be derived, most notably the Black-Scholes formula that allows us to find the price of European options given a certain volatility. By inverting this relation, we can also find the so-called \textit{implied volatility} from prices of traded European options. Unfortunately, the implied volatility is not constant and, in fact, vary as a function of expiry time or of strike price. These relationships are both referred to as the \textit{volatility smile} due to the shape of their graphs.
 
-Several extensions of the Black-Scholes model have been proposed to solve this discrepancy. In particular, \textit{local volatility models} have the advantage of being simpler than \textit{stochastic volatility models} while still being able to fit the volatility smile. In such a model, \textcite{dupire_pricing_1993} has shown that the price of European call options satisfy some partial differential equation, the so-called \textit{Dupire's Equation}.
+Several extensions of the Black-Scholes model have been proposed to solve this discrepancy. In particular, \textit{local volatility models} have the advantage of being simpler than \textit{stochastic volatility models} while still being able to fit the volatility smile. In such a model, \textcite{dupire_pricing_1993} has shown that the prices of European call options satisfy a partial differential equation, the so-called \textit{Dupire Equation}.
 
-Later, \textcite{pablo_amster_towards_2009} attempted to generalise Dupire's Equation to multiple assets. They showed that the price of European \textit{basket} call options, option whose underlying is a basket of assets with fixed weights, also satisfies some partial differential equation, related to but with a different form than Dupire's Equation. Nonetheless, we will refer to it as the \textit{generalisation} of Dupire's Equation here for simplicity.
+Later, \textcite{pablo_amster_towards_2009} attempted to generalise Dupire's Equation to multiple assets. They showed that the price of European \textit{basket} call options, options whose underlying is a basket of assets with fixed weights, also satisfy some partial differential equation, related to but with a different form than Dupire's Equation. Nonetheless, we will refer to it as the \textit{generalisation} of Dupire's Equation here for simplicity.
 
-The goal of this dissertation is to present all the background necessary for this latter result and to present it in details, taking particular care to make each step explicit.
+The goal of this dissertation is to present the necessary background for these results and to present them in details, taking particular care to make each step explicit.
 
-We begin by establishing the prerequisites about stochastic processes and stochastic calculus in Section \ref{sec:preliminaries}. Most results in this section are stated without proofs but references are provided in each case. The \textit{multi-asset Black-Scholes model with variable coefficients} is then presented in Section \ref{sec:black-scholes}, where we also define many concepts and show important results to \textit{price} basket options. In Section \ref{sec:fokker-planck}, we define \textit{Markov processes} and derive the Fokker-Planck Equation that they satisfy. This equation will then be used to prove both Dupire's Equation and its generalisation. Section \ref{sec:local-vol} present a restriction of the model developed in Section \ref{sec:black-scholes}, the so-called \textit{local volatility model}. In this restriction, we then prove Dupire's Equation in Section \ref{sec:dupire}. Finally, we show its generalisation in Section \ref{sec:generalisation}, together with a numerical example that uses this generalisation to price basket options. The implementation of that method in C++ is provided in the appendix as well as in accompanying source code files.
+We begin by establishing the prerequisites about stochastic processes and stochastic calculus in Section \ref{sec:preliminaries}. Most results in this section are stated without proofs but references are provided in each case. The \textit{multi-asset Black-Scholes model with variable coefficients} is then presented in Section \ref{sec:black-scholes}, where we also define many concepts and show important results to \textit{price} basket options. In Section \ref{sec:fokker-planck}, we define \textit{Markov processes} and derive the \textit{Fokker-Planck Equation} that they satisfy. This equation will then be used to prove both Dupire's Equation and its generalisation. Section \ref{sec:local-vol} presents a restriction of the model developed in Section \ref{sec:black-scholes}, the so-called \textit{local volatility model}. In this restriction, we then prove Dupire's Equation in Section \ref{sec:dupire}. Finally, we show its generalisation in Section \ref{sec:generalisation}, together with a numerical example that uses this generalisation to price basket options. The implementation of that method in C++ is provided in the appendix as well as in accompanying source files.
 
 Most results are provided with the reference on which they are based. However, some results were required for which no references were found. A proof is always provided in these cases.
 
 \section{Contribution}
 
-In general, the main contributions of this dissertation is to collate and harmonise the material from different sources using various notations, terminologies, or even definitions, into a coherent text, as well as expanding on the proofs from the references to present into finer details.
+In general, the main contributions of this dissertation is to collate and harmonise the material from different sources using various notations, terminologies, or even definitions, into a coherent text, as well as expanding on the proofs from the references to present them into finer details. More specifically, the following contributions were made.
 
-Lemma \ref{lem:ito-diffusion-characteristics-m2} was needed by some proof but no references to this result could be found, so a proof is provided here.
+Lemma \ref{lem:ito-diffusion-characteristics-m2} was needed in the proof of Theorem \ref{thm:fokker-planck} but no references to this result could be found, so a proof is provided here.
 
-The construction of a risk-neutral probability for the multi-asset Black-Scholes model in Theorem \ref{thm:bs-risk-neutral-prob} is based on \textcite{capinski_blackscholes_2012} where the proof is fairly short (about half a page). A proof is provided here in more details in one page and a half. Moreover, the extension of such a risk-neutral probability is proved here for stochastic drift and volatility coefficients that are bounded by a deterministic constant, while the reference merely proves it when these coefficients are deterministic.
+The construction of a risk-neutral probability for the multi-asset Black-Scholes model in Theorem \ref{thm:bs-risk-neutral-prob} is based on \textcite{capinski_blackscholes_2012} where the proof is fairly short (about half a page). A proof is provided here in more details in one page and a half. Moreover, the existence of such a risk-neutral probability is proved here for stochastic drift and volatility coefficients that are bounded by a deterministic constant, while the reference merely proves it when these coefficients are deterministic.
 
-The multi-asset Black-Scholes model with variable coefficients is presented here based on \textcite{capinski_blackscholes_2012}. Most results from the reference are concerned with the classic Black Scholes model (single asset, constant coefficients). Here, they are extended and the proofs are adapted to this more general model. More specifically, this is the case for Theorem \ref{thm:bs-risk-neutral-dynamics}, Theorem \ref{thm:bs-risk-neutral-dynamics-discounted}, Theorem \ref{thm:bs-repl-strat-derivative-prices}, Theorem \ref{thm:bs-replicability} and Theorem \ref{thm:bs-derivative-pricing}.
+The multi-asset Black-Scholes model with variable coefficients is presented here based on \textcite{capinski_blackscholes_2012}. Most results from this reference are concerned with the classic Black Scholes model (single asset, constant coefficients). Here, they are extended and the proofs are adapted to the more general model. More specifically, this is the case for Theorem \ref{thm:bs-risk-neutral-dynamics}, Theorem \ref{thm:bs-risk-neutral-dynamics-discounted}, Theorem \ref{thm:bs-repl-strat-derivative-prices}, Theorem \ref{thm:bs-replicability} and Theorem \ref{thm:bs-derivative-pricing}.
 
-In the reference the proof of Theorem \ref{thm:bs-repl-strat-derivative-prices} is based on, the theorem is proved directly. Here, besides extending the proof to the multi-asset case, we first prove a simpler lemma (Lemma \ref{lem:bs-non-negative-strat}) which is easier to prove and makes the proof of theorem trivial.
+In the reference on which the proof of Theorem \ref{thm:bs-repl-strat-derivative-prices} is based, the theorem is proved directly. Here, besides extending the proof to the multi-asset case, we first prove a simpler lemma (Lemma \ref{lem:bs-non-negative-strat}) which is easier to show and then makes the proof of the theorem trivial.
 
-In \textcite{pavliotis_stochastic_2014}, the proof of the Fokker-Planck Equation is rather short (less than a page) and uses a different definition of It\^o diffusion. Here, we provide a more detailed proof (about 3.5 pages) based on the definition of It\^o diffusions as solutions to SDEs.
+In \textcite{pavliotis_stochastic_2014}, the proof of the Fokker-Planck Equation is rather short (less than a page) and uses a different definition of It\^o diffusions. Here, we provide a more detailed proof (about 3.5 pages) based on the definition of It\^o diffusions as solutions to SDEs (see Definition \ref{def:ito-diffusion}).
 
-In \textcite{oksendal_stochastic_2003}, it is shown that all It\^o diffusions are Markov. However, it was simpler to give other sufficients conditions for processes to be Markov. We can then use these results to show that the price of risky assets in the local volatility model, which are incidentally It\^o diffusions, are in fact Markov. These results are Lemma \ref{lem:fp-ito-diffusion-indep-increments}, Theorem \ref{thm:fp-ito-diffusion-markov} and Theorem \ref{thm:fp-markov-composing}.
+In \textcite{oksendal_stochastic_2003}, it is shown that all It\^o diffusions are Markov. However, it was simpler to give alternative sufficient conditions for processes to be Markov in this context. We can then use these results to show that the price of risky assets in the local volatility model, which are incidentally It\^o diffusions, are in fact Markov. These results are Lemma \ref{lem:fp-ito-diffusion-indep-increments}, Theorem \ref{thm:fp-ito-diffusion-markov} and Theorem \ref{thm:fp-markov-composing}.
 
-Adapting the pricing results from the multi-asset Black-Scholes model with variable coefficients to the local volatility model to express them in terms of the transition probability density of the risky assets was sufficiently simple that it is not based on any reference. These are Theorem \ref{thm:local-derivative-pricing} and Corollary \ref{cor:local-option-pricing}.
+Adapting the pricing results from the multi-asset Black-Scholes model with variable coefficients to the local volatility model to express them in terms of the transition probability density of the risky assets was sufficiently simple that it is not based on any reference. These results are Theorem \ref{thm:local-derivative-pricing} and Corollary \ref{cor:local-option-pricing}.
 
 In \textcite{dupire_pricing_1993}, the asymptotic behaviour of the option price as the strike price goes to infinity as well as the asymptotic behaviour of its partial derivatives is merely mentioned. Here, we prove them in Theorem \ref{thm:dupire-asymptotic} and Lemma \ref{lem:dupire-asymptotic-dK}. We also provide a more detailed proof of Dupire's Equation in Theorem \ref{thm:dupire} that, contrary to the paper, does not ignore interest rates.
 
-The proof of the generalisation of Dupire's Equation to higher dimensions in \textcite{pablo_amster_towards_2009} is dense with only about 2 pages. The change of variables in the integral is done without too much explanation. Here, we prove it in Lemma \ref{lem:generalisation-var-change} before moving on to the proof of the main result (see Theorem \ref{thm:generalisation}) which is presented here in much greater details. Together, they account for 8 pages.
+The proof of the generalisation of Dupire's Equation to higher dimensions in \textcite{pablo_amster_towards_2009} is dense with only about 2 pages. The change of variables in the integral is done without much explanation. Here, we prove it in Lemma \ref{lem:generalisation-var-change} before moving on to the proof of the main result (see Theorem \ref{thm:generalisation}) which is presented here in much greater details. Together, they account for 8 pages.
 
-Finally, we present a discretisation of the PDE from Theorem \ref{thm:generalisation} using a finite difference method. An implementation of the method in C++ is also provided. The C++ code also implements Monte Carlo simulations to compare the results as a sanity check.
+Finally, we present a discretisation of the PDE from Theorem \ref{thm:generalisation} using a finite difference method. An implementation of the method in C++ is also provided. The code also implements Monte Carlo simulations to compare the results as a sanity check.
 
 \section{Preliminaries}\label{sec:preliminaries}
 
@@ -444,7 +444,7 @@ Since \eqref{eq:sde-init-value} is an equation with unknown $\mathbf{X}(t)$, it 
   Then \eqref{eq:sde-init-value} has a unique solution with continuous paths such that $X_i \in \mathcal{M}^2$, for all $i=1,\ldots,d$.
 \end{theorem}
 
-\begin{definition}
+\begin{definition}\label{def:ito-diffusion}
   An It\^o process of the form \eqref{eq:sde-init-value} whose characteristics satisfy the conditions of Theorem \ref{thm:sde-solution}, is called an \textbf{It\^o diffusion}.
 \end{definition}
 
@@ -2389,7 +2389,7 @@ Running the program outputs the following, where we can see that the pricer usin
 \begin{verbatim}
 === Test for basket option in the money ===
 
-Weights:              {2.5, 3, 1}
+Weights:              (2.5, 3, 1)
 Expiry time:          0.273973
 Strike price:         250
 Initial basket value: 360
@@ -2399,7 +2399,7 @@ PDE price:            116.027
 
 === Test for basket option out of the money ===
 
-Weights:              {4, 1.5, 6}
+Weights:              (4, 1.5, 6)
 Expiry time:          0.273973
 Strike price:         850
 Initial basket value: 730
