@@ -18,8 +18,8 @@ ublas::c_matrix<double, 3, 3> example_volatility_matrix(const double t) {
   for (const auto i : std::views::iota(0, 3)) {
     for (const auto j : std::views::iota(0, 3)) {
       // We introduce some shifts so entries change differently over time.
-      int shift1 = i + j % 5 - 2;
-      int shift2 = i + j % 4 - 2;
+      const int shift1 = i + j % 5 - 2;
+      const int shift2 = i + j % 4 - 2;
       coefficients(i,j) = 0.05
         + 0.01 * std::pow(t - 5 + shift1, 2)
         + 0.1 * shift2;
@@ -48,12 +48,12 @@ void test(const Model<D>& model, const BasketOption<D>& basket_option) {
     << "Strike price:         " << basket_option.strike_price << '\n'
     << "Initial basket value: " << initial_basket_value << '\n' << std::endl;
 
-  double monte_carlo_price = MonteCarlo::pricer(
+  const double monte_carlo_price = MonteCarlo::pricer(
     seed,  monte_carlo_simulation_count, monte_carlo_time_step_count,
     model, basket_option);
   std::cout << "Monte Carlo price:    " << monte_carlo_price << std::endl;
 
-  double pde_price = PDE::pricer(pde_time_step_count, model, basket_option);
+  const double pde_price = PDE::pricer(pde_time_step_count, model, basket_option);
   std::cout << "PDE price:            " << pde_price << std::endl;
 }
 

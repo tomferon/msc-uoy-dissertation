@@ -2221,7 +2221,15 @@ We now prove the theorem in much greater details than in the paper but following
 
 % Give a numerical example of how Theorem 1 can be applied to recover aij. You can restrict to the simplest setting of a two dimensional Black-Scholes model.
 
-In order to show how the result from Theorem \ref{thm:generalisation} could be used in practice, we now present a scheme to approximate the price of a basket option using the finite difference method. For the sake of comparison, we also use Monte Carlo simulations to price the same basket options. No effort is made here to optimise these methods and any concern about errors or how fast they converge are very much out of scope. Implementations for both are provided in the accompanying C++ files. For convenience, they are also listed in the appendix.
+In order to show how the result from Theorem \ref{thm:generalisation} could be used in practice, we now present a scheme to approximate the price of a basket option using the finite difference method.
+
+In the case of Dupire's Equation, we can easily make $c(T,K)$ the subject as
+\begin{align*}
+  c(T,K) = \sqrt{\frac{\frac{\partial}{\partial T} C(T,K) + r(T) K \frac{\partial}{\partial K} C(T,K)}{\frac{1}{2}\frac{\partial^2}{\partial K^2} C(T,K)}},
+\end{align*}
+so that, using Dupire's Equation, we can get an explicit scheme to calibrate the local volatility model in a fairly straightforward way. This is not as easy in the case of the equation obtained in Theorem \ref{thm:generalisation} so we focus here instead on using this equation to price basket options.
+
+For the sake of comparison, we also use Monte Carlo simulations to price the same basket options. No effort is made here to optimise these methods and any concerns about errors or how fast and whether the method converges are very much out of scope. Implementations for both are provided in the accompanying C++ files. For convenience, the source code is also listed in the appendix.
 
 For both methods, we use the example of a European basket call option with expiry time $T^*$, strike price $K$ and weights $\mathbf{w}^*$, whose price at time 0 we want to approximate. Corresponding put options could then be priced using Put-Call Parity (Theorem \ref{thm:put-call-parity}).
 
@@ -2408,11 +2416,11 @@ PDE price:            40.6889
 \subsection{Source Code of Numerical Example}
 
 \lstinputlisting[language=c++,caption=src/model.h]{src/model.h}
-\needspace{10cm}
+\needspace{5cm}
 \lstinputlisting[language=c++,caption=src/pde.h]{src/pde.h}
-\needspace{10cm}
+\needspace{5cm}
 \lstinputlisting[language=c++,caption=src/monte\_carlo.h]{src/monte_carlo.h}
-\needspace{10cm}
+\needspace{5cm}
 \lstinputlisting[language=c++,caption=src/main.cpp]{src/main.cpp}
 
 \pagebreak

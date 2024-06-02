@@ -65,7 +65,7 @@ public:
   // The span of a layer of the tree is k such that the layer has nodes for the
   // weights w_i - k h_{w_i}, ..., w_i + k h_{w_i}. That means there are 1+2*k
   // values for each weights and there are D weights, so the vector of node
-  // values will contain (1+2*span)^D values, which we reserve straightaway.
+  // values will contain (1+2*span)^D values, which we reserve straight away.
   TreeLayer(int span): span{span}, node_values(pow(1+2*span, D)) {}
 
   // Iterator such that we can easily loop over all nodes in a layer.
@@ -173,6 +173,8 @@ private:
   std::vector<double> node_values;
 };
 
+// Approximate the price of the given basket option using the finite difference method
+// as described in the PDF.
 template <int D>
 double pricer(
     const int n, // Number of time steps.
