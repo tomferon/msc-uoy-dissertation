@@ -183,6 +183,13 @@ In the following, we implicitly assume that we work in a probability space $(\Om
 We will denote the Borel subsets of $A$ by $\mathcal{B}(A)$, e.g. $\mathcal{B}(\mathbb{R}^d)$ denotes the Borel subets of $\mathbb{R}^d$.
 
 \begin{definition}
+  The \textbf{support} of a random variable $X$ with density $f$ is defined as
+  \begin{align*}
+    \mathrm{supp}(X) = \{x : f(x) > 0\}.
+  \end{align*}
+\end{definition}
+
+\begin{definition}
   A \textbf{stochastic process} is a measurable function $X : [0,T] \times \Omega \to \mathbb{R}^d$ with respect to the $\sigma$-field $\mathcal{B}([0,T]) \times \mathcal{F}$.
 \end{definition}
 
@@ -214,7 +221,7 @@ where $\mathcal{F}_{Y}$ denotes the sub-$\sigma$-field of $\mathcal{F}$ generate
   A stochastic process $X : [0,T] \times \Omega \to \mathbb{R}^d$ is said to be \textbf{adapted} to a filtration $(\mathcal{F}_t)_{t \in [0,T]}$ if, for all $t \in [0,T]$, $X(t)$ is $\mathcal{F}_t$-measurable.
 \end{definition}
 
-We will repeatedly make use of the following property of some stochastic processes.
+We will repeatedly make use of the following property of some stochastic processes throughout this text.
 
 \begin{definition}
   A stochastic process $X : [0,T] \times \Omega \to \mathbb{R}^d$ is said to be a \textbf{martingale} for a filtration $\mathcal{F}_t$ if $X(t)$ is integrable for each $t \in [0,T]$ and
@@ -232,7 +239,7 @@ We will repeatedly make use of the following property of some stochastic process
 \comment{This result seems rather evident. I think that maybe we do not need to write this as a separate theorem. We could simply use this fact in the argument where it is needed.}
 %%%%%%%%%%%%%
 
-The Wiener process is a central stochastic process to stochastic calculus. Here, we give an axiomatic definition. For a construction of such a process and thus a proof of existence, see \textcite{capinski_stochastic_2012}.
+The Wiener process is a central stochastic process to stochastic calculus. Here, we give an axiomatic definition. For a construction of such a process, and thus a proof of existence, see \textcite{capinski_stochastic_2012}.
 
 \begin{definition}
   A \textbf{Wiener process}, also called Brownian motion, is a stochastic process $(W(t))_{t \in [0,T]}$ that satisfies
@@ -245,7 +252,7 @@ The Wiener process is a central stochastic process to stochastic calculus. Here,
 \end{definition}
 
 \begin{definition}
-  A \textbf{$d$-dimensional Wiener process} is a stochastic process $\mathbf{W}(t) = (W_1(t), W_2(t), \ldots, W_d(t))$ where $W_j(t), j=1,\ldots,n$ are independent Wiener processes.
+  A \textbf{$d$-dimensional Wiener process} is a stochastic process $\mathbf{W}(t) = (W_1(t), W_2(t), \ldots, W_d(t))$ where $W_j(t), j=1,\ldots,d$ are independent Wiener processes.
 \end{definition}
 
 The \textit{It\^o integral} allows us to integrate a stochastic process with respect to a Wiener process, giving a random variable as the result. We will first define it for \textit{simple processes} and extend the definitions in steps.
@@ -265,7 +272,7 @@ The \textit{It\^o integral} allows us to integrate a stochastic process with res
   \end{align*}
 \end{definition}
 
-We now extend the definition of stochastic integral to processes that are square-integrable (in the sense of $L^2(\Omega \times [0,T])$).
+We now extend the definition of stochastic integral to processes that are square-integrable in the sense of $L^2([0,T] \times \Omega)$.
 
 \begin{definition}
   The set $\mathcal{M}^2$ is defined as the set of $\mathcal{F}^W_t$-adapted processes $X$ such that
@@ -274,7 +281,7 @@ We now extend the definition of stochastic integral to processes that are square
   \end{align*}
 \end{definition}
 
-The following theorems give us a link with simple processes.
+Stochastic integrals can be extended to $\mathcal{M}^2$ using the fact that $\mathcal{S}^2$ is dense in $\mathcal{M}^2$. More specifically, we will use the following two theorems.
 
 \begin{theorem}
   (\cite{capinski_stochastic_2012}, Theorem 3.4)\label{thm:s2-m2-conv}
@@ -290,7 +297,7 @@ The following theorems give us a link with simple processes.
   converges in $L^2$ and the limit does not depend on the choice of $(X_n)$.
 \end{theorem}
 
-We are now ready to extend stochastic integrals to $\mathcal{M}^2$. The previous two theorems ensure that the following definition of stochastic integrals in $\mathcal{M}^2$ is in fact well-defined by giving existence and uniqueness of the limit.
+We are now ready to extend stochastic integrals to $\mathcal{M}^2$. The previous results ensure that the following definition of stochastic integrals in $\mathcal{M}^2$ is in fact well-defined by giving existence and uniqueness of the limit.
 
 \begin{definition}
   The \textbf{stochastic integral} of $X \in \mathcal{M}^2$ over $[0,T]$ is defined as
@@ -321,12 +328,12 @@ For fixed endpoints of integration, the stochastic integral of a process is a ra
 \begin{definition}\label{def:stochastic-integral-as-process}
   The \textbf{stochastic integral} of $X \in \mathcal{M}^2$ is defined as the process
   \begin{align}\label{eq:stochastic-integral-process}
-    \int_0^t X(s) \mathrm{d}W(s) = M(t)
+    \int_0^t X(s) \mathrm{d}W(s) = M(t),
   \end{align}
   where $M$ is the martingale given by Proposition \ref{prop:stochastic-integral-martingale}, for $t \in [0,T]$.
 \end{definition}
 
-Before extending the stochastic integral further, we note the following property of stochastic integrals on $\mathcal{M}^2$, which does not necessarily hold for processes to which we extend the integral hereafter.
+Before extending the stochastic integral further, we note the following property of stochastic integrals on $\mathcal{M}^2$, which does not necessarily hold for processes to which we extend the integral thereafter.
 
 \begin{theorem}\label{thm:stochastic-integral-expectation-m2}
   (\cite{capinski_stochastic_2012}, Theorem 3.14)
@@ -385,7 +392,7 @@ For the rest of this section, we turn our attention to multidimensional stochast
   \end{align*}
 \end{definition}
 
-If $n=1$, we understand the integral to be the entry as defined above rather than a 1-component vector.
+If $n=1$, we understand the integral to be the entry as defined above, rather than a 1-component vector.
 
 Moreover, we can denote some sums of stochastic integrals with the notation
 \begin{align*}
@@ -393,7 +400,7 @@ Moreover, we can denote some sums of stochastic integrals with the notation
 \end{align*}
 for a stochastic process $\mathbf{X}(t) = (X_1(t), \ldots, X_d(t))$ with components in $\mathcal{P}^2$.
 
-We now turn our attention to stochastic processes defined in terms of a Lebesgue integral and a stochastic integral.
+Stochastic processes defined in terms of a Lebesgue integral and a stochastic integral occupy a central place in the theory shown in later sections. We now define classes of such processes and some of their properties.
 
 \begin{definition}
   We say that a process $\mathbf{X}(t) = (X_1(t), X_2(t), \ldots, X_d(t))$ is an \textbf{It\^o process} if it has the form
@@ -423,18 +430,17 @@ We call $\mathbf{a}$ the \textbf{drift} and $\mathbf{B}$ the \textbf{volatility}
   for some $a : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^d$, $b : [0,T] \times \mathbb{R}^{d} \to \mathbb{R}^{d \times n}$ and $\mathbf{x}_0 \in \mathbb{R}^d$.
 \end{definition}
 
-Since \eqref{eq:sde-init-value} is an equation with unknown $\mathbf{X}(t)$, it begs the question of the existence and uniqueness of a solution. The following theorem gives both under certain conditions.
+When faced with an equation such as \eqref{eq:sde-init-value}, one might naturally wonder whether a solution exists and, if so, whether it is unique. The following theorem gives both existence and uniquenesss of a solution under certain conditions.
 
 \begin{theorem}\label{thm:sde-solution}
   (\cite{oksendal_stochastic_2003}, Theorem 5.2.1)
-  Provided that both the coefficients $a(t,\mathbf{x})$ and $b(t,\mathbf{x})$ satisfy the following conditions where $\|\cdot\|$ denotes the Euclidean norm on $\mathbb{R}^d$ and the $L_{2,1}$-norm on $\mathbb{R}^{d \times n}$.
+  Provided that both the coefficients $a(t,\mathbf{x})$ and $b(t,\mathbf{x})$ satisfy the following conditions, where $\|\cdot\|$ denotes the Euclidean norm on $\mathbb{R}^d$ and the $L_{2,1}$-norm on $\mathbb{R}^{d \times n}$ respectively.
   \begin{itemize}
     \item Linear growth: there exists $C > 0$ such that
       \begin{align*}
         \|a(t,\mathbf{x})\| + \|b(t,\mathbf{x})\| \le C (1 + \|\mathbf{x}\|),
       \end{align*}
       for $t \in [0,T]$ and $\mathbf{x} \in \mathbb{R}^d$.
-
     \item Lipschitz continuity: there exists $K > 0$ such that
       \begin{align*}
         \|a(t,\mathbf{x}) - a(t,\mathbf{y})\| + \|b(t,\mathbf{x}) - b(t,\mathbf{y})\| \le K \|\mathbf{x}-\mathbf{y}\|,
@@ -445,10 +451,10 @@ Since \eqref{eq:sde-init-value} is an equation with unknown $\mathbf{X}(t)$, it 
 \end{theorem}
 
 \begin{definition}\label{def:ito-diffusion}
-  An It\^o process of the form \eqref{eq:sde-init-value} whose characteristics satisfy the conditions of Theorem \ref{thm:sde-solution}, is called an \textbf{It\^o diffusion}.
+  An It\^o process of the form \eqref{eq:sde-init-value}, whose characteristics satisfy the conditions of Theorem \ref{thm:sde-solution}, is called an \textbf{It\^o diffusion}.
 \end{definition}
 
-We will need the following property of It\^o diffusions for some proof in the next sections. Since a reference could not be found for this lemma, it is provided with a proof.
+We will need the following property of It\^o diffusions for some proof in the next sections. Since a reference could not be found for this lemma, a proof is provided.
 
 \begin{lemma}\label{lem:ito-diffusion-characteristics-m2}
   The characteristics of an It\^o diffusion $\mathbf{X}$ are in $\mathcal{M}^2$, i.e.
@@ -465,25 +471,31 @@ We will need the following property of It\^o diffusions for some proof in the ne
       &\le \left( \sum_{k=1}^d \sum_{l=1}^n b_{kl}(t,\mathbf{X}(t))^2 \right)^{\frac{1}{2}}
       = \|b(t,\mathbf{X}(t))\|\\
       &\le \|a(t,\mathbf{X}(t))\| + \|b(t,\mathbf{X}(t))\|
-      \le C (1 + \|\mathbf{X}(t)\|)
-      \le \|\mathbf{X}(t)\|,
+      \le C (1 + \|\mathbf{X}(t)\|).
     \end{align*}
-    assuming, without loss of generality, that $C > 1$.
 
-    But then,
+    Therefore,
     \begin{align*}
-      \mathbb{E} \left( \int_0^T b_{ij}(t,\mathbf{X}(t))^2 \mathrm{d}t \right)
-      &\le \mathbb{E} \left( \int_0^T \|\mathbf{X}(t)\|^2 \mathrm{d}t \right)
-      = \mathbb{E} \left( \int_0^T \sum_{i=1}^d X_i(t)^2 \mathrm{d}t \right)\\
-      &= \sum_{i=1}^d \mathbb{E} \left( \int_0^T X_i(t)^2 \mathrm{d}t \right) < \infty \tag{linearity}
+      \mathbb{E} &\left( \int_0^T b_{ij}(t,\mathbf{X}(t))^2 \mathrm{d}t \right)\\
+      &\le \mathbb{E} \left( \int_0^T C^2(1+\|\mathbf{X}(t)\|)^2 \mathrm{d}t \right)\\
+      &= C^2 T + 2 C^2 \mathbb{E} \left( \int_0^T \sqrt{\sum_{i=1}^d X_i(t)^2} \mathrm{d}t \right) + C^2 \mathbb{E} \left( \int_0^T \sum_{i=1}^d X_i(t)^2 \mathrm{d}t \right)\\
+      &\le C^2 T + 2 C^2 \sqrt{\mathbb{E} \left( \int_0^T \sum_{i=1}^d X_i(t)^2 \mathrm{d}t \right)} + C^2 \mathbb{E} \left( \int_0^T \sum_{i=1}^d X_i(t)^2 \mathrm{d}t \right),
     \end{align*}
-    since $X_i \in \mathcal{M}^2$ by Theorem \ref{thm:sde-solution}.
+    by Jensen's Inequality in $L^1([0,T] \times \Omega)$ since $x \mapsto \sqrt{x}$ is concave. But,
+    \begin{align*}
+      \mathbb{E} \left( \int_0^T \sum_{i=1}^d X_i(t)^2 \mathrm{d}t \right)
+      = \sum_{i=1}^d \mathbb{E} \left( \int_0^T X_i(t)^2 \mathrm{d}t \right) < \infty,
+    \end{align*}
+    since $X_i \in \mathcal{M}^2$ by Theorem \ref{thm:sde-solution}. Hence,
+    \begin{align*}
+      \mathbb{E} \left( \int_0^T b_{ij}(t,\mathbf{X}(t))^2 \mathrm{d}t \right) < \infty.
+    \end{align*}
 
-    Hence, $b_{ij}(t,\mathbf{X}(t)) \in \mathcal{M}^2$. The same proof can be used to show that $a_i(t,\mathbf{X}(t)) \in \mathcal{M}^2$. That is, all characteristics are in $\mathcal{M}^2$ as required.
+    That is, $b_{ij}(t,\mathbf{X}(t)) \in \mathcal{M}^2$. The same proof can be used to show that $a_i(t,\mathbf{X}(t)) \in \mathcal{M}^2$. In other words, all characteristics are in $\mathcal{M}^2$ as required.
   \end{proof}
 \end{lemma}
 
-Provided that a stochastic process satisfies an SDE, we can find an SDE that a function of said process itself satisfies by the It\^o Formula, also called It\^o Lemma in other resources.
+Provided that a stochastic process satisfies an SDE, we can find an SDE that a function of said process itself satisfies by the \textit{It\^o Formula}, also called \textit{It\^o Lemma} in other resources.
 
 \begin{theorem}[It\^o Formula]
   (\cite{capinski_blackscholes_2012}, Theorem 6.10)\label{thm:ito-formula}
@@ -532,7 +544,7 @@ The product of two It\^o processes is also an It\^o process and its stochastic d
   \end{align*}
 \end{theorem}
 
-Under a change of measure from $P$ to $Q$, a Wiener process $\mathbf{W}$ under $P$ is not necessarily a Wiener process under $Q$. However, the Girsanov Theorem gives us a way to construct a Wiener process under the new measure, provided that it satisfies some conditions.
+If a process $\mathbf{W}$ is a Wiener process under $P$, it is not necessarily a Wiener process under a different measure $Q$. However, the Girsanov Theorem gives us a way to construct a Wiener process under this new measure $Q$, provided that it satisfies some conditions.
 
 \begin{theorem}[Girsanov Theorem]\label{thm:girsanov}
   (\cite{capinski_blackscholes_2012}, Theorem 6.15)
@@ -552,11 +564,11 @@ Under a change of measure from $P$ to $Q$, a Wiener process $\mathbf{W}$ under $
   is a $d$-dimensional Wiener process under $Q$.
 \end{theorem}
 
-The following result is a sufficient condition under which the condition of the Girsanov Theorem holds.
+The following result is a sufficient condition under which the martingale condition on $M$ in the Girsanov Theorem holds.
 
 \begin{theorem}[Novikov Condition]\label{thm:novikov}
   (\cite{karatzas_brownian_1998}, Corollary 5.13)
-  If $a_j(t)$, $j=1,\ldots,n$ are $\mathcal{F}^\mathbf{W}_t$-adapted stochastic processes satisfying
+  If $a_j(t)$, $j=1,\ldots,d$ are $\mathcal{F}^\mathbf{W}_t$-adapted stochastic processes satisfying
   \begin{align*}
     \mathbb{E}\left(\exp \left(\frac{1}{2} \sum_{j=1}^d \int_0^T a_j(t)^2 \mathrm{d}t\right)\right) < \infty,
   \end{align*}
@@ -567,7 +579,7 @@ The following result is a sufficient condition under which the condition of the 
   is a martingale.
 \end{theorem}
 
-Stochastic integrals on $\mathcal{M}^2$ are martingales by Definition \ref{def:stochastic-integral-as-process}. As it turns out, we can go the other way around and express square-integrable martingales in terms of stochastic integrals.
+Stochastic integrals on $\mathcal{M}^2$ are martingales by Definition \ref{def:stochastic-integral-as-process}. As it turns out, we can go the other way around and express square-integrable martingales in terms of stochastic integrals on $\mathcal{M}^2$.
 
 \begin{theorem}[Martingale Representation Theorem]\label{thm:martingale-representation}
   (\cite{oksendal_stochastic_2003}, Theorem 4.3.4)
@@ -578,7 +590,7 @@ Stochastic integrals on $\mathcal{M}^2$ are martingales by Definition \ref{def:s
   and such that $\Gamma_i \in \mathcal{M}^2$ for all $i=1,\ldots,d$.
 \end{theorem}
 
-The following result will be required by some proof in the next sections.
+Finally, the following result about conditional expectations will be required by some proof in Section \ref{sec:fokker-planck}.
 
 \begin{theorem}\label{thm:cond-exp-measurable-independent}
   (\cite{kopp_probability_2013}, Theorem 4.27)
@@ -597,12 +609,6 @@ The following result will be required by some proof in the next sections.
   \end{align*}
 \end{theorem}
 
-\begin{definition}
-  The \textbf{support} of a random variable $X$ with density $f$ is defined as
-  \begin{align*}
-    \mathrm{supp}(X) = \{x : f(x) > 0\}.
-  \end{align*}
-\end{definition}
 %%%%%%%%%%%%%
 \comment{in places the section is a bit dry, so we should remember to add comments here and there linking the definitions and results so that they constitute a `story'.}
 %%%%%%%%%%%%%
@@ -612,11 +618,11 @@ In this section, we discuss a market model -- often referred to as the \textit{m
 \begin{align}\label{eq:multi-bs-eq-risk-free}
   \mathrm{d}A(t) = r(t) A(t) \mathrm{d}t, && A(0) = 1,
 \end{align}
-where $r(t)$ is a deterministic function representing the continuous risk-free rate, and many risky assets with prices $\mathbf{S}(t) = (S_1(t), \ldots, S_d(t))$ satisfying
+where $r(t)$ is a deterministic function representing the continuous risk-free rate, and $d$ risky assets with prices $\mathbf{S}(t) = (S_1(t), \ldots, S_d(t))$ satisfying
 \begin{align}
   \mathrm{d}S_i(t) &= \mu_i(t) S_i(t) \mathrm{d}t + \sum_{j=1}^{d} c_{ij}(t) S_i(t) \mathrm{d}W_j(t), \text{ for } i = 1,\ldots,d,\label{eq:multi-bs-eq}
 \end{align}
-for $\mathbf{W}(t) = (W_1(t), \ldots, W_d(t))$ a Wiener process with respect to the probability $P$ in the filtered probability space $(\Omega, \mathcal{F}, \mathcal{F}^\mathbf{W}_t, P)$; some processes $\mu_i, i=1,\ldots,d$ and $c_{ij}, i,j=1,\ldots,d$; and $\mathbf{S}(0)$ such that $S_i(0) > 0$, for $i=1,\ldots,d$.
+for $\mathbf{W}(t) = (W_1(t), \ldots, W_d(t))$ a Wiener process with respect to the probability $P$ in the filtered probability space $(\Omega, \mathcal{F}, \mathcal{F}^\mathbf{W}_t, P)$; some processes $\mu_i, i=1,\ldots,d$ (the \textit{drift coefficients}) and $c_{ij}, i,j=1,\ldots,d$ (the \textit{volatility coefficients}); and a constant $\mathbf{S}(0)$ such that $S_i(0) > 0$, for $i=1,\ldots,d$.
 
 Some references provided in this section refer to the equivalent results in the Black-Scholes model (single-asset, constant coefficients). We extend them here to the multi-asset Black-Scholes model with variable coefficients and provide proofs of the same. These references are marked as such.
 
@@ -627,7 +633,7 @@ Some further assumptions are made by the model.
 \end{assumption}
 
 \begin{assumption}\label{ass:vol-matrix-invertible}
-  The matrix of volatily coefficients $\mathbf{C}(t)= [c_{ij}(t)]_{i,j=1,\ldots,d}$ is invertible.
+  The matrix of volatility coefficients $\mathbf{C}(t)= [c_{ij}(t)]_{i,j=1,\ldots,d}$ is invertible.
 \end{assumption}
 
 The prices of the risk-free asset and the risky ones are given above in terms of the equations they satisfy. We can find the unique solutions for both cases.
@@ -710,7 +716,7 @@ as required.
 
 \subsection{Risk-neutral Probability}
 
-In this section, we will construct such a probability measure, whose usefulness resides in the fact that, under it, some processes are martingales. But first, let us define what a risk-neutral probabilty is.
+In this section, we construct a probability measure under which the discounted stock prices are martingales. Later, we will see that we express some prices as conditional expectations under that probability measure. First, we begin with a couple of definitions.
 
 \begin{definition}
   The \textbf{discounted process} of a process $X$ is defined as
@@ -720,17 +726,17 @@ In this section, we will construct such a probability measure, whose usefulness 
   The factor $\frac{1}{A(t)}$ is called the \textbf{discounting factor}.
 \end{definition}
 
-Note that since $e^{-\int_0^0 r(s) \mathrm{d}s} = 1$, a process agrees with its dicounted process at time 0, i.e. $X(0) = \widetilde{X}(0)$.
+Note that since $e^{-\int_0^0 r(s) \mathrm{d}s} = 1$, a process always agrees with its dicounted process at time 0, i.e. $X(0) = \widetilde{X}(0)$.
 
 \begin{definition}
   A \textbf{risk-neutral probability} is a probability measure $Q$ that is equivalent to $P$ and under which the discounted prices of all assets are martingales.
 \end{definition}
 
-The construction of the risk-neutral probability below requires the following lemma. Note that the reference provided refers to a similar statement where $a_j, j=1,\ldots,n$ are deterministic. We extend it here to stochastic processes bounded by a deterministic constant.
+The construction of the risk-neutral probability below requires the following lemma. Note that the reference provided refers to a similar statement where $a_j, j=1,\ldots,d$ are deterministic. We extend it here to stochastic processes bounded by a deterministic constant.
 
 \begin{lemma}\label{lem:bs-exponential-martingale}
   (\cite{capinski_blackscholes_2012}, Proposition 6.16)
-  If $a_j(t), j=1,\ldots,n$ are $\mathcal{F}^\mathbf{W}_t$-adapted stochastic processes bounded by a deterministic constant $K > 0$, then the stochastic process
+  If $a_j(t), j=1,\ldots,d$ are $\mathcal{F}^\mathbf{W}_t$-adapted stochastic processes bounded by a deterministic constant $K > 0$, then the stochastic process
   \begin{align*}
     M(t) = \exp \left( - \frac{1}{2} \sum_{j=1}^{d} \int_0^t a_j(s)^2 \mathrm{d}s - \sum_{j=1}^{d} \int_0^t a_j(s) \mathrm{d}W_j(s) \right)
   \end{align*}
@@ -747,6 +753,8 @@ The construction of the risk-neutral probability below requires the following le
     Hence, by Theorem \ref{thm:novikov}, $M(t)$ is a martingale.
   \end{proof}
 \end{lemma}
+
+We can now show how to construct a risk-neutral probability for this model.
 
 \begin{theorem}\label{thm:bs-risk-neutral-prob}
   (\cite{capinski_blackscholes_2012}, Theorem 6.17)
@@ -765,8 +773,8 @@ The construction of the risk-neutral probability below requires the following le
     \begin{align*}
       \widetilde{S}_i(t)
       &= \exp\left(- \int_0^t r(s)\mathrm{d}s\right) S_i(t)\\
-      &= S_i(0) \exp \left( \int_0^t (\mu_i(s) - r(s)) \mathrm{d}s \right.\\
-      &\hspace*{60pt} \left. - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right).
+      &= S_i(0) \exp \Bigg( \int_0^t (\mu_i(s) - r(s)) \mathrm{d}s \\
+      &\hspace*{60pt} - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \Bigg).
     \end{align*}
 
     By \eqref{eq:bs-def-theta}, we have
@@ -794,13 +802,12 @@ The construction of the risk-neutral probability below requires the following le
     \end{align*}
     is a Wiener process under Q.
 
-    By the It\^o Product Rule (Theorem \ref{thm:ito-product-rule}), we have that, for all $j=1,\ldots,d$,
+    But we have that, for all $j=1,\ldots,d$,
     \begin{align*}
-      \int_0^t c_{ij}(t) \theta_j(t) \mathrm{d}s + \int_0^t c_{ij}(s) \mathrm{d}W_j(s)
-      = c_{ij}(t) \mathrm{d}W^Q(t).
+      \int_0^t c_{ij}(s) \mathrm{d}W^Q(s)
+      = \int_0^t c_{ij}(t) \theta_j(t) \mathrm{d}s + \int_0^t c_{ij}(s) \mathrm{d}W_j(s),
     \end{align*}
-
-    Substituting in equation \eqref{eq:bs-risk-neutral-before-product-rule}, we obtain
+    so, substituting in equation \eqref{eq:bs-risk-neutral-before-product-rule}, we obtain
     \begin{align}\label{eq:bs-discounted-stock-price}
       \widetilde{S}_i(t)
       &= S_i(0) \exp \left( - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s
@@ -884,7 +891,7 @@ We make a further assumption on the prices of the risky assets under $Q$.
 
 \subsection{Strategies}
 
-Our goal will be to \textit{price} derivative securities, i.e. calculate their price at a given time, such that it is `consistent' with the prices of other assets. In this section, we introduce a few definitions to help make this idea precise. Pricing will be covered in the next section.
+Our ultimate goal is to \textit{price} derivative securities, i.e. calculate their price at a given time, such that it is `consistent' with the prices of other assets. In this section, we introduce a few definitions to help make this idea precise. Pricing will be covered in the next section.
 
 %%%%%%%%%%%%%
 \comment{short introduction missing}
@@ -901,7 +908,7 @@ So far, our market model consisted of the risk-free assets $A$ and the risky ass
 \end{definition}
 
 \begin{definition}
-  A \textbf{strategy} is defined as an $\mathcal{F}^\mathbf{W}_t$-adapted process of the form\\ $(x_1(t),\ldots,x_d(t),y(t))$ for $t \in [0,T]$ or simply $(x_1,\ldots,x_d,y)$ for short.
+  A \textbf{strategy} is defined as an $\mathcal{F}^\mathbf{W}_t$-adapted process of the form\\ $(x_1(t),\ldots,x_d(t),y(t))$, for $t \in [0,T]$, or simply $(x_1,\ldots,x_d,y)$ for short.
 \end{definition}
 
 \begin{definition}
@@ -909,8 +916,9 @@ So far, our market model consisted of the risk-free assets $A$ and the risky ass
   \begin{align*}
     V_{(x_1,\ldots,x_d,y)}(t) = \sum_{i=1}^d x_i(t) S_i(t) + y(t) A(t).
   \end{align*}
-  When there is no ambiguity, we simply denote it by $V(t)$.
 \end{definition}
+
+When there is no ambiguity, we simply denote the value of a strategy by $V(t)$. We can extend strategies to the extended market with no surprises.
 
 \begin{definition}
   An \textbf{extended strategy}, or a strategy in the extended market, is defined as an $\mathcal{F}^\mathbf{W}_t$-adapted process of the form $(x_1,\ldots,x_d,y,z)$. Its value is
@@ -923,7 +931,7 @@ So far, our market model consisted of the risk-free assets $A$ and the risky ass
 Not all strategies will be acceptable for our purposes and we therefore introduce some additional conditions that we can impose on strategies.
 
 \begin{definition}
-  We say that a strategy is \textbf{self-financing} if it is an It\^o process satisfying
+  We say that a strategy is \textbf{self-financing} if its value is an It\^o process satisfying
   \begin{align*}
     \mathrm{d}V(t) = \sum_{i=1}^d x_i(t) \mathrm{d}S_i(t) + y(t) \mathrm{d}A(t).
   \end{align*}
@@ -946,13 +954,13 @@ The following definitions apply to strategies as well as extended strategies.
   An \textbf{arbitrage opportunity} is an admissible self-financing strategy such that
   \begin{itemize}
     \item $V(0) = 0$,
-    \item $V(T) \ge 0$ almost surely and
+    \item $V(T) \ge 0$ almost surely, and
     \item $V(T) > 0$ with positive probability.
   \end{itemize}
 \end{definition}
 
 \begin{remark}
-  In these definitions, we do not have to specify under which probability statements hold \textit{almost surely} or \textit{with positive probability}. This is because $P$ and $Q$ are equivalent so saying that a proposition holds almost surely / with positive probability under $P$ is equivalent to saying that it holds under $Q$.
+  In these definitions, we do not have to specify under which probability measure the statements hold \textit{almost surely} or \textit{with positive probability}. This is because $P$ and $Q$ are equivalent so saying that a proposition holds almost surely / with positive probability under $P$ is equivalent to saying that it holds under $Q$.
 \end{remark}
 
 We can now formalise the word `consistent' used before: the price we calculate for a derivative security should not introduce arbitrage opportunities. This is enshrined in the following key assumption.
@@ -969,7 +977,7 @@ We also assume some regularity of the prices of derivative securities.
 
 \subsection{Pricing of Derivatives}
 
-We first define the replication of a derivative by a strategy and show how this can be used to price the derivative by the No-Arbitrage Principle. We then show an alternative way to calculate the price as a $Q$-expectation.
+We first define the replication of a derivative by a strategy and show how this can be used to price the derivative under the No-Arbitrage Principle. We then show an alternative way to express the price of a derivative as a $Q$-expectation.
 
 \begin{definition}
   A \textbf{replicating strategy} for a derivative with payoff $H_\text{payoff}$ is an admissible self-financing strategy (in the basic market) with value process $V$ such that
@@ -979,7 +987,7 @@ We first define the replication of a derivative by a strategy and show how this 
   and such that its discounted value process $\widetilde{V}$ is a martingale under $Q$.
 \end{definition}
 
-If there exists a replicating strategy for a derivative, we say that the strategy \textbf{replicates} the derivative or, equivalently, that the derivative is \textbf{replicable}. As we now show, the value of the a replicating strategy is equal to the price of the derivative it replicates. We can therefore price the derivative by calculating the value of its replicating strategy.
+If there exists a replicating strategy for a derivative, we say that the strategy \textbf{replicates} the derivative or, equivalently, that the derivative is \textbf{replicable}. As we now show, the value of a replicating strategy is equal to the price of the derivative it replicates. We can therefore price the derivative by calculating the value of its replicating strategy.
 
 \begin{theorem}\label{thm:bs-repl-strat-derivative-prices}
   (\cite{capinski_blackscholes_2012}, Theorem 2.16 \footref{foot:basic-bs-model}
@@ -990,7 +998,7 @@ If there exists a replicating strategy for a derivative, we say that the strateg
   If a derivate with payoff $H_\text{payoff}$ is replicable by a strategy with value process $V$ that has continuous paths, then $V(t) = H(t)$, for all $t \in [0,T]$.
 \end{theorem}
 
-In the reference given for the previous theorem (in the single-asset Black-Scholes model with constant coefficients), a proof is given directly. However, we find it easier to first prove a simpler statement in the following lemma. The proof, provided thereafter, is then straightforward.
+In the reference given for the previous theorem (in the single-asset Black-Scholes model with constant coefficients), a proof is given directly. However, we find it easier to first prove a simpler statement in the following lemma. The proof of the theorem, provided thereafter, is then straightforward.
 
 \begin{lemma}\label{lem:bs-non-negative-strat}%%%%%%%%%%%%%
 \comment{citation missing}
@@ -1036,14 +1044,14 @@ In the reference given for the previous theorem (in the single-asset Black-Schol
     \textbf{Self-financing condition}:
       For $t < t_0$, the self-financing condition holds since
       \begin{align*}
-      V^*(0) &+ \sum_{i=1}^d \int_0^t x_i^*(s)\mathrm{d}S_i(s) + \int_0^t y^*(s) \mathrm{d}A(s)\\
+      V^*(t) &+ \sum_{i=1}^d \int_0^t x_i^*(s)\mathrm{d}S_i(s) + \int_0^t y^*(s) \mathrm{d}A(s)\\
       &= 0 + \sum_{i=1}^d \int_0^t 0 \mathrm{d}S_i(s) + \int_0^t 0 \mathrm{d}A(s)
       = 0 = V^*(t).
       \end{align*}
 
       At $t = t_0$, we have $V^*(t) = V(t_0) - \frac{V(t_0)}{A(t_0)} A(t_0) = 0$ so the condition also holds at this time.
 
-      For a fixed $\omega \in \Omega$, we can divide the graph of $V(t)$ into three regions where $V(t) < -A(t)$, $-A(t) < V(t) < 0$ or $V(t) \ge 0$ respectively. While the graph of $V(t)$ remains in any of these regions, the strategy only changes as a result of $(x_1,\ldots,x_d,y)$ changing and so the self-financing condition holds since $(x_1,\ldots,x_d,y)$ is itself self-financing. Since both $V(t)$ and $A(t)$ have continuous paths, the graph of $V(t)$ can only cross from one region to another at a point where $V(t) = -A(t)$ or $V(t) = 0$. It is therefore sufficient to verify that the self-financing condition holds at these points. When $V(t) = -A(t)$, we have
+      For a fixed $\omega \in \Omega$, we can divide the $(t,v)$-plane into three regions where $v < -A(t)$, $-A(t) < v < 0$ or $v \ge 0$ respectively. While the graph $(t,V(t))$ of $V(t)$ remains in any of these regions, the strategy only changes as a result of $(x_1,\ldots,x_d,y)$ changing and so the self-financing condition holds since $(x_1,\ldots,x_d,y)$ is itself self-financing. Since both $V(t)$ and $A(t)$ have continuous paths, the graph of $V(t)$ can only cross from one region to another at the boundary, i.e. at a point where $V(t) = -A(t)$ or $V(t) = 0$. It is therefore sufficient to verify that the self-financing condition holds at these points. When $V(t) = -A(t)$, we have
       \begin{align*}
         \sum_{i=1}^{d} &x_i(t) S_i(t) + \left(- \frac{V(t_0)}{A(t_0)} + y(t)\right) A(t)\\
         &= V(t) - \frac{V(t_0)}{A(t_0)} A(t) = -A(t) - \frac{V(t_0)}{A(t_0)} A(t)\\
@@ -1052,11 +1060,11 @@ In the reference given for the previous theorem (in the single-asset Black-Schol
       and, when $V(t) = 0$, we have
       \begin{align*}
         \sum_{i=1}^{d} &x_i(t) S_i(t) + \left(- \frac{V(t_0)}{A(t_0)} + y(t)\right) A(t)\\
-        &= V(t) - \frac{V(t_0)}{A(t_0)} A(t) = - \frac{V(t_0)}{A(t_0)} A(t)
+        &= V(t) - \frac{V(t_0)}{A(t_0)} A(t) = - \frac{V(t_0)}{A(t_0)} A(t).
       \end{align*}
-      so this is indeed the case.
+      That is, the strategy is self-financing.
 
-    \textbf{Arbitrage conditions}: As shown above, we have $V^*(0)$. On $A$, $V^*(T) = 0 \ge 0$ and on $A^C$ which has positive probability, we have
+    \textbf{Arbitrage conditions}: We have $V^*(0) = 0$. On $A$, $V^*(T) = 0 \ge 0$ and on $A^C$ which has positive probability, we have
     \begin{align*}
       V^*(T) = -\frac{V(t_0)}{A(t_0)} A(T) > 0
     \end{align*}
@@ -1066,7 +1074,7 @@ In the reference given for the previous theorem (in the single-asset Black-Schol
   \end{proof}
 \end{lemma}
 
-Note that by inspecting the proof, we can see that this lemma equally applies to strategies in the extended market.
+Note that by inspecting the proof, we can see that this lemma equally applies to strategies in the extended market. We can now use this lemma to prove the theorem as promised.
 
 \begin{proof}[Proof of Theorem \ref{thm:bs-repl-strat-derivative-prices}]
   Let $(x_1,\ldots,x_d,y)$ be the replicating strategy with value process $V$. Consider the two strategies in the extended market
@@ -1075,7 +1083,7 @@ Note that by inspecting the proof, we can see that this lemma equally applies to
   \end{align*}
   with value process $V^\pm$ and with $x_i^\pm(t) = \pm x_i(t)$ for $i=1,\ldots,d$, $y^\pm(t) = \pm y(t)$ and $z^\pm(t) = (-1) (\pm z(t))$ for all $t \in [0,T]$.  Then their values satisfy $V^+(t) = - V^-(t) = V(t) - H(t)$ for all $t \in [0,T]$.
 
-  Note that since both $V(t)$ and $H(t)$ have continuous paths (by assumption of this theorem and by Assumption \ref{ass:bs-derivative-regularity} respectively), then so do $V^\pm$. Moreover, $V^\pm(T) = V(T) - H(T) = 0 \ge 0$. Hence, by Lemma \ref{lem:bs-non-negative-strat} twice, we have
+  Note that since both $V(t)$ and $H(t)$ have continuous paths (by assumption of this theorem and by Assumption \ref{ass:bs-derivative-regularity} respectively), then so do $V^\pm$. Moreover, $V^\pm(T) = \pm (V(T) - H(T)) = 0 \ge 0$. Hence, by Lemma \ref{lem:bs-non-negative-strat} twice, we have
   \begin{align*}
     V^+(t) \ge 0, && V^-(t) \ge 0,
   \end{align*}
