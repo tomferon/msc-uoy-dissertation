@@ -170,7 +170,7 @@ In \textcite{dupire_pricing_1993}, the asymptotic behaviour of the option price 
 
 The proof of the generalisation of Dupire's Equation to higher dimensions in \textcite{pablo_amster_towards_2009} is dense with only about 2 pages. The change of variables in the integral is done without much explanation. Here, we prove it in Lemma \ref{lem:generalisation-var-change} before moving on to the proof of the main result (see Theorem \ref{thm:generalisation}) which is presented here in much greater details. Together, they account for 8 pages.
 
-Finally, we present a discretisation of the PDE from Theorem \ref{thm:generalisation} using a finite difference method. An implementation of the method in C++ is also provided. The code also implements Monte Carlo simulations to compare the results as a sanity check.
+Finally, we present a discretisation of the PDE from Theorem \ref{thm:generalisation} using finite difference methods. An implementation of the method in C++ is also provided. The code also implements Monte Carlo simulations to compare the results as a sanity check.
 
 \section{Preliminaries}\label{sec:preliminaries}
 
@@ -2116,7 +2116,7 @@ We now prove the theorem in much greater details than in the paper but following
     I_j \coloneq \int_V \left(\mathbf{w}^T \mathbf{x} - K\right) \left( \sum_{i,l=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big] \right) \mathrm{d}\mathbf{x}.
   \end{align*}
 
-  Let $\mathbf{F} = (F_1,\ldots,F_d)$ be the vector field such that
+  Let $\mathbf{F} = (F_1,\ldots,F_d)$ be the vector field given by
   \begin{align*}
     F_l(\mathbf{x}) = \frac{\partial}{\partial x_i} \big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big],
   \end{align*}
@@ -2130,7 +2130,7 @@ We now prove the theorem in much greater details than in the paper but following
   \end{align*}
   Since
   \begin{align*}
-    \nabla \cdot ((\mathbf{w}^T \mathbf{x} - K) \mathbf{F}
+    \nabla \cdot ((\mathbf{w}^T \mathbf{x} - K) \mathbf{F})
     &= \nabla (\mathbf{w}^T \mathbf{x} - K) \cdot \mathbf{F} + (\mathbf{w}^T \mathbf{x} - K) (\nabla \cdot \mathbf{F})\\
     &= \mathbf{w} \cdot \mathbf{F} + (\mathbf{w}^T \mathbf{x} - K) (\nabla \cdot \mathbf{F}),
   \end{align*}
@@ -2145,10 +2145,9 @@ We now prove the theorem in much greater details than in the paper but following
   so, by the Divergence Theorem, we have
   \begin{align*}
     I_j &= \sum_{i=1}^{d} \left[\int_S \left(\mathbf{w}^T \mathbf{x} - K\right) \mathbf{F}(\mathbf{x}) \cdot \mathrm{d}\mathbf{x} - \int_V \mathbf{w}^T \mathbf{F}(\mathbf{x}) \mathrm{d}\mathbf{x} \right]\\
-    &= - \sum_{i=1}^{d} \int_V \mathbf{w}^T \mathbf{F}(\mathbf{x}) \mathrm{d}\mathbf{x}\\
-    &= - \sum_{l=1}^{d} w_l \int_V \sum_{i=1}^d \frac{\partial}{\partial x_i} \big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big] \mathrm{d}\mathbf{x},
+    &= - \sum_{i=1}^{d} \int_V \mathbf{w}^T \mathbf{F}(\mathbf{x}) \mathrm{d}\mathbf{x} \tag{since $(\mathbf{w}^T \mathbf{x} - K) = 0$ on $S$}\\
+    &= - \sum_{l=1}^{d} w_l \int_V \sum_{i=1}^d \frac{\partial}{\partial x_i} \big[c_{ij}(T) x_i c_{lj}(T) x_l \rho(\mathbf{x},T;\mathbf{S}(t),t)\big] \mathrm{d}\mathbf{x}.
   \end{align*}
-  since $(\mathbf{w}^T \mathbf{x} - K) = 0$ on $S$.
 
   Similarly, let $\mathbf{G} = (G_1,\ldots,G_d)$ be the vector field such that
   \begin{align*}
@@ -2181,15 +2180,17 @@ We now prove the theorem in much greater details than in the paper but following
   we have
   \begin{align*}
     e^{\int_t^T r(s) \mathrm{d}s} &\frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
+    &= - \frac{1}{w_i} \int_V \left(\mathbf{w}^T \mathbf{x} - K\right) (\nabla \cdot \mathbf{H})(\mathbf{x}) \mathrm{d}\mathbf{x}\\
     &= - \frac{1}{w_i} \left( \int_V \nabla \cdot ((\mathbf{w}^T \mathbf{x} - K) \mathbf{H}) \mathrm{d}\mathbf{x} - \int_V \nabla (\mathbf{w}^T \mathbf{x} - K) \cdot \mathbf{H}(\mathbf{x}) \mathrm{d}\mathbf{x} \right)\\
     &= - \frac{1}{w_i} \left( \int_S (\mathbf{w}^T \mathbf{x} - K) \mathbf{H} \cdot \mathrm{d}\mathbf{x} - \int_V \mathbf{w}^T \mathbf{H}(\mathbf{x}) \mathrm{d}\mathbf{x} \right)\\
     &= \frac{1}{w_i} \int_V \mathbf{w}^T \mathbf{H}(\mathbf{x}) \mathrm{d}\mathbf{x}
     = \int_V x_i \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},
   \end{align*}
-  by the Divergence Theorem since $(\mathbf{w}^T \mathbf{x} - K)$ vanishes on $S$. Differentiating with respect to $w_l$ for $l=1,\ldots,d$ and letting $\delta_{il} = 1$ if $i=l$, $\delta_{il} = 0$ otherwise, we thus have
+  by the Divergence Theorem since $(\mathbf{w}^T \mathbf{x} - K)$ vanishes on $S$. Differentiating with respect to $w_l$, for $l=1,\ldots,d$, and letting $\delta_{il} = 1$ if $i=l$, $\delta_{il} = 0$ otherwise, we thus have
   \begin{align*}
     e^{\int_t^T r(s) \mathrm{d}s} &\frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w})\\
-    &= \int_K^\infty \int_A \frac{\partial}{\partial w_l} \left(\frac{Q_i B}{w_i} \rho(\mathbf{x},T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \right) \mathrm{d}\mathbf{Q} \mathrm{d}B \tag{by Lemma \ref{lem:generalisation-var-change}}\\
+    &= \frac{\partial}{\partial w_l} \int_V x_i \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x}\\
+    &= \int_K^\infty \int_A \frac{\partial}{\partial w_l} \left(\frac{Q_i B}{w_i} \rho(\mathbf{x},T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \right) \mathrm{d}\mathbf{Q} \mathrm{d}B \tag{by Lemma \ref{lem:generalisation-var-change} and the Leibniz Integral Rule as before}\\
     &= \int_K^\infty \int_A \Bigg(
       \delta_{il} \frac{- Q_i B}{w_i w_l} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d}\\
       &\ \ \ \ \ \ \ \ \ + \frac{Q_i B}{w_i} \frac{\partial}{\partial x_l} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{- Q_l B}{w_l^2} \frac{B^{d-1}}{w_1 \cdots w_d}\\
@@ -2242,19 +2243,19 @@ We now prove the theorem in much greater details than in the paper but following
 
 % Give a numerical example of how Theorem 1 can be applied to recover aij. You can restrict to the simplest setting of a two dimensional Black-Scholes model.
 
-In order to show how the result from Theorem \ref{thm:generalisation} could be used in practice, we now present a scheme to approximate the price of a basket option using the finite difference method.
+In order to show how the result from Theorem \ref{thm:generalisation} could be used in practice, we now present a scheme to approximate the price of a basket option using finite difference methods.
 
 In the case of Dupire's Equation, we can easily make $c(T,K)$ the subject as
 \begin{align*}
   c(T,K) = \sqrt{\frac{\frac{\partial}{\partial T} C(T,K) + r(T) K \frac{\partial}{\partial K} C(T,K)}{\frac{1}{2}\frac{\partial^2}{\partial K^2} C(T,K)}},
 \end{align*}
-so that, using Dupire's Equation, we can get an explicit scheme to calibrate the local volatility model in a fairly straightforward way. This is not as easy in the case of the equation obtained in Theorem \ref{thm:generalisation} so we focus here instead on using this equation to price basket options.
+so that, using Dupire's Equation, we can get an explicit scheme to calibrate the local volatility model in a fairly straightforward manner. This is not as easy in the case of the equation obtained in Theorem \ref{thm:generalisation} so we focus here instead on using this equation to price basket options.
 
-For the sake of comparison, we also use Monte Carlo simulations to price the same basket options. No effort is made here to optimise these methods and any concerns about errors or how fast and whether the method converges are very much out of scope. Implementations for both are provided in the accompanying C++ files. For convenience, the source code is also listed in the appendix.
+For the sake of comparison, we also use Monte Carlo simulations to price the same basket options in the C++ implementation. No effort is made here to optimise these methods and any concerns about errors or how fast and whether the method converges are out of scope. Implementations for both are provided in the accompanying C++ files. For convenience, the source code is also listed in the appendix.
 
 For both methods, we use the example of a European basket call option with expiry time $T^*$, strike price $K$ and weights $\mathbf{w}^*$, whose price at time 0 we want to approximate. Corresponding put options could then be priced using Put-Call Parity (Theorem \ref{thm:put-call-parity}).
 
-\subsubsection{Finite Difference Method}
+\subsubsection{Finite Difference Methods}
 
 %%%%%%%%%%%%%
 \comment{ok. The work looks good. Once an example, introduction etc is added the work will be done. Good job.}
@@ -2363,11 +2364,11 @@ From \eqref{eq:bs-discounted-stock-price}, we get
 \begin{align*}
   s_i = \ln \frac{\widetilde{S_i}(T^*)}{S_i(0)} = - \frac{1}{2} \sum_{j=1}^{d} \int_0^T c_{ij}(t)^2 \mathrm{d}t + \sum_{j=1}^{d} \int_0^T c_{ij}(t) \mathrm{d}W^Q_j(t),
 \end{align*}
-for all $i=1,\ldots,d$. We let $\mathbf{s} = (s_1,\ldots,s_d)$.
+for all $i=1,\ldots,d$. We take $\mathbf{s} = (s_1,\ldots,s_d)$.
 
 By breaking the interval $[0,T^*]$ into $n$ subintervals of equal length $h = \frac{T^*}{n}$, for all $i,j=1,\ldots,d$, we can approximate $s_i$ by
 \begin{align*}
-  \hat{s_i} &= - \frac{1}{2} \sum_{j=1}^{d} \sum_{k=1}^{n} c_{ij}(kh)^2 h + \sum_{j=1}^{d} \sum_{k=1}^{n}  c_{ij}(t) (W^Q_j((k+1)h) - W^Q_j(kh)).
+  \hat{s_i} &= - \frac{1}{2} \sum_{j=1}^{d} \sum_{k=1}^{n} c_{ij}(kh)^2 h + \sum_{j=1}^{d} \sum_{k=1}^{n}  c_{ij}(kh) (W^Q_j((k+1)h) - W^Q_j(kh)).
 \end{align*}
 As $n \to \infty$, both sums over $k$ converge to the corresponding integral by definition of Riemann and It\^o integrals. Letting $\hat{\mathbf{s}} = (\hat{s}_1,\ldots,\hat{s}_d)$, note that we can write
 \begin{align*}
@@ -2404,7 +2405,7 @@ This method is implemented in \path{src/monte_carlo.h}.
 
 \subsubsection{Result}
 
-Running the program outputs the following, where we can see that the pricer using the finite difference method produces similar prices than the ones we get from Monte Carlo simulations.
+Running the program outputs the following, where we can see that the pricer using finite difference methods produces similar prices than the ones we get from Monte Carlo simulations.
 
 {\small
 \begin{verbatim}
