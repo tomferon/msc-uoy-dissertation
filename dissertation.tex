@@ -583,7 +583,7 @@ Stochastic integrals on $\mathcal{M}^2$ are martingales by Definition \ref{def:s
 
 \begin{theorem}[Martingale Representation Theorem]\label{thm:martingale-representation}
   (\cite{oksendal_stochastic_2003}, Theorem 4.3.4)
-  Let $\mathbf{W}$ be a $d$-dimensional Wiener process and $M$ be a martingale such that $M(t)$ is square-integrable for all $t \in [0,T]$. Then there exists a unique $\mathcal{F}^\mathbf{W}_t$-adapted process $\mathbf{\Gamma}(t)$ such that
+  Let $\mathbf{W}$ be a $d$-dimensional Wiener process and $M$ be a martingale such that $M(t)$ is square-integrable, i.e. $\mathbb{E}(M(t)^2) < \infty$, for all $t \in [0,T]$. Then there exists a unique $\mathcal{F}^\mathbf{W}_t$-adapted process $\mathbf{\Gamma}(t)$ such that
   \begin{align*}
     M(t) = M(0) + \int_0^t \mathbf{\Gamma}(s) \cdot \mathrm{d}\mathbf{W}(s)
   \end{align*}
@@ -1096,7 +1096,7 @@ The following theorem gives us sufficient conditions for replicability. As we wi
 
 \begin{theorem}\label{thm:bs-replicability}
   (\cite{capinski_blackscholes_2012}, Theorem 3.11 \footref{foot:basic-bs-model})
-  Let $H$ be a derivative with a square-integrable payoff. If there exists a deterministic constant $L > 0$ such that $H(T) \ge -L$ almost surely, then the derivative is replicable by a strategy whose value process has continuous paths.
+  Let $H$ be a derivative with a square-integrable payoff, i.e. $\mathbb{E}_Q(H_\text{payoff}^2) < \infty$. If there exists a deterministic constant $L > 0$ such that $H(T) \ge -L$ almost surely, then the derivative is replicable by a strategy whose value process has continuous paths.
 
   \begin{proof}
     We construct a replicating strategy $(x_1,\ldots,x_d,y)$ with value process $V$ for the derivative. Since it replicates the derivative, we must have that $V(T) = H(T)$ and its discounted value must be a $Q$-martingale. Hence, for all $t \in [0,T]$,
@@ -1106,19 +1106,14 @@ The following theorem gives us sufficient conditions for replicability. As we wi
       = \mathbb{E}_Q\left(e^{-\int_0^T r(s) \mathrm{d}s} H(T) \mid \mathcal{F}^\mathbf{W}_t\right).
     \end{align*}
 
-    In particular,
+    But then,
     \begin{align*}
-      \widetilde{V}(T)
-      &= \mathbb{E}_Q\left(e^{-\int_0^T r(s)\mathrm{d}s} H(T) \mid \mathcal{F}^\mathbf{W}_T\right)
-      = e^{-\int_0^T r(s)\mathrm{d}s} H(T)
+      \mathbb{E}_Q(\widetilde{V}(t)^2)
+      &= \mathbb{E}_Q\left(\mathbb{E}_Q\left(e^{-\int_0^T r(s) \mathrm{d}s} H(T) \mid \mathcal{F}^\mathbf{W}_t\right)^2\right)\\
+      &\le \mathbb{E}_Q\left(\mathbb{E}_Q\left(e^{-2\int_0^T r(s) \mathrm{d}s} H(T)^2 \mid \mathcal{F}^\mathbf{W}_t\right)\right) \tag{Conditional Jensen's Inequality}\\
+      &= e^{-2\int_0^T r(s) \mathrm{d}s} \mathbb{E}_Q\left(H(T)^2\right) < \infty,
     \end{align*}
-    since $H(T)$ is $\mathcal{F}^\mathbf{W}_T$-measurable. Hence, since $H(T)$ is square-integrable, then so is $\widetilde{V}(T) = e^{-\int_0^T r(s)\mathrm{d}s} H(T)$. But then,
-    \begin{align*}
-      \int_0^t \widetilde{V}(s)^2 \mathrm{d}s
-      &\le \int_0^t \widetilde{V}(s)^2 \mathrm{d}s + \int_t^T \widetilde{V}(s)^2 \mathrm{d}s
-      = \int_0^T \widetilde{V}(s)^2 \mathrm{d}s < \infty,
-    \end{align*}
-    so $\widetilde{V}(t)$ is square-integrable for all $t \in [0,T]$. Therefore, by the Martingale Representation Theorem \ref{thm:martingale-representation}, there exists $\mathbf{\Gamma}$ such that
+    since $H(T) = H_\text{payoff}$ is square-integrable. Hence, $\widetilde{V}(t)$ is square-integrable for all $t \in [0,T]$. Therefore, by the Martingale Representation Theorem \ref{thm:martingale-representation}, there exists $\mathbf{\Gamma}$ such that
     \begin{align}\label{eq:bs-repl-deriv-gamma}
       \widetilde{V}(t)
       &= \widetilde{V}(0) + \int_0^t \mathbf{\Gamma}(s) \cdot \mathrm{d}\mathbf{W}^Q(s).
@@ -1150,17 +1145,17 @@ The following theorem gives us sufficient conditions for replicability. As we wi
         &\ \ \ \ - \sum_{i=1}^d x_i(t) S_i(t) r(t) A(t)^{-1}\\
       &= \sum_{i=1}^d A(t)^{-1} x_i(t) \mathrm{d}S_i(t) - \sum_{i=1}^d x_i(t) S_i(t) r(t) A(t)^{-1} \mathrm{d}t.
     \end{align*}
-    Then, by Theorem \ref{thm:bs-solution},
+    Then, by Theorem \ref{thm:bs-risk-neutral-dynamics},
     \begin{align*}
       \mathrm{d}\widetilde{V}(t)
-      &= \sum_{i=1}^d [ A(t)^{-1} x_i(t) r(t) S_i(t) \mathrm{d}t + \sum_{j=1}^d A(t)^{-1} x_i(t) c_{ij}(t) S_i(t) \mathrm{d}W^Q_j(t) \\
-        &\ \ \ \ \ \ \ \ \ - x_i(t) S_i(t) r(t) A(t)^{-1} \mathrm{d}t ]\\
+      &= \sum_{i=1}^d \Big[ A(t)^{-1} x_i(t) r(t) S_i(t) \mathrm{d}t + \sum_{j=1}^d A(t)^{-1} x_i(t) c_{ij}(t) S_i(t) \mathrm{d}W^Q_j(t) \\
+        &\ \ \ \ \ \ \ \ \ - x_i(t) S_i(t) r(t) A(t)^{-1} \mathrm{d}t \Big]\\
       &= \sum_{i,j=1}^d x_i(t) c_{ij}(t) \widetilde{S}_i(t) \mathrm{d}W^Q_j(t)
       = \mathbf{C}(t) \mathbf{\theta}(t) \cdot \mathrm{d}\mathbf{W}^Q(t),
     \end{align*}
     where $\theta_i(t) = x_i(t) \widetilde{S}_i(t)$, for $i=1,\ldots,d$.
 
-    Both this last equation and \eqref{eq:bs-repl-deriv-gamma} can be satisfied if $\mathbf{C} \mathbf{\theta} = \mathbf{\Gamma}$. This implies that $\mathbf{\theta} = \mathbf{C}^{-1} \mathbf{\Gamma}$. But then,
+    Both this last equation and \eqref{eq:bs-repl-deriv-gamma} are satisfied if $\mathbf{C} \mathbf{\theta} = \mathbf{\Gamma}$. This implies that $\mathbf{\theta} = \mathbf{C}^{-1} \mathbf{\Gamma}$. But then,
     \begin{align*}
       x_i = \frac{(\mathbf{C}^{-1} \mathbf{\Gamma})_i}{\widetilde{S}_i},
     \end{align*}
@@ -1172,8 +1167,8 @@ The following theorem gives us sufficient conditions for replicability. As we wi
     Hence, the strategy constructed above is self-financing with a discounted value process that forms a $Q$-martingale and such that $V(T) = H(T)$. We are only left to show admissibility for that strategy to replicate $H$. But, for all $t \in [0,T]$, we have that, almost surely,
     \begin{align*}
       V(t) &= \mathbb{E}_Q\left(e^{-\int_t^T r(s) \mathrm{d}s} H(T) \mid \mathcal{F}^\mathbf{W}_t\right)\\
-      &\ge \mathbb{E}_Q\left(e^{-\int_t^T r(s) \mathrm{d}s} L \mid \mathcal{F}^\mathbf{W}_t\right)
-      = e^{-\int_t^T r(s) \mathrm{d}s} L,
+      &\ge \mathbb{E}_Q\left(e^{-\int_t^T r(s) \mathrm{d}s} (-L) \mid \mathcal{F}^\mathbf{W}_t\right)
+      = - e^{-\int_t^T r(s) \mathrm{d}s} L,
     \end{align*}
     which is a deterministic constant.
 
@@ -1194,7 +1189,7 @@ As promised, we now show how to express the price of a derivative as a $Q$-expec
   \begin{proof}
     By Theorem \ref{thm:bs-repl-strat-derivative-prices}, we have that $H(t) = V(t)$, for all $t \in [0,T]$. Multiplying both sides by the discounting factor $\exp\left(-\int_0^t r(s) \mathrm{d}s\right)$, we also have that $\widetilde{H}(t) = \widetilde{V}(t)$, for all $t \in [0,T]$.
 
-    Since $(x_1, \ldots, x_d, y)$ is a replicating strategy, its discounted value $\widetilde{V}$ is a Q-martingale. Therefore,
+    By definition of replicating strategy, the process $\widetilde{V}$ is a Q-martingale. Therefore,
     \begin{align*}
       \widetilde{H}(t) = \widetilde{V}(t)
       = \mathbb{E}_Q(\widetilde{V}(T) \mid \mathcal{F}^\mathbf{W}_t)
@@ -1203,7 +1198,7 @@ As promised, we now show how to express the price of a derivative as a $Q$-expec
   \end{proof}
 \end{theorem}
 
-Alternatively, we can write equation \eqref{eq:bs-derivative-pricing} as
+Alternatively, by multiplying both sides by $A(t)$, we can write \eqref{eq:bs-derivative-pricing} as
 \begin{align*}
   H(t) = \mathbb{E}_Q\left(e^{-\int_t^T r(s) \mathrm{d}s} H(T) \mid \mathcal{F}^\mathbf{W}_t\right),
 \end{align*}
@@ -1227,25 +1222,25 @@ Up until now, we have covered pricing of generic derivative securities. We now f
   \end{align*}
 \end{definition}
 
-\begin{definition}
-  European \textbf{call and put options} with \textit{expiry time} $T$, \textit{strike price} $K > 0$, and \textit{underlying} $U$, a replicable $\mathcal{F}^\mathbf{W}_t$-adapted process with continuous paths, are derivative securities with payoffs
+\begin{definition}\label{def:bs-european-option}
+  European \textbf{call and put options} with \textit{expiry time} $T$, \textit{strike price} $K > 0$, and \textit{underlying} $U$, a non-negative replicable $\mathcal{F}^\mathbf{W}_t$-adapted process with continuous paths, are derivative securities with payoffs
   \begin{align*}
     H_\text{call} = (U(T) - K)^+, && H_\text{put} = (K - U(T))^+.
   \end{align*}
 \end{definition}
 
-There exist an important relation between the prices of corresponding call and put options. Given the price of one, we can then easily find the price of the other.
+There exists an important relation between the prices of corresponding call and put options. Given the price of one, we can easily find the price of the other.
 
 \begin{theorem}[Put-Call Parity]\label{thm:put-call-parity}
   (\cite{capinski_blackscholes_2012}, Theorem 3.16)
-  Let $C(t)$ and $P(t)$ be the price processes of European call and put options respectively with expiry time $T$, strike prike $K$, and underlying $U$. Then
+  Let $C(t)$ and $P(t)$ be the price processes of European call and put options respectively with identical expiry time $T$, strike prike $K$, and underlying $U$. Then
   \begin{align}\label{eq:put-call-parity}
     C(t) - P(t) = U(t) - e^{-\int_t^T r(s) \mathrm{d}s} K,
   \end{align}
   for all $t \in [0,T]$.
 
   \begin{proof}
-    Taking $(x_1^U,\ldots,x_d^U,y^U)$ the strategy with value $V^U$ replicating the underlying $U$.
+    Let $(x_1^U,\ldots,x_d^U,y^U)$ the strategy with value $V^U$ replicating the underlying $U$. It exists since $U$ is replicable by Definition \ref{def:bs-european-option}.
 
     A portfolio consisting of one long such call option and one short such put option is equivalent to a derivative with payoff
     \begin{align*}
@@ -1268,7 +1263,7 @@ There exist an important relation between the prices of corresponding call and p
   \end{proof}
 \end{theorem}
 
-We can show that such derivaties are replicable and that we can thus price them using the results developed above.
+We can show that such derivatives are replicable and that we can thus price them using the results developed above.
 
 \begin{theorem}\label{thm:bs-option-pricing}
   A European option with price process $H$ and payoff $H_\text{payoff}$ on an underlying $U$ such that $U(T)$ is square-integrable, is replicable by a strategy whose value process has continuous paths. Moreover,
@@ -1297,19 +1292,19 @@ We can show that such derivaties are replicable and that we can thus price them 
   \end{proof}
 \end{theorem}
 
-The results above can be adapted to basket options as defined below.
+The results above can be specialised to basket options as defined below.
 
 \begin{definition}
   A European \textbf{basket option} is a European option on an underlying of the form
   \begin{align*}
-    B_\mathbf{w}(t) = \sum_{i=1}^{d} w_i S_i(t) = \mathbf{w}^T \mathbf{S}(t)
+    B_\mathbf{w}(t) = \sum_{i=1}^{d} w_i S_i(t) = \mathbf{w}^T \mathbf{S}(t),
   \end{align*}
   with $\mathbf{w} = (w_1, \ldots, w_d)$, called the \textbf{weights}, such that $w_i \ge 0, i=1,\ldots,d$.
 \end{definition}
 
-Note that this is well-defined since $U$ is clearly replicable by the constant strategy $(w_1, \ldots, w_d, 0)$.
+Note that this is well-defined since $U$ is clearly replicable by the constant strategy $(w_1, \ldots, w_d, 0)$ and since $S_i, i=1,\ldots,d$ are non-negative $\mathcal{F}^\mathbf{W}_t$-adapted processes.
 
-We denote the price of a European basket call option with weights $\mathbf{w}$ by $C_\mathbf{w}(t)$ and its put option couterpart by $P_\mathbf{w}(t)$.
+We denote the price of a European basket call option with weights $\mathbf{w}$ by $C_\mathbf{w}(t)$ and its put option counterpart by $P_\mathbf{w}(t)$.
 
 \begin{theorem}
   Consider a European basket option with underlying $U$ and weights $\mathbf{w}$. Then $U(T)$ is square-integrable.
@@ -1331,7 +1326,7 @@ We denote the price of a European basket call option with weights $\mathbf{w}$ b
 
 % Introduce the Fokker-Planck equation. Use [4] as a reference.
 
-Here, we depart somewhat from financial mathematics to show a key result: the Fokker-Planck equation. This result is at the core of the proofs of Dupire's Equation and its generalisation to multiple assets, which are the main results shown in this dissertation.
+In this section, we depart somewhat from financial mathematics to show a key result: the Fokker-Planck equation. This result is at the core of the proofs of Dupire's Equation and its generalisation to multiple assets, which are the main results shown in this dissertation.
 
 This section is based on \textcite{pavliotis_stochastic_2014}. We work in a filtered probability space $(\Omega, \mathcal{F}, \mathcal{F}^\mathbf{W}_t, P)$ without stating it explicitly as to not clutter the argument unnecessarily.
 
@@ -1339,7 +1334,7 @@ This section is based on \textcite{pavliotis_stochastic_2014}. We work in a filt
   A \textbf{Markov process} is a stochastic process $\mathbf{X}(t)$ that satisfies the \textit{Markov condition}:
   \begin{align*}
     \mathbb{E}(f(\mathbf{X}(t)) \mid \mathcal{F}^\mathbf{W}_{s})
-    = \mathbb{E}(f(\mathbf{X}(t)) \mid \mathcal{F}_{\mathbf{X}(s)})
+    = \mathbb{E}(f(\mathbf{X}(t)) \mid \mathcal{F}_{\mathbf{X}(s)}),
   \end{align*}
   for all bounded Borel functions $f$ and for $0 \le s < t \le T$.
 \end{definition}
@@ -1357,23 +1352,23 @@ for some Borel function $\phi$ since any $\mathcal{F}_{\mathbf{X}(s)}$-measurabl
 %%%%%%%%%%%%%
 \comment{The dissertation needs to be self contained. We should not call upon theorems without including them in preliminaries.}
 %%%%%%%%%%%%%
-This justifies the following definition since it ensures that it exists.
+This justifies the following definition since it ensures that the defined object exists.
 
 \begin{definition}
   Let $\mathbf{X}(t)$ be a $d$-dimensional Markov process. A \textbf{transition (probability) function} of $\mathbf{X}$ is a Borel function $\nu(\mathbf{\Gamma}, t; \mathbf{x}, s)$, for $0 \le s < t \le T$, $\mathbf{x} \in \mathbb{R}^d$, and $\mathbf{\Gamma} \in \mathcal{B}(\mathbb{R}^d)$, such that
-  \begin{align*}
-    \nu(\mathbf{\Gamma}, t; \mathbf{X}(s), s) = P(\mathbf{X}(t) \in \mathbf{\Gamma} \mid \mathcal{F}^\mathbf{W}_s).
-  \end{align*}
+  \begin{align}
+    \nu(\mathbf{\Gamma}, t; \mathbf{X}(s), s) = P(\mathbf{X}(t) \in \mathbf{\Gamma} \mid \mathcal{F}^\mathbf{W}_s).\label{eq:fp-transition-function}
+  \end{align}
 \end{definition}
 
-Note that, the function $\mathbf{\Gamma} \mapsto \nu(\mathbf{\Gamma}, t; \mathbf{x}, s)$ is a probability measure. In the rest of this section, we focus on such transition functions that have a density, leading to the following definition.
+Note that, the function $\mathbf{\Gamma} \mapsto \nu(\mathbf{\Gamma}, t; \mathbf{x}, s)$ is a probability measure for any fixed $0 \le s < t \le T$ and $\mathbf{x} \in \mathbb{R}^d$. In the rest of this section, we focus on transition functions that have a density, leading to the following definition.
 
 \begin{definition}
   Let $\mathbf{X}(t)$ be a Markov process such that it has a transition function $\nu(\mathbf{\Gamma},t;\mathbf{x},s)$ that admits a density $\rho$ with respect to the Lebesgue measure, i.e.
   \begin{align*}
     \nu(\mathbf{\Gamma},t;\mathbf{y},s) = \int_\mathbf{\Gamma} \rho(\mathbf{x},t;\mathbf{y},s) \mathrm{d}\mathbf{x},
   \end{align*}
-  for all $\mathbf{\Gamma} \in \mathcal{B}(\mathbb{R}^d)$ and $0 \le s < t \le T$.
+  for all $\mathbf{\Gamma} \in \mathcal{B}(\mathbb{R}^d)$, $\mathbf{y} \in \mathbb{R}^d$, and $0 \le s < t \le T$.
   We say that $\rho$ is a \textbf{transition (probability) density} of the Markov process.
 \end{definition}
 
@@ -1396,7 +1391,7 @@ In order to prove the main result of this section, we will make use of the follo
       &= \mathbb{E}(\mathbf{1}_\mathbf{\Gamma}(\mathbf{X}(t)) \mid \mathcal{F}^\mathbf{W}_s)\\
       &= \mathbb{E}(\mathbb{E}(\mathbf{1}_\mathbf{\Gamma}(\mathbf{X}(t)) \mid \mathcal{F}^\mathbf{W}_u) \mid \mathcal{F}^\mathbf{W}_s) \tag{tower property}\\
       &= \mathbb{E}(\nu(\mathbf{\Gamma},t;\mathbf{X}(u),u) \mid \mathcal{F}^\mathbf{W}_s)\\
-      &= \int_{\mathbb{R}^d} \nu(\mathbf{\Gamma},t;\mathbf{z},u) \nu(\mathrm{d}\mathbf{z},u;\mathbf{X}(s),s)\\
+      &= \int_{\mathbb{R}^d} \nu(\mathbf{\Gamma},t;\mathbf{z},u) \nu(\mathrm{d}\mathbf{z},u;\mathbf{X}(s),s) \tag{by \eqref{eq:fp-transition-function}}\\
       &= \int_{\mathbb{R}^d} \nu(\mathbf{\Gamma},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{z}\\
       &= \int_{\mathbb{R}^d} \int_\mathbf{\Gamma} \rho(\mathbf{x},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{x} \mathrm{d}\mathbf{z}\\
       &= \int_\mathbf{\Gamma} \int_{\mathbb{R}^d} \rho(\mathbf{x},t;\mathbf{z},u) \rho(\mathbf{z},u;\mathbf{X}(s),s) \mathrm{d}\mathbf{z} \mathrm{d}\mathbf{x},
@@ -1439,7 +1434,7 @@ We can now state and prove the main result of this section. Note that it is also
   \end{align*}
 
   \begin{proof}
-    Let $f \in C^2_0(\mathbb{R}^d)$, let $0 \le s < t \le T$ and let $h$ be such that $0 \le t < t + h \le T$. Then, by the It\^o Formula (Theorem \ref{thm:ito-formula}),
+    Let $f \in C^2_0(\mathbb{R}^d)$, $0 \le s < t \le T$ and $h > 0$. Then, by the It\^o Formula (Theorem \ref{thm:ito-formula}),
     \begin{align*}
       f(\mathbf{X}&(t+h)) - f(\mathbf{X}(t))\\
       &= \sum_{i=1}^{d} \int_t^{t+h} f_{x_i}(\mathbf{X}(s)) a_i(s,\mathbf{X}(s)) \mathrm{d}s\\
@@ -1447,7 +1442,7 @@ We can now state and prove the main result of this section. Note that it is also
         &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \int_t^{t+h} f_{x_i x_l}(\mathbf{X}(s)) b_{ij}(s,\mathbf{X}(s)) b_{lj}(s,\mathbf{X}(s)) \mathrm{d}s.
     \end{align*}
 
-    Since $f$ and its partial derivatives in the previous equation are in $C_0$, then they are bounded. Indeed, for any $g \in C_0(\mathbb{R}^d)$ and any $\epsilon > 0$, there exists a closed rectangle $R \subseteq \mathbb{R}$ such that $g(\mathbf{x}) < \epsilon$ for $\mathbf{x} \in \mathbb{R}^d \setminus R$. Moreover, $R$ is compact and $g$ is continuous so $g$ is bounded on $R$ by the Boundedness Theorem. Hence, it is bounded on the whole $\mathbb{R}^d$.
+    Since $f$ and its partial derivatives in the previous equation are in $C_0$, then they are bounded. Indeed, for any $g \in C_0(\mathbb{R}^d)$ and any $\epsilon > 0$, there exists a closed rectangle $R \subseteq \mathbb{R}^d$ such that $|g(\mathbf{x})| < \epsilon$ for $\mathbf{x} \in \mathbb{R}^d \setminus R$. Moreover, $R$ is compact and $g$ is continuous so $|g|$ is bounded by some $M$ on $R$ by the Boundedness Theorem. Hence, it is bounded on the whole $\mathbb{R}^d$ (by $\max\{\epsilon, M\}$).
 
     By Lemma \ref{lem:ito-diffusion-characteristics-m2}, $b_{ij}(s,\mathbf{X}(s)) \in \mathcal{M}^2$, so, together with the boundedness of $f_{x_i}(\mathbf{X}(s))$, we have that the integrands $f_{x_i}(\mathbf{X}(s))b_{ij}(s,\mathbf{X}(s)) \in \mathcal{M}^2$ in the previous equation are in $\mathcal{M}^2$. Therefore, by Theorem \ref{thm:stochastic-integral-expectation-m2} and by linearity of the expectation,
     \begin{align*}
@@ -1537,7 +1532,7 @@ For the rest of this section, we prove some results that will be used to show in
   \begin{align}\label{eq:fp-ito-diffusion-deterministic-drift}
     \mathrm{d}\mathbf{X}(t) = a(t) \mathrm{d}t + b(t,\mathbf{X}(t)) \mathrm{d}\mathbf{W}(t),
   \end{align}
-  where $a$ is a deterministic function and $b(t,\mathbf{S}(t)) \in \mathcal{M}^2$. Then the increments $\mathbf{X}(t) - \mathbf{X}(s)$ are independent from $\mathcal{F}^\mathbf{W}_s$, for all $0 \le s < t \le T$.
+  where $a$ is a deterministic function and $b(t,\mathbf{X}(t)) \in \mathcal{M}^2$. Then the increments $\mathbf{X}(t) - \mathbf{X}(s)$ are independent from $\mathcal{F}^\mathbf{W}_s$, for all $0 \le s < t \le T$.
 
   \begin{proof}
     Let $0 \le s < t \le T$. Firstly, the assumption that $b(t,\mathbf{S}(t)) \in \mathcal{M}^2$ implies that the stochastic integral is a martingale (as a function of the upper endpoint of integration), so that
@@ -1612,7 +1607,7 @@ For the rest of this section, we prove some results that will be used to show in
 
 \section{Local Volatility Model}\label{sec:local-vol}
 
-Dupire's work and the work in \textcite{pablo_amster_towards_2009} applies in a local volatility model, developed here. Since this section is not based on any reference as we only derive what we need to show Dupire's Equation (Theorem \ref{thm:dupire}) and its generalisation (Theorem \ref{thm:generalisation}), no references are given.
+Dupire's work and the work from \textcite{pablo_amster_towards_2009} applies to a local volatility model, developed here. Since this section is not based on any reference as we only derive what we need to show Dupire's Equation (Theorem \ref{thm:dupire}) and its generalisation (Theorem \ref{thm:generalisation}), no references are given.
 
 We specialise the multi-asset Black-Scholes model developed before by restricting the risky assets to be It\^o diffusions, i.e.
 \begin{align*}
@@ -1623,7 +1618,7 @@ for all $i=1,\ldots,d$ for some $a,b$ as in Theorem \ref{thm:sde-solution}. By T
   \mu_i(t,\mathbf{S}(t)) = \frac{a_i(t, \mathbf{S}(t))}{S_i(t)},
   && c_{ij}(t,\mathbf{S}(t)) = \frac{b_{ij}(t, \mathbf{S}(t))}{S_i(t)},
 \end{align*}
-for $i,j=1,\ldots,d$, so that
+for $i,j=1,\ldots,d$ since the price of risky assets is strictly positive, so that
 \begin{align}\label{eq:local-dynamics}
   \mathrm{d}S_i(t) = \mu_i(t,\mathbf{S}(t)) S_i(t) \mathrm{d}t + \sum_{j=1}^{d} c_{ij}(t,\mathbf{S}(t)) S_i(t) \mathrm{d}W_j(t),
 \end{align}
@@ -1637,12 +1632,14 @@ The crucial property of such a model for our purposes is that prices of risky as
   \begin{proof}
     By Theorem \ref{thm:bs-risk-neutral-dynamics-discounted}, the discounted prices $\widetilde{S}_i$, for $i=1,\ldots,d$, have zero drift. Moreover, by Assumption \ref{ass:drift-vol-regularity}, $\mathbf{C}(t,\mathbf{S}(t))$ is adapted and bounded, so it is in $\mathcal{M}^2$. Hence, by Lemma \ref{lem:fp-ito-diffusion-indep-increments}, $\widetilde{\mathbf{S}}$ has independent increments and, by Theorem \ref{thm:fp-ito-diffusion-markov}, $\widetilde{\mathbf{S}}$ is a Markov process.
 
-    Moreover, since $g(\mathbf{x}) = e^{\int_0^t r(s) \mathrm{d}s} \mathbf{x}$ is an invertible Borel function such that $\mathbf{S}(t) = g(\widetilde{\mathbf{S}}(t))$, then $\mathbf{S}$ is also Markov by Theorem \ref{thm:fp-markov-composing}.
+    Moreover, since $g(\mathbf{x}) = e^{\int_0^t r(s) \mathrm{d}s} \mathbf{x}$ is an invertible Borel function such that $\mathbf{S}(t) = g(\widetilde{\mathbf{S}}(t))$, then $\mathbf{S}$ is Markov as well by Theorem \ref{thm:fp-markov-composing}.
   \end{proof}
 \end{theorem}
 
+We denote the transition function of $\mathbf{S}$ as $\nu$ and assume that it has a density.
+
 \begin{assumption}\label{ass:local-density}
-  The price process of risky assets $\mathbf{S}$ admits a transition probability density $\rho(\mathbf{x},t;\mathbf{y},s)$ such that $\rho \in C^2$. We denote the transition function of $\mathbf{S}$ as $\nu$.
+  The price process of risky assets $\mathbf{S}$ admits a transition probability density $\rho(\mathbf{x},t;\mathbf{y},s)$ such that $\rho \in C^2$.
 \end{assumption}
 
 This implies that, in such a model, the Fokker-Planck Equation (Theorem \ref{thm:fokker-planck}) holds for $\rho$. Since it is used in the proof of Dupire's Equation and its generalisation, this justifies our restriction to local volatility models. We can express our previous pricing results in terms of $\rho$ as shown below.
@@ -1721,8 +1718,9 @@ In \textcite{dupire_pricing_1993}, the asymptotic behaviour of $C(T,K)$ and its 
 \begin{theorem}\label{thm:dupire-asymptotic}
   The function $K \mapsto C(T,K)$ vanishes almost surely at infinity, i.e.
   \begin{align*}
-    \lim_{K \to \infty} C(T,K) = 0 \text{ a.s.}
+    \lim_{K \to \infty} C(T,K) = 0,
   \end{align*}
+  almost surely.
 
   \begin{proof}
     Let $(f_K)_{K > 0}$ be the sequence $f_K(x) = (x-K)^+ \rho(x,T;S(t),t)$. Note that
@@ -1737,7 +1735,7 @@ In \textcite{dupire_pricing_1993}, the asymptotic behaviour of $C(T,K)$ and its 
       &= \mathbb{E}_Q(S(T) \mid \mathcal{F}^W_t)
       = S(t) < \infty,
     \end{align*}
-    since $S$ is a $Q$-martingale, so $x \rho(x,T;S(t),t)$ is integrable. Hence, by Lebesgue's Dominated Convergence Theorem, we have
+    since $S$ is a $Q$-martingale. Hence, $x \rho(x,T;S(t),t)$ is integrable and so, by Lebesgue's Dominated Convergence Theorem, we have
     \begin{align*}
       \lim_{K \to \infty} C(T,K)
       &= \lim_{K \to \infty} \left(e^{-\int_t^T r(s) \mathrm{d}s} \int_\mathbb{R} (x-K)^+ \rho(x,T;S(t),t) \mathrm{d}x\right) \\
@@ -1745,7 +1743,7 @@ In \textcite{dupire_pricing_1993}, the asymptotic behaviour of $C(T,K)$ and its 
       &= e^{-\int_t^T r(s) \mathrm{d}s} \int_0^\infty \lim_{K \to \infty} f_K(x) \mathrm{d}x\\
       &= e^{-\int_t^T r(s) \mathrm{d}s} \int_0^\infty 0 \mathrm{d}x = 0,
     \end{align*}
-    since $(f_K)$ converges pointwise to $0$. We could limit the domain of integration to $[0,\infty)$ since $S(T) > 0$ so $\rho(x,T;S(t),t) = 0$ for almost all $x < 0$.
+    since $(f_K)$ converges pointwise to $0$ as required. Note that we were allowed to limit the domain of integration to $[0,\infty)$ since $S(T) > 0$ so $\rho(x,T;S(t),t) = 0$ for almost all $x < 0$.
   \end{proof}
 \end{theorem}
 
@@ -1756,6 +1754,19 @@ In \textcite{dupire_pricing_1993}, the asymptotic behaviour of $C(T,K)$ and its 
   \end{align*}
 
   \begin{proof}
+    First, note that
+    \begin{align*}
+      e^{-\int_t^T r(s) \mathrm{d}s}& \int_K^\infty (-K) \rho(x,T;S(t),t)\mathrm{d}x\\
+      &= e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty (x-K-x) \rho(x,T;S(t),t)\mathrm{d}x\\
+      &= C(T,K) - e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty x \rho(x,T;S(t),t)\mathrm{d}x \tag{by Corollary \ref{cor:local-option-pricing}}\\
+      &= C(T,K) - e^{-\int_t^T r(s) \mathrm{d}s} \mathbb{E}_Q(\mathbf{1}_{\{S(T) > K\}} S(T) \mid \mathcal{F}^\mathbf{W}_t).
+    \end{align*}
+    As $K \to \infty$, $C(T,K)$ converges almost surely to 0 by Theorem \ref{thm:dupire-asymptotic}. Moreover, $\mathbf{1}_{\{S(T) > K\}} S(T)$ converges pointwise to 0. Hence,
+    \begin{align}
+      \lim_{K \to \infty} \left(e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty (-K) \rho(x,T;S(t),t)\mathrm{d}x\right) = 0,\label{eq:dupire-asymptotic-int-K}
+    \end{align}
+    almost surely.
+
     Since
     \begin{align*}
       \frac{\partial}{\partial K} (K C(T,K)) = K \frac{\partial}{\partial K} C(T,K) + C(T,K),
@@ -1765,19 +1776,18 @@ In \textcite{dupire_pricing_1993}, the asymptotic behaviour of $C(T,K)$ and its 
       K \frac{\partial}{\partial K} C(T,K)
       &= \frac{\partial}{\partial K} (K C(T,K)) - C(T,K)\\
       &= \frac{\partial}{\partial K} \left(e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty K(x-K) \rho(x,T;S(t),t)\mathrm{d}x \right) - C(T,K)\\
-      &= e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty \frac{\partial}{\partial K} K(x-K) \rho(x,T;S(t),t)\mathrm{d}x\\
-        &\ \ \ \ - K(K-K)\rho(K,T;S(t),t) - C(T,K) \tag{Leibniz integral rule}\\
+      &= e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty \frac{\partial}{\partial K} \left[K(x-K) \rho(x,T;S(t),t)\right]\mathrm{d}x\\
+        &\ \ \ \ - K(K-K)\rho(K,T;S(t),t) - C(T,K) \tag{Leibniz Integral Rule}\\
       &= e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty (x-2K) \rho(x,T;S(t),t)\mathrm{d}x - C(T,K)\\
-      &= e^{-\int_t^T r(s) \mathrm{d}s} \int_\mathbb{R} (x-2K)^+ \rho(x,T;S(t),t)\mathrm{d}x - C(T,K)\\
-      &= C(T,2K) - C(T,K),
+      &= e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty (-K) \rho(x,T;S(t),t)\mathrm{d}x + C(T,K) - C(T,K)\\
+      &= e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty (-K) \rho(x,T;S(t),t)\mathrm{d}x,
     \end{align*}
     so
     \begin{align}
       \lim_{K \to \infty} \left(K \frac{\partial}{\partial K} C(T,K)\right)
-      &= \lim_{K \to \infty} C(T,2K) - \lim_{K \to \infty} C(T,K)
       = 0,\label{eq:dupire-asymptotic-dK}
     \end{align}
-    by Theorem \ref{thm:dupire-asymptotic}.
+    almost surely, by \eqref{eq:dupire-asymptotic-int-K}.
 
     Similarly, since
     \begin{align*}
@@ -1789,16 +1799,19 @@ In \textcite{dupire_pricing_1993}, the asymptotic behaviour of $C(T,K)$ and its 
       \frac{\partial^2}{\partial K^2} (K^2 C(T,K))
       &= e^{-\int_t^T r(s)\mathrm{d}s} \frac{\partial^2}{\partial K^2} \int_K^\infty K^2 (x-K) \rho(x,T;S(t),t) \mathrm{d}x\\
       &= e^{-\int_t^T r(s)\mathrm{d}s} \int_K^\infty (2x-6K) \rho(x,T;S(t),t) \mathrm{d}x\\
-      &= 2 e^{-\int_t^T r(s)\mathrm{d}s} \int_\mathbb{R} (x-3K)^+ \rho(x,T;S(t),t) \mathrm{d}x\\
-      &= 2 C(T,3K),
+      &= 4 e^{-\int_t^T r(s)\mathrm{d}s} \int_\mathbb{R} (-K) \rho(x,T;S(t),t) \mathrm{d}x + 2 C(T,K),
     \end{align*}
-    then
+    so that
     \begin{align*}
-      \lim_{K \to \infty} &\left(K^2 \frac{\partial^2}{\partial K^2} C(T,K)\right)\\
+      \lim_{K \to \infty} \frac{\partial^2}{\partial K^2} (K^2 C(T,K)) = 0,
+    \end{align*}
+    by \eqref{eq:dupire-asymptotic-int-K} and by Theorem \ref{thm:dupire-asymptotic}, then
+    \begin{align*}
+      &\lim_{K \to \infty} \left(K^2 \frac{\partial^2}{\partial K^2} C(T,K)\right)\\
       &= - 2\lim_{K \to \infty} C(T,K)
         - 4 \lim_{K \to \infty} \left(K \frac{\partial}{\partial K} C(T,K)\right)
-        + 2 \lim_{K \to \infty} C(T,3K)
-      = 0,
+        + \lim_{K \to \infty} \frac{\partial^2}{\partial K^2} (K^2 C(T,K))\\
+      &= 0,
     \end{align*}
     by Theorem \ref{thm:dupire-asymptotic} and \eqref{eq:dupire-asymptotic-dK}
   \end{proof}
@@ -1875,12 +1888,12 @@ Having shown the asymptotic behavious of the call option price and its partial d
       &= - r(T) e^{\int_t^T r(s) \mathrm{d}s} \left( K \frac{\partial}{\partial K} C(T,K) - C(T,K) \right)\\
         &\ \ \ \ \ + \frac{1}{2} c(T,K)^2 K^2 e^{\int_t^T r(s) \mathrm{d}s}\frac{\partial^2}{\partial K^2} C(T,K) + \alpha(T) K + \beta(T),
     \end{align*}
-    where $\alpha(T), \beta(T)$ are the constants of integration of each integration ($\gamma$ is incorporated into $\beta$ in the process). Dividing by the discounting factor and noticing that the terms in $r(T)C(T,K)$ cancel out, we have
+    where $\alpha(T), \beta(T)$ are the constants of integration of each integration ($\gamma$ is incorporated into $\beta$ in the process). Multiplying by the discounting factor and noticing that the terms in $r(T)C(T,K)$ cancel out, we have
     \begin{align*}
       \frac{\partial}{\partial T}C(T,K)
       &= - r(T) K \frac{\partial}{\partial K} C(T,K)
         + \frac{1}{2} c(T,K)^2 K^2 \frac{\partial^2}{\partial K^2} C(T,K)\\
-        &\ \ \ \ \ + \alpha(T) K + \beta(T).
+        &\ \ \ \ \ + e^{-\int_t^T r(s)\mathrm{d}s}\alpha(T) K + e^{-\int_t^T r(s)\mathrm{d}s}\beta(T).
     \end{align*}
     Finally, when $K \to \infty$, all terms besides the constants of integration vanish by Lemma \ref{lem:dupire-asymptotic-dK} and Assumption \ref{ass:dupire-asymptotic-dT} so the constants must be zero themselves. That is,
     \begin{align*}
@@ -1922,11 +1935,11 @@ for $i=1,\ldots,d$, where $c_{ij}(t), i,j=1,\ldots,d$ are deterministic, as show
   \end{align*}
 \end{theorem}
 
-Before proving the theorem, we introduce a useful lemma. Similary to the proof of Dupire's equation, we will want to be able to express the integral without the positive part to make it differentiable. However, we have
+Before proving the theorem, we introduce a useful lemma. Similary to the proof of Dupire's equation, we will want to be able to express the integral without the positive part to make it differentiable. We have
 \begin{align}\label{eq:generalisation-int-over-V}
   C(T,\mathbf{w}) = e^{-\int_t^T r(s) \mathrm{d}s} \int_V (\mathbf{w}^T\mathbf{x} - K) \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},
 \end{align}
-where $V = \{ \mathbf{x} \in \mathbb{R}^d : \mathbf{w}^T \mathbf{x} \ge K \}$ and the space $V$ depends on the weights, thus constituting a difficulty when calculating partial derivatives such as $\frac{\partial}{\partial w_i}C(T,\mathbf{w})$. Instead, we can circumvent this difficulty with a change of variable. In the paper, this is embedded in the proof of the theorem but we prove it in greater details here as a separate lemma for clarity.
+where $V = \{ \mathbf{x} \in \mathbb{R}^d : \mathbf{w}^T \mathbf{x} \ge K \}$. However, the space $V$ depends on the weights, thus constituting a difficulty when calculating partial derivatives such as $\frac{\partial}{\partial w_i}C(T,\mathbf{w})$. Instead, we can circumvent this difficulty with a change of variable. In the paper, this is embedded in the proof of the theorem but we prove it in greater details here as a separate lemma for clarity.
 
 \begin{lemma}\label{lem:generalisation-var-change}
   Let $B = \mathbf{w}^T \mathbf{x}$ and $\mathbf{Q} = (Q_1,\ldots,Q_{d-1})$ with
@@ -2005,13 +2018,13 @@ where $V = \{ \mathbf{x} \in \mathbb{R}^d : \mathbf{w}^T \mathbf{x} \ge K \}$ an
 We now prove the theorem in much greater details than in the paper but following the same structure.
 
 \begin{proof}[Proof of Theorem \ref{thm:generalisation}]
-  We begin by calculating the partial derivatives of $C(T,\mathbf{w})$ with respect to $w_i$ for some $i=1,\ldots,d$ and with respect to $T$ using the result from Lemma \ref{lem:generalisation-var-change}. For $i=1,\ldots,d$, we have
-  \begin{align*}
-    &\frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
-    &= \frac{\partial}{\partial w_i} \left(e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty \int_A \left(B - K\right) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \mathrm{d}\mathbf{Q} \mathrm{d}B\right)\\
-    &= e^{-\int_t^T r(s) \mathrm{d}s}\int_K^\infty \int_A \left(B - K\right) \frac{\partial}{\partial w_i} \left(\rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d}\right) \mathrm{d}\mathbf{Q} \mathrm{d}B,
-  \end{align*}
-  by repeated use of the Leibniz integral rule since
+  We begin by calculating the partial derivatives of $C(T,\mathbf{w})$ with respect to $w_i$ for any $i=1,\ldots,d$ and with respect to $T$ using the result from Lemma \ref{lem:generalisation-var-change}. For $i=1,\ldots,d$, we have
+  \begin{align}
+    &\frac{\partial}{\partial w_i} C(T,\mathbf{w})\notag\\
+    &= \frac{\partial}{\partial w_i} \left(e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty \int_A \left(B - K\right) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \mathrm{d}\mathbf{Q} \mathrm{d}B\right)\notag\\
+    &= e^{-\int_t^T r(s) \mathrm{d}s}\int_K^\infty \int_A \left(B - K\right) \frac{\partial}{\partial w_i} \left(\rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d}\right) \mathrm{d}\mathbf{Q} \mathrm{d}B,\label{eq:generalisation-deriv-wi}
+  \end{align}
+  by repeated use of the Leibniz Integral Rule since
   \begin{align*}
     \int_K^\infty \int_A & f(\mathbf{Q},B) \mathrm{d}\mathbf{Q} \mathrm{d}B \\
     &= \int_K^\infty \int_0^1 \int_{Q_1}^1 \cdots \int_{Q_1 + \cdots + Q_{d-2}}^1 f(\mathbf{Q},B) \mathrm{d}Q_{d-1} \cdots \mathrm{d}Q_2 \mathrm{d}Q_1 \mathrm{d}B,
@@ -2033,12 +2046,12 @@ We now prove the theorem in much greater details than in the paper but following
       + \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{\partial}{\partial w_i} \frac{B^{d-1}}{w_1 \cdots w_d}\\
     &= \frac{\partial}{\partial x_i} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{\partial}{\partial w_i} x_i(\mathbf{Q},B) \frac{B^{d-1}}{w_1 \cdots w_d}\\
       &\ \ \ \ \ + \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{\partial}{\partial w_i} \frac{B^{d-1}}{w_1 \cdots w_d} \\
-    &= \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{-Q_i B}{w_i^2} \frac{B^{d-1}}{w_1 \cdots w_d}
-      + \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{-1}{w_i} \frac{B^{d-1}}{w_1 \cdots w_d}\\
+    &= \frac{\partial}{\partial x_i} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{-Q_i B}{w_i^2} \frac{B^{d-1}}{w_1 \cdots w_d}\\
+      &\ \ \ \ \ + \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{-1}{w_i} \frac{B^{d-1}}{w_1 \cdots w_d}\\
     &= -\frac{1}{w_i} \left(\frac{\partial}{\partial x_i} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{Q_i B}{w_i}
       + \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\right) \frac{B^{d-1}}{w_1 \cdots w_d}.
   \end{align*}
-  Hence,
+  Hence, substituting this back into \eqref{eq:generalisation-deriv-wi}, we have
   \begin{align}
     &\frac{\partial}{\partial w_i} C(T,\mathbf{w})\notag\\
     &= - \frac{1}{w_i}e^{-\int_t^T r(s) \mathrm{d}s}\int_K^\infty \int_A \left(B - K\right) \frac{B^{d-1}}{w_1 \cdots w_d}\notag\\
@@ -2056,13 +2069,13 @@ We now prove the theorem in much greater details than in the paper but following
   \end{align}
   Note that this equation holds almost surely since it holds if we substitute $\mathbf{S}(t)$ for any $\mathbf{y} \in \mathrm{supp}(\mathbf{S}(t))$.
 
-  But then, by \eqref{eq:generalisation-dC-dw},
+  By \eqref{eq:generalisation-dC-dw},
   \begin{align*}
     \sum_{i=1}^{d} &r(T) e^{\int_t^T r(s) \mathrm{d}s} w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
     &= - \sum_{i=1}^{d} \int_K^\infty \int_A \left(B - K\right) \frac{B^{d-1}}{w_1 \cdots w_d}\\
         &\ \ \ \ \ \ \ \ \ \ \ \ \  r(T)\frac{\partial}{\partial x_i}\left[x_i(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \right] \mathrm{d}\mathbf{Q} \\
     &= - \int_K^\infty \int_A \left(B - K\right) \frac{B^{d-1}}{w_1 \cdots w_d}\\
-        &\ \ \ \ \ \ \ \ \ \ \ \ \ \sum_{i=1}^{d} \left( r(T)\frac{\partial}{\partial x_i}\left[x_i(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \right] \right) \mathrm{d}\mathbf{Q} \mathrm{d}B,
+        &\ \ \ \ \ \ \ \ \ \ \ \ \ \sum_{i=1}^{d} \frac{\partial}{\partial x_i}\left[r(T)x_i(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \right] \mathrm{d}\mathbf{Q} \mathrm{d}B,
   \end{align*}
   and therefore, by \eqref{eq:generalisation-fokker-planck},
   \begin{align}
@@ -2079,7 +2092,7 @@ We now prove the theorem in much greater details than in the paper but following
     &= e^{-\int_t^T r(s) \mathrm{d}s} \frac{\partial}{\partial T}\int_K^\infty \int_A \left(B - K\right) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \mathrm{d}\mathbf{Q} \mathrm{d}B\\
     &= e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty \int_A \left(B - K\right) \frac{\partial}{\partial T}\rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \mathrm{d}\mathbf{Q} \mathrm{d}B,
   \end{align*}
-  by repeated use of the Leibniz integral rule. But then
+  by repeated use of the Leibniz Integral Rule. But then,
   \begin{align*}
     e^{\int_t^T r(s) \mathrm{d}s} &\frac{\partial}{\partial T} C(T,\mathbf{w})\\
     &= \int_K^\infty \int_A \left(B - K\right) \frac{\partial}{\partial T}\rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \mathrm{d}\mathbf{Q} \mathrm{d}B,
