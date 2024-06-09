@@ -2246,9 +2246,9 @@ We now prove the theorem in much greater details than in the paper but following
 In order to show how the result from Theorem \ref{thm:generalisation} could be used in practice, we now present a scheme to approximate the price of a basket option using finite difference methods.
 
 In the case of Dupire's Equation, we can easily make $c(T,K)$ the subject as
-\begin{align*}
-  c(T,K) = \sqrt{\frac{\frac{\partial}{\partial T} C(T,K) + r(T) K \frac{\partial}{\partial K} C(T,K)}{\frac{1}{2}\frac{\partial^2}{\partial K^2} C(T,K)}},
-\end{align*}
+\begin{align}
+  c(T,K) = \sqrt{\frac{\frac{\partial}{\partial T} C(T,K) + r(T) K \frac{\partial}{\partial K} C(T,K)}{\frac{1}{2}\frac{\partial^2}{\partial K^2} C(T,K)}},\label{eq:dupire-calibration}
+\end{align}
 so that, using Dupire's Equation, we can get an explicit scheme to calibrate the local volatility model in a fairly straightforward manner. This is not as easy in the case of the equation obtained in Theorem \ref{thm:generalisation} so we focus here instead on using this equation to price basket options.
 
 For the sake of comparison, we also use Monte Carlo simulations to price the same basket options in the C++ implementation. No effort is made here to optimise these methods and any concerns about errors or how fast and whether the method converges are out of scope. Implementations for both are provided in the accompanying C++ files. For convenience, the source code is also listed in the appendix.
@@ -2430,6 +2430,18 @@ Monte Carlo price:    41.3468
 PDE price:            40.6889
 \end{verbatim}
 }
+
+\subsection{Caveats}
+
+Finally, we end by pointing to some limitations of the model presented here.
+
+The local volatility model assumes that the volatility coefficients are deterministic functions of time and asset prices. This non-parametric approach allows calibration to fit market data. For example, in the single-asset case, \eqref{eq:dupire-calibration} can be used to find a function $c(t,S(t))$ such that the option prices given by the model perfectly match the prices at which these options are traded. However, the model will need to be recalibrated as the market moves.
+
+To make matters worse, Theorem \ref{thm:generalisation} assumes that volatility coefficients depends on time only and not on asset prices. This is an unrealistic assumption and will reduce the ability of the model to capture the assets' dynamics.
+
+In the multi-asset case, we would also have to deal with the scarcity of market data. Indeed, calibration would require the price of many basket options with different weights but, in practice, not many of them are traded.
+
+Contrary to Dupire's Equation where we only have partial derivatives with respect to expiry time and strike price respectively, Theorem \ref{thm:generalisation} has many different partial derivatives. This implies that, as $d$ becomes larger, the number of nodes requried by numerical methods can grow very large. For example, in the method presented above, the number of nodes, and therefore the time complexity of the algorithm, is in $\Theta(n^{d+1})$ since the space $(T,\mathbf{w})$ has $d+1$ dimensions. This can quickly make the problem intractable.
 
 \pagebreak
 \appendix
