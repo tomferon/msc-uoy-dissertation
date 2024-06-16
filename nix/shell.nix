@@ -9,6 +9,11 @@ pkgs.clangStdenv.mkDerivation (rec {
     cmake
     cmake-language-server
     llvmPackages.openmp
+    python311
+    python311Packages.jupyter
+    python311Packages.numpy
+    python311Packages.pybind11
+    python311Packages.seaborn
     texlive.combined.scheme-full
   ];
 })

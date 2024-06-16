@@ -21,3 +21,10 @@ add_executable(dissertation src/main.cpp src/model.h src/monte_carlo.h src/pde.h
 if(OpenMP_CXX_FOUND)
     target_link_libraries(dissertation PUBLIC OpenMP::OpenMP_CXX)
 endif()
+
+find_package(Python 3.11 COMPONENTS Interpreter Development)
+find_package(pybind11)
+if(pybind11_FOUND)
+    pybind11_add_module(pydissertation MODULE src/python.cpp)
+endif()
+

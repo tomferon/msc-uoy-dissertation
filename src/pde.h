@@ -192,13 +192,6 @@ double pricer(
   std::copy(option.weights.begin(), option.weights.end(), weight_steps.begin());
   weight_steps /= sqrt(n);
 
-  // Bookkeeping for progress feedback.
-  int done = 0; // Number of nodes computed.
-  int total_node_count = 0;
-  for (const auto span : std::views::iota(0, n+1)) {
-    total_node_count += pow(1+2*span, D);
-  }
-
   // Calculate the values in the first layer using the payoff values.
   #pragma omp parallel for
   for (const auto& coords : node_values) {
@@ -264,13 +257,7 @@ double pricer(
 
     // The next layer will be computed based on this layer.
     node_values = new_node_values;
-
-    // Progress feedback.
-    done += pow(1+2*span, D);
-    double progress = static_cast<double>(done) / total_node_count;
-    std::cout << '\r' << round(100 * progress) << "% " << std::flush;
   }
-  std::cout << "\r    \r" << std::flush;
 
   // Return the value of the unique node for the last layer, i.e.
   // \hat{C}(T^*, \mathbf{w}^*).

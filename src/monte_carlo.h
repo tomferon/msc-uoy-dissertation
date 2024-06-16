@@ -26,7 +26,6 @@ double pricer(
     const Model<D>& model, // Market model.
     const BasketOption<D>& option) { // Specification of basket option to price.
 
-  std::mutex total_mutex{};
   double total = 0.0; // Accumulator for sums of all simulations' results.
   int done = 0; // Number of simulations completed.
 
@@ -44,10 +43,12 @@ double pricer(
       discounted_simulation(generator, n, model, option.expiry_time);
     // B = w^T S(T) = w \cdot (\widetilde{S}(T) / D)
     double basket_value = ublas::inner_prod(option.weights, discounted_prices / df);
-    // Add the payoff of the basket option for this simulation to the total.
+
+    #pragma omp critical
     {
-      std::lock_guard<std::mutex> lock{total_mutex};
+      // Add the payoff of the basket option for this simulation to the total.
       total += std::max(0.0, basket_value - option.strike_price);
+      // Report progress to stdout.
       ++done;
       double progress = static_cast<double>(done) / m;
       std::cout << "\r" << round(100 * progress) << "% " << std::flush;
@@ -94,7 +95,6 @@ ublas::c_vector<double, D> discounted_simulation(
     const ublas::c_matrix<double, D, D> Ckh = model.volatility(time); // C(kh)
 
     s -= 0.5 * ublas::prod(ublas::element_prod(Ckh, Ckh), hs);
-    // s += (-0.5) * ublas::prod(Ckh, trans(Ckh)) * h;
     s += ublas::prod(Ckh, wiener_increments);
   }
 
