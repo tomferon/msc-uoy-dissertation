@@ -27,7 +27,6 @@ double pricer(
     const BasketOption<D>& option) { // Specification of basket option to price.
 
   double total = 0.0; // Accumulator for sums of all simulations' results.
-  int done = 0; // Number of simulations completed.
 
   // Estimate discounting factor by \hat{D}.
   double df = discounting_factor(n, model, option.expiry_time);
@@ -44,17 +43,10 @@ double pricer(
     // B = w^T S(T) = w \cdot (\widetilde{S}(T) / D)
     double basket_value = ublas::inner_prod(option.weights, discounted_prices / df);
 
+    // Add the payoff of the basket option for this simulation to the total.
     #pragma omp critical
-    {
-      // Add the payoff of the basket option for this simulation to the total.
-      total += std::max(0.0, basket_value - option.strike_price);
-      // Report progress to stdout.
-      ++done;
-      double progress = static_cast<double>(done) / m;
-      std::cout << "\r" << round(100 * progress) << "% " << std::flush;
-    }
+    total += std::max(0.0, basket_value - option.strike_price);
   }
-  std::cout << "\r    \r" << std::flush;
 
   // \hat{C} = \hat{D} \sum_{k=1}^n (w^T \hat{S}(T))^+
   return df * total / m;
