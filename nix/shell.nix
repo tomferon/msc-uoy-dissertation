@@ -1,19 +1,28 @@
 { pkgs }:
 
 with pkgs;
+
+let
+  python = pkgs.python311.withPackages (ps: with ps; [
+    jupyter
+    numpy
+    pandas
+    pybind11
+    scipy
+    seaborn
+  ]);
+
+in
 pkgs.clangStdenv.mkDerivation (rec {
   name = "shell";
-  buildInputs = with pkgs; [
-    boost185
-    clang
-    cmake
-    cmake-language-server
-    llvmPackages.openmp
-    python311
-    python311Packages.jupyter
-    python311Packages.numpy
-    python311Packages.pybind11
-    python311Packages.seaborn
-    texlive.combined.scheme-full
-  ];
+  buildInputs = [
+      python
+    ] ++ (with pkgs; [
+      boost185
+      clang
+      cmake
+      cmake-language-server
+      llvmPackages.openmp
+      texlive.combined.scheme-full
+    ]);
 })

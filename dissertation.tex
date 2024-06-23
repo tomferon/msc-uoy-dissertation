@@ -150,19 +150,19 @@ They showed that the prices of European \textit{basket} call options, i.e. optio
 
 The goal of this dissertation is to present the necessary background for these results and to present them in detail, taking particular care to make each step explicit.
 
-We begin by establishing the prerequisites about stochastic processes and stochastic calculus in Section \ref{sec:preliminaries}. Most results in this section are stated without proofs but references are provided in each case. The \textit{multi-asset Black-Scholes model with variable coefficients} is then presented in Section \ref{sec:black-scholes}, where we also define many concepts and show important results to \textit{price} basket options. In Section \ref{sec:fokker-planck}, we define \textit{Markov processes} and derive the \textit{Fokker-Planck Equation} and the conditions for a Markov process to satisfy it.
+We begin by establishing the prerequisites about stochastic processes and stochastic calculus in Section~\ref{sec:preliminaries}. Most results in this section are stated without proofs but references are provided in each case. The \textit{multi-asset Black-Scholes model with variable coefficients} is then presented in Section~\ref{sec:black-scholes}, where we also define many concepts and show important results to \textit{price} basket options. In Section~\ref{sec:fokker-planck}, we define \textit{Markov processes} and derive the \textit{Fokker-Planck Equation} and the conditions for a Markov process to satisfy it.
 %%%%%%%%%%%%%
 \comment{It is not clear if in this section the Dupire's Equation is derived. Moreover, it would be good to describe the ideas involved for this derivation. I would say that we could use a paragraph for this. }
 %%%%%%%%%%%%%
 
-Section \ref{sec:local-vol} presents a restriction of the model developed in Section \ref{sec:black-scholes} where the volatility coefficients are deterministic functions of the time and the prices of the risky assets, the so-called \textit{local volatility model}. We show that, in this model, the prices of the risky assets satisfy the Fokker-Planck Equation.
+Section~\ref{sec:local-vol} presents a restriction of the model developed in Section~\ref{sec:black-scholes} where the volatility coefficients are deterministic functions of the time and the prices of the risky assets, the so-called \textit{local volatility model}. We show that, in this model, the prices of the risky assets satisfy the Fokker-Planck Equation.
 %%%%%%%%%%%%%
 \comment{it is not clear what we mean by `restriction'. This thesis is about a generalisation. An uninformed reader will be confused.}
 %%%%%%%%%%%%%
 
-This key property of local volatility models is used to prove Dupire's Equation in Section \ref{sec:dupire} in the single-asset case. Indeed, we will see that the second-order partial derivative of the call option price with respect to the strike price is equal to the transition probability density of the price of the underlying asset, which itself satisfies the Fokker-Planck Equation. This leads to a PDE satisfied by call option prices.
+This key property of local volatility models is used to prove Dupire's Equation in Section~\ref{sec:dupire} in the single-asset case. Indeed, we will see that the second-order partial derivative of the call option price with respect to the strike price is equal to the transition probability density of the price of the underlying asset, which itself satisfies the Fokker-Planck Equation. This leads to a PDE satisfied by call option prices.
 
-Finally, once again using the Fokker-Planck Equation, we show its generalisation to multiple assets in Section \ref{sec:generalisation}. However, in the multi-asset case, the second-order partial derivative with respect to the strike price is not equal to the transition probability density so we have to instead use the partial derivatives with respect to the weights of the basket. We end up deriving a PDE that the prices of basket call options satisfy.
+Finally, once again using the Fokker-Planck Equation, we show its generalisation to multiple assets in Section~\ref{sec:generalisation}. However, in the multi-asset case, the second-order partial derivative with respect to the strike price is not equal to the transition probability density so we have to instead use the partial derivatives with respect to the weights of the basket. We end up deriving a PDE that the prices of basket call options satisfy.
 
 We also provide a numerical example that uses this generalisation to price basket options using finite difference methods.  The implementation of that method in C++ is provided in the appendix as well as in accompanying source files.
 %%%%%%%%%%%%%
@@ -175,28 +175,28 @@ Most results are provided with the reference on which they are based. However, s
 
 In general, the main contributions of this dissertation is to collate and harmonise the material from different sources using various notations, terminologies, or even definitions, into a coherent text, as well as expanding on the proofs from the references to present them in finer detail. More specifically, the following contributions were made.
 
-Lemma \ref{lem:ito-diffusion-characteristics-m2} was needed in the proof of Theorem \ref{thm:fokker-planck} but no references to this result could be found, so a proof is provided here.
+Lemma~\ref{lem:ito-diffusion-characteristics-m2} was needed in the proof of Theorem~\ref{thm:fokker-planck} but no references to this result could be found, so a proof is provided here.
 
-The construction of a risk-neutral probability for the multi-asset Black-Scholes model in Theorem \ref{thm:bs-risk-neutral-prob} is based on \textcite{capinski_blackscholes_2012} where the existence of such a probability measure is only shown in the case of deterministic drift and volatility coefficients. We extend it here for stochastic coefficients that are bounded by a deterministic constant. We also provide a more detailed proof.
+The construction of a risk-neutral probability for the multi-asset Black-Scholes model in Theorem~\ref{thm:bs-risk-neutral-prob} is based on \textcite{capinski_blackscholes_2012} where the existence of such a probability measure is only shown in the case of deterministic drift and volatility coefficients. We extend it here for stochastic coefficients that are bounded by a deterministic constant. We also provide a more detailed proof.
 %%%%%%%%%%%%%
 \comment{I would reverse the order. The issue is that in CK the proof is for constant coefficients and you derived the result for stochastic ones. This {\em is} a difference, not just a question of going into details. You are underselling what is done.}
 %%%%%%%%%%%%%
 
-The multi-asset Black-Scholes model with variable coefficients is presented here based on \textcite{capinski_blackscholes_2012}. Most results from this reference are concerned with the classic Black Scholes model (single asset, constant coefficients). Here, they are extended and the proofs are adapted to the more general model. More specifically, this is the case for Theorem \ref{thm:bs-risk-neutral-dynamics}, Theorem \ref{thm:bs-risk-neutral-dynamics-discounted}, Theorem \ref{thm:bs-repl-strat-derivative-prices}, Theorem \ref{thm:bs-replicability} and Theorem \ref{thm:bs-derivative-pricing}.
+The multi-asset Black-Scholes model with variable coefficients is presented here based on \textcite{capinski_blackscholes_2012}. Most results from this reference are concerned with the classic Black Scholes model (single asset, constant coefficients). Here, they are extended and the proofs are adapted to the more general model. More specifically, this is the case for Theorem~\ref{thm:bs-risk-neutral-dynamics}, Theorem~\ref{thm:bs-risk-neutral-dynamics-discounted}, Theorem~\ref{thm:bs-repl-strat-derivative-prices}, Theorem~\ref{thm:bs-replicability} and Theorem~\ref{thm:bs-derivative-pricing}.
 
-In the reference on which the proof of Theorem \ref{thm:bs-repl-strat-derivative-prices} is based, the theorem is proved directly. Here, besides extending the proof to the multi-asset case, we first prove a simpler lemma (Lemma \ref{lem:bs-non-negative-strat}) which is easier to show and then makes the proof of the theorem trivial.
+In the reference on which the proof of Theorem~\ref{thm:bs-repl-strat-derivative-prices} is based, the theorem is proved directly. Here, besides extending the proof to the multi-asset case, we first prove a simpler lemma (Lemma~\ref{lem:bs-non-negative-strat}) which is easier to show and then makes the proof of the theorem trivial.
 
-In \textcite{pavliotis_stochastic_2014}, the proof of the Fokker-Planck Equation is rather short (less than a page) and uses a different definition of It\^o diffusion. Here, we provide a more detailed proof (about 3.5 pages) based on the definition of It\^o diffusions as solutions to SDEs (see Definition \ref{def:ito-diffusion}).
+In \textcite{pavliotis_stochastic_2014}, the proof of the Fokker-Planck Equation is rather short (less than a page) and uses a different definition of It\^o diffusion. Here, we provide a more detailed proof (about 3.5 pages) based on the definition of It\^o diffusions as solutions to SDEs (see Definition~\ref{def:ito-diffusion}).
 
-In \textcite{oksendal_stochastic_2003}, it is shown that all It\^o diffusions are Markov. However, it was simpler to give alternative sufficient conditions for processes to be Markov in this context. We can then use these results to show that the price of risky assets in the local volatility model, which are incidentally It\^o diffusions, are in fact Markov. These results are Lemma \ref{lem:fp-ito-diffusion-indep-increments}, Theorem \ref{thm:fp-ito-diffusion-markov} and Theorem \ref{thm:fp-markov-composing}.
+In \textcite{oksendal_stochastic_2003}, it is shown that all It\^o diffusions are Markov. However, it was simpler to give alternative sufficient conditions for processes to be Markov in this context. We can then use these results to show that the price of risky assets in the local volatility model, which are incidentally It\^o diffusions, are in fact Markov. These results are Lemma~\ref{lem:fp-ito-diffusion-indep-increments}, Theorem~\ref{thm:fp-ito-diffusion-markov} and Theorem~\ref{thm:fp-markov-composing}.
 
-Adapting the pricing results from the multi-asset Black-Scholes model with variable coefficients to the local volatility model to express them in terms of the transition probability density of the risky assets was sufficiently simple that it is not based on any reference. These results are Theorem \ref{thm:local-derivative-pricing} and Corollary \ref{cor:local-option-pricing}.
+Adapting the pricing results from the multi-asset Black-Scholes model with variable coefficients to the local volatility model to express them in terms of the transition probability density of the risky assets was sufficiently simple that it is not based on any reference. These results are Theorem~\ref{thm:local-derivative-pricing} and Corollary~\ref{cor:local-option-pricing}.
 
-In \textcite{dupire_pricing_1993}, the asymptotic behaviour of the option price as the strike price goes to infinity as well as the asymptotic behaviour of its partial derivatives is merely mentioned. Here, we prove them in Theorem \ref{thm:dupire-asymptotic} and Lemma \ref{lem:dupire-asymptotic-dK}. We also provide a more detailed proof of Dupire's Equation in Theorem \ref{thm:dupire} that, contrary to the paper, does not ignore interest rates.
+In \textcite{dupire_pricing_1993}, the asymptotic behaviour of the option price as the strike price goes to infinity as well as the asymptotic behaviour of its partial derivatives is merely mentioned. Here, we prove them in Theorem~\ref{thm:dupire-asymptotic} and Lemma~\ref{lem:dupire-asymptotic-dK}. We also provide a more detailed proof of Dupire's Equation in Theorem~\ref{thm:dupire} that, contrary to the paper, does not ignore interest rates.
 
-The proof of the generalisation of Dupire's Equation to higher dimensions in \textcite{pablo_amster_towards_2009} is dense, with only about 2 pages. The change of variables in the integral is done without much explanation. Here, we prove it in Lemma \ref{lem:generalisation-var-change} before moving on to the proof of the main result (see Theorem \ref{thm:generalisation}) which is presented here in much greater detail. Together, they account for 8 pages.
+The proof of the generalisation of Dupire's Equation to higher dimensions in \textcite{pablo_amster_towards_2009} is dense, with only about 2 pages. The change of variables in the integral is done without much explanation. Here, we prove it in Lemma~\ref{lem:generalisation-var-change} before moving on to the proof of the main result (see Theorem~\ref{thm:generalisation}) which is presented here in much greater detail. Together, they account for 8 pages.
 
-Finally, we present a discretisation of the PDE from Theorem \ref{thm:generalisation} using finite difference methods. An implementation of the method in C++ is also provided. The code also implements Monte Carlo simulations to compare the results as a sanity check.
+Finally, we present a discretisation of the PDE from Theorem~\ref{thm:generalisation} using finite difference methods. An implementation of the method in C++ is also provided. The code also implements Monte Carlo simulations to compare the results as a sanity check.
 
 \section{Preliminaries}\label{sec:preliminaries}
 
@@ -348,7 +348,7 @@ For fixed endpoints of integration, the stochastic integral of a process is a ra
   \begin{align}\label{eq:stochastic-integral-process}
     \int_0^t X(s) \mathrm{d}W(s) = M(t),
   \end{align}
-  where $M$ is the martingale given by Proposition \ref{prop:stochastic-integral-martingale}, for $t \in [0,T]$.
+  where $M$ is the martingale given by Proposition~\ref{prop:stochastic-integral-martingale}, for $t \in [0,T]$.
 \end{definition}
 
 Before extending the stochastic integral further, we note the following property of stochastic integrals on $\mathcal{M}^2$, which does not necessarily hold for processes to which we extend the integral thereafter.
@@ -396,7 +396,7 @@ Unsurprisingly, the extension makes use of the definition of stochastic integral
   \begin{align*}
     \int_0^t X(s) \mathrm{d}W(s) = \lim_{n \to \infty} M_n(t) = Y(t)
   \end{align*}
-  with $M_n$ and $Y$ as in Proposition \ref{prop:p2-localising-sequence}.
+  with $M_n$ and $Y$ as in Proposition~\ref{prop:p2-localising-sequence}.
 \end{definition}
 
 For the rest of this section, we turn our attention to multidimensional stochastic processes. We can extend the previous definition to multiple dimensions as follows.
@@ -469,7 +469,7 @@ When faced with an equation such as \eqref{eq:sde-init-value}, one might natural
 \end{theorem}
 
 \begin{definition}\label{def:ito-diffusion}
-  An It\^o process of the form \eqref{eq:sde-init-value}, whose characteristics satisfy the conditions of Theorem \ref{thm:sde-solution}, is called an \textbf{It\^o diffusion}.
+  An It\^o process of the form \eqref{eq:sde-init-value}, whose characteristics satisfy the conditions of Theorem~\ref{thm:sde-solution}, is called an \textbf{It\^o diffusion}.
 \end{definition}
 
 We will need the following property of It\^o diffusions for some proof in the next sections. Since a reference could not be found for this lemma, a proof is provided.
@@ -504,7 +504,7 @@ We will need the following property of It\^o diffusions for some proof in the ne
       \mathbb{E} \left( \int_0^T \sum_{i=1}^d X_i(t)^2 \mathrm{d}t \right)
       = \sum_{i=1}^d \mathbb{E} \left( \int_0^T X_i(t)^2 \mathrm{d}t \right) < \infty,
     \end{align*}
-    since $X_i \in \mathcal{M}^2$ by Theorem \ref{thm:sde-solution}. Hence,
+    since $X_i \in \mathcal{M}^2$ by Theorem~\ref{thm:sde-solution}. Hence,
     \begin{align*}
       \mathbb{E} \left( \int_0^T b_{ij}(t,\mathbf{X}(t))^2 \mathrm{d}t \right) < \infty.
     \end{align*}
@@ -597,7 +597,7 @@ The following result is a sufficient condition under which the martingale condit
   is a martingale.
 \end{theorem}
 
-Stochastic integrals on $\mathcal{M}^2$ are martingales by Definition \ref{def:stochastic-integral-as-process}. As it turns out, we can go the other way around and express square-integrable martingales in terms of stochastic integrals on $\mathcal{M}^2$.
+Stochastic integrals on $\mathcal{M}^2$ are martingales by Definition~\ref{def:stochastic-integral-as-process}. As it turns out, we can go the other way around and express square-integrable martingales in terms of stochastic integrals on $\mathcal{M}^2$.
 
 \begin{theorem}[Martingale Representation Theorem]\label{thm:martingale-representation}
   (\cite{oksendal_stochastic_2003}, Theorem 4.3.4)
@@ -608,7 +608,7 @@ Stochastic integrals on $\mathcal{M}^2$ are martingales by Definition \ref{def:s
   and such that $\Gamma_i \in \mathcal{M}^2$ for all $i=1,\ldots,d$.
 \end{theorem}
 
-Finally, the following result about conditional expectations will be required by some proof in Section \ref{sec:fokker-planck}.
+Finally, the following result about conditional expectations will be required by some proof in Section~\ref{sec:fokker-planck}.
 
 \begin{theorem}\label{thm:cond-exp-measurable-independent}
   (\cite{kopp_probability_2013}, Theorem 4.27)
@@ -688,7 +688,7 @@ The prices of the risk-free asset and the risky ones are given above in terms of
   for all $i=1,\ldots,d$.
 
   \begin{proof}
-    Let $i = 1,\ldots,d$. By the It\^o Formula (Theorem \ref{thm:ito-formula}) with $F(t,x) = \ln x$ so that $F_t(t,x) = 0, F_x(t,x) = \frac{1}{x}$ and $F_{xx} = \frac{-1}{x^2}$, we have
+    Let $i = 1,\ldots,d$. By the It\^o Formula (Theorem~\ref{thm:ito-formula}) with $F(t,x) = \ln x$ so that $F_t(t,x) = 0, F_x(t,x) = \frac{1}{x}$ and $F_{xx} = \frac{-1}{x^2}$, we have
     \begin{align*}
       &\mathrm{d}F(t,S_i(t))\\
       &= F_t(t,S_i(t)) \mathrm{d}t + F_x(t,S_i(t)) \mu_i(t) S_i(t) \mathrm{d}t\\
@@ -746,7 +746,7 @@ The construction of the risk-neutral probability below requires the following le
       &= \exp \left(\frac{1}{2} \sum_{j=1}^d \int_0^T K^2 \mathrm{d}t\right)\\
       &= \exp \left(\frac{1}{2} d K^2 T \right) < \infty.
     \end{align*}
-    Hence, by Theorem \ref{thm:novikov}, $M(t)$ is a martingale.
+    Hence, by Theorem~\ref{thm:novikov}, $M(t)$ is a martingale.
   \end{proof}
 \end{lemma}
 
@@ -765,7 +765,7 @@ We can now show how to construct a risk-neutral probability for this model.
   If $M(t)$ is a martingale under $P$, then the measure $Q$ with density $\frac{\mathrm{d}Q}{\mathrm{d}P} = M(T)$ is a risk-neutral probability, i.e. it is equivalent to $P$ and the processes $\widetilde{S}_i, i=1,\ldots,d$ are martingales under $Q$.
 
   \begin{proof}
-    For all $i=1,\ldots,d$, by Theorem \ref{thm:bs-solution},
+    For all $i=1,\ldots,d$, by Theorem~\ref{thm:bs-solution},
     \begin{align*}
       \widetilde{S}_i(t)
       &= \exp\left(- \int_0^t r(s)\mathrm{d}s\right) S_i(t)\\
@@ -792,7 +792,7 @@ We can now show how to construct a risk-neutral probability for this model.
       &\hspace*{60pt} \left. + \sum_{j=1}^d \left[\int_0^t c_{ij}(t) \theta_j(t) \mathrm{d}s + \int_0^t c_{ij}(s) \mathrm{d}W_j(s) \right]\right).\label{eq:bs-risk-neutral-before-product-rule}
     \end{align}
 
-    Since we assume that $M(t)$ is a martingale, then the Girsanov Theorem \ref{thm:girsanov} implies that the process $\mathbf{W}^Q(t) = (W^Q_1(t), \ldots, W^Q_d(t))$ with
+    Since we assume that $M(t)$ is a martingale, then the Girsanov Theorem~\ref{thm:girsanov} implies that the process $\mathbf{W}^Q(t) = (W^Q_1(t), \ldots, W^Q_d(t))$ with
     \begin{align*}
       \mathrm{d}W^Q_j(t) = \theta_j(t) \mathrm{d}t + \mathrm{d}W(t)
     \end{align*}
@@ -810,7 +810,7 @@ We can now show how to construct a risk-neutral probability for this model.
       + \sum_{j=1}^d \int_0^t c_{ij}(t) \mathrm{d}W^Q_j(s)\right).
     \end{align}
 
-    By Lemma \ref{lem:bs-exponential-martingale} with $a_j(t) \coloneqq - c_{ij}(t)$ and Assumption \ref{ass:drift-vol-regularity}, $\widetilde{S}_i(t)$ is thus a martingale under $Q$ for all $i=1,\ldots,d$ as required.
+    By Lemma~\ref{lem:bs-exponential-martingale} with $a_j(t) \coloneqq - c_{ij}(t)$ and Assumption~\ref{ass:drift-vol-regularity}, $\widetilde{S}_i(t)$ is thus a martingale under $Q$ for all $i=1,\ldots,d$ as required.
 
     Moreover, since
     \begin{align*}
@@ -843,7 +843,7 @@ Under this risk-neutral probability, the risky assets follow a different dynamic
   for all $i=1,\ldots,d$.
 
   \begin{proof}
-    Taking $r(t)$ as the drift and $\mathrm{W}^Q$ as the Wiener process in Theorem \ref{thm:bs-solution}, we obtain the unique solution for this stochastic differential
+    Taking $r(t)$ as the drift and $\mathrm{W}^Q$ as the Wiener process in Theorem~\ref{thm:bs-solution}, we obtain the unique solution for this stochastic differential
     \begin{align}\label{eq:bs-risk-neutral-dynamics}
       S_i(t)
       = S_i(0) \exp  \left( \int_0^t r(s) \mathrm{d}s - \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{ij}(t) \mathrm{d}W^Q_j(s)\right).
@@ -867,7 +867,7 @@ Under this risk-neutral probability, the risky assets follow a different dynamic
       \widetilde{S}_i(t)
       = \widetilde{S}_i(0) \exp \left( \frac{1}{2} \sum_{j=1}^{d} \int_0^t c_{ij}(s)^2 \mathrm{d}s + \sum_{j=1}^d \int_0^t c_{ij}(t) \mathrm{d}W^Q_j(s)\right),
     \end{align*}
-    so, by a similar argument than for Theorem \ref{thm:bs-risk-neutral-dynamics}, it indeed satisfies \eqref{eq:bs-risk-neutral-dynamics-discounted}.
+    so, by a similar argument than for Theorem~\ref{thm:bs-risk-neutral-dynamics}, it indeed satisfies \eqref{eq:bs-risk-neutral-dynamics-discounted}.
   \end{proof}
 \end{theorem}
 
@@ -1052,20 +1052,20 @@ In the reference given for the previous theorem (in the single-asset Black-Schol
     \end{align*}
     since $V(T) \ge 0$. Hence $V^*(T)$ is non-negative almost surely and strictly positive with positive probability as required.
 
-    That is, we have constructed an arbitrage opportunity but this leads to a contradiction by the No-Arbitrage Principle (Assumption \ref{ass:no-arbitrage-principle}), thus completing the proof.
+    That is, we have constructed an arbitrage opportunity but this leads to a contradiction by the No-Arbitrage Principle (Assumption~\ref{ass:no-arbitrage-principle}), thus completing the proof.
   \end{proof}
 \end{lemma}
 
 Note that by inspecting the proof, we can see that this lemma equally applies to strategies in the extended market. We can now use this lemma to prove the theorem as promised.
 
-\begin{proof}[Proof of Theorem \ref{thm:bs-repl-strat-derivative-prices}]
+\begin{proof}[Proof of Theorem~\ref{thm:bs-repl-strat-derivative-prices}]
   Let $(x_1,\ldots,x_d,y)$ be the replicating strategy with value process $V$. Consider the two strategies in the extended market
   \begin{align*}
     (x_1^+,\ldots,x_d^+,y^+,z^+), && (x_1^-,\ldots,x_d^-,y^-,z^-),
   \end{align*}
   with value process $V^\pm$ and with $x_i^\pm(t) = \pm x_i(t)$ for $i=1,\ldots,d$, $y^\pm(t) = \pm y(t)$ and $z^\pm(t) = (-1) (\pm z(t))$ for all $t \in [0,T]$.  Then their values satisfy $V^+(t) = - V^-(t) = V(t) - H(t)$ for all $t \in [0,T]$.
 
-  Note that since both $V(t)$ and $H(t)$ have continuous paths (by assumption of this theorem and by Assumption \ref{ass:bs-derivative-regularity} respectively), then so do $V^\pm$. Moreover, $V^\pm(T) = \pm (V(T) - H(T)) = 0 \ge 0$. Hence, by Lemma \ref{lem:bs-non-negative-strat} twice, we have
+  Note that since both $V(t)$ and $H(t)$ have continuous paths (by assumption of this theorem and by Assumption~\ref{ass:bs-derivative-regularity} respectively), then so do $V^\pm$. Moreover, $V^\pm(T) = \pm (V(T) - H(T)) = 0 \ge 0$. Hence, by Lemma~\ref{lem:bs-non-negative-strat} twice, we have
   \begin{align*}
     V^+(t) \ge 0, && V^-(t) \ge 0,
   \end{align*}
@@ -1095,13 +1095,13 @@ The following theorem gives us sufficient conditions for replicability. As we wi
       &\le \mathbb{E}_Q\left(\mathbb{E}_Q\left(e^{-2\int_0^T r(s) \mathrm{d}s} H(T)^2 \mid \mathcal{F}^\mathbf{W}_t\right)\right) \tag{Conditional Jensen's Inequality}\\
       &= e^{-2\int_0^T r(s) \mathrm{d}s} \mathbb{E}_Q\left(H(T)^2\right) < \infty,
     \end{align*}
-    since $H(T) = H_\text{payoff}$ is square-integrable. Hence, $\widetilde{V}(t)$ is square-integrable for all $t \in [0,T]$. Therefore, by the Martingale Representation Theorem \ref{thm:martingale-representation}, there exists $\mathbf{\Gamma}$ such that
+    since $H(T) = H_\text{payoff}$ is square-integrable. Hence, $\widetilde{V}(t)$ is square-integrable for all $t \in [0,T]$. Therefore, by the Martingale Representation Theorem~\ref{thm:martingale-representation}, there exists $\mathbf{\Gamma}$ such that
     \begin{align}\label{eq:bs-repl-deriv-gamma}
       \widetilde{V}(t)
       &= \widetilde{V}(0) + \int_0^t \mathbf{\Gamma}(s) \cdot \mathrm{d}\mathbf{W}^Q(s).
     \end{align}
 
-    Since $\Gamma_i \in \mathcal{M}^2$, the stochastic integrals have continuous paths by Definition \ref{def:stochastic-integral-as-process} and, since $A(t)$ is also continuous, then $V(t) = A(t) \widetilde{V}(t)$ has continuous paths.
+    Since $\Gamma_i \in \mathcal{M}^2$, the stochastic integrals have continuous paths by Definition~\ref{def:stochastic-integral-as-process} and, since $A(t)$ is also continuous, then $V(t) = A(t) \widetilde{V}(t)$ has continuous paths.
 
     Note that this process $\widetilde{V}$ exists whether there exists a replicating strategy or not, being the conditional expectation under $Q$ of the discounted payoff, so we are not in fact using the existence of a replicating strategy in order to construct one, however it may seem at first sight.
 
@@ -1109,11 +1109,11 @@ The following theorem gives us sufficient conditions for replicability. As we wi
     \begin{align}\label{eq:bs-repl-deriv-self-financing}
       \mathrm{d}V(t) &= \sum_{i=1}^d x_i(t) \mathrm{d}S_i(t) + y(t) \mathrm{d}A(t).
     \end{align}
-    By the It\^o Formula (Theorem \ref{thm:ito-formula}) with $F(t,x) = \frac{1}{x}$,
+    By the It\^o Formula (Theorem~\ref{thm:ito-formula}) with $F(t,x) = \frac{1}{x}$,
     \begin{align}\label{eq:bs-repl-deriv-risk-free-inv}
       \mathrm{d}A(t)^{-1} = -A(t)^{-2} r(t) A(t) \mathrm{d}t = - r(t) A(t)^{-1} \mathrm{d}t,
     \end{align}
-    so, by the It\^o Product Rule (Theorem \ref{thm:ito-product-rule}), we obtain
+    so, by the It\^o Product Rule (Theorem~\ref{thm:ito-product-rule}), we obtain
     \begin{align*}
       \mathrm{d}\widetilde{V}(t)
       &= A(t)^{-1} \mathrm{d}V(t) + V(t) \mathrm{d}A(t)^{-1}\\
@@ -1127,7 +1127,7 @@ The following theorem gives us sufficient conditions for replicability. As we wi
         &\ \ \ \ - \sum_{i=1}^d x_i(t) S_i(t) r(t) A(t)^{-1}\\
       &= \sum_{i=1}^d A(t)^{-1} x_i(t) \mathrm{d}S_i(t) - \sum_{i=1}^d x_i(t) S_i(t) r(t) A(t)^{-1} \mathrm{d}t.
     \end{align*}
-    Then, by Theorem \ref{thm:bs-risk-neutral-dynamics},
+    Then, by Theorem~\ref{thm:bs-risk-neutral-dynamics},
     \begin{align*}
       \mathrm{d}\widetilde{V}(t)
       &= \sum_{i=1}^d \Big[ A(t)^{-1} x_i(t) r(t) S_i(t) \mathrm{d}t + \sum_{j=1}^d A(t)^{-1} x_i(t) c_{ij}(t) S_i(t) \mathrm{d}W^Q_j(t) \\
@@ -1169,7 +1169,7 @@ As promised, we now show how to express the price of a derivative as a $Q$-expec
   for all $t \in [0,T]$.
 
   \begin{proof}
-    By Theorem \ref{thm:bs-repl-strat-derivative-prices}, we have that $H(t) = V(t)$, for all $t \in [0,T]$. Multiplying both sides by the discounting factor $\exp\left(-\int_0^t r(s) \mathrm{d}s\right)$, we also have that $\widetilde{H}(t) = \widetilde{V}(t)$, for all $t \in [0,T]$.
+    By Theorem~\ref{thm:bs-repl-strat-derivative-prices}, we have that $H(t) = V(t)$, for all $t \in [0,T]$. Multiplying both sides by the discounting factor $\exp\left(-\int_0^t r(s) \mathrm{d}s\right)$, we also have that $\widetilde{H}(t) = \widetilde{V}(t)$, for all $t \in [0,T]$.
 
     By definition of replicating strategy, the process $\widetilde{V}$ is a Q-martingale. Therefore,
     \begin{align*}
@@ -1222,7 +1222,7 @@ There exists an important relation between the prices of corresponding call and 
   for all $t \in [0,T]$.
 
   \begin{proof}
-    Let $(x_1^U,\ldots,x_d^U,y^U)$ the strategy with value $V^U$ replicating the underlying $U$. It exists since $U$ is replicable by Definition \ref{def:bs-european-option}.
+    Let $(x_1^U,\ldots,x_d^U,y^U)$ the strategy with value $V^U$ replicating the underlying $U$. It exists since $U$ is replicable by Definition~\ref{def:bs-european-option}.
 
     A portfolio consisting of one long such call option and one short such put option is equivalent to a derivative with payoff
     \begin{align*}
@@ -1241,7 +1241,7 @@ There exists an important relation between the prices of corresponding call and 
       = U(T) - K.
     \end{align*}
 
-    Hence, Theorem \ref{thm:bs-repl-strat-derivative-prices} implies that equation \eqref{eq:put-call-parity} indeed holds.
+    Hence, Theorem~\ref{thm:bs-repl-strat-derivative-prices} implies that equation \eqref{eq:put-call-parity} indeed holds.
   \end{proof}
 \end{theorem}
 
@@ -1268,9 +1268,9 @@ We can show that such derivatives are replicable and that we can thus price them
     \end{align*}
     since $U(T) \in L^2(\Omega, Q)$ and hence $U(T) \in L^1(\Omega, Q)$ as well.
 
-    In addition, since the payoff of an option is non-negative, it is bounded below by the deterministic constant $0$. Thus, by Theorem \ref{thm:bs-replicability}, there exists a replicating strategy whose value process has continuous paths.
+    In addition, since the payoff of an option is non-negative, it is bounded below by the deterministic constant $0$. Thus, by Theorem~\ref{thm:bs-replicability}, there exists a replicating strategy whose value process has continuous paths.
 
-    By Theorem \ref{thm:bs-derivative-pricing}, the existence of such a strategy in turn implies that \eqref{eq:bs-option-pricing} holds.
+    By Theorem~\ref{thm:bs-derivative-pricing}, the existence of such a strategy in turn implies that \eqref{eq:bs-option-pricing} holds.
   \end{proof}
 \end{theorem}
 
@@ -1292,7 +1292,7 @@ We denote the price of a European basket call option with weights $\mathbf{w}$ b
   Consider a European basket option with underlying $U$ and weights $\mathbf{w}$. Then $U(T)$ is square-integrable.
 
   \begin{proof}
-    By Assumption \ref{ass:bs-stock-price-square-integrability}, $S_i \in L^2(\Omega, Q)$ for all $i=1,\ldots,d$. Since $L^2(\Omega, Q)$ is a vector space over $\mathbb{R}$, the linear combination $U(T) = \sum_{i=1}^{d} w_i S_i(T)$ is also in $L^2(\Omega, Q)$, thus completing the proof.
+    By Assumption~\ref{ass:bs-stock-price-square-integrability}, $S_i \in L^2(\Omega, Q)$ for all $i=1,\ldots,d$. Since $L^2(\Omega, Q)$ is a vector space over $\mathbb{R}$, the linear combination $U(T) = \sum_{i=1}^{d} w_i S_i(T)$ is also in $L^2(\Omega, Q)$, thus completing the proof.
   \end{proof}
 \end{theorem}
 
@@ -1300,7 +1300,7 @@ We denote the price of a European basket call option with weights $\mathbf{w}$ b
   The price process of a European basket option satisfies \eqref{eq:bs-option-pricing}.
 
   \begin{proof}
-    The result immediately follows from the previous theorem together with Theorem \ref{thm:bs-option-pricing}.
+    The result immediately follows from the previous theorem together with Theorem~\ref{thm:bs-option-pricing}.
   \end{proof}
 \end{corollary}
 
@@ -1413,7 +1413,7 @@ We can now state and prove the main result of this section. Note that it is also
   \end{align*}
 
   \begin{proof}
-    Let $f \in C^2_0(\mathbb{R}^d)$, $0 \le s < t \le T$ and $h > 0$. Then, by the It\^o Formula (Theorem \ref{thm:ito-formula}),
+    Let $f \in C^2_0(\mathbb{R}^d)$, $0 \le s < t \le T$ and $h > 0$. Then, by the It\^o Formula (Theorem~\ref{thm:ito-formula}),
     \begin{align*}
       f(\mathbf{X}&(t+h)) - f(\mathbf{X}(t))\\
       &= \sum_{i=1}^{d} \int_t^{t+h} f_{x_i}(\mathbf{X}(s)) a_i(s,\mathbf{X}(s)) \mathrm{d}s\\
@@ -1423,7 +1423,7 @@ We can now state and prove the main result of this section. Note that it is also
 
     Since $f$ and its partial derivatives in the previous equation are in $C_0$, then they are bounded. Indeed, for any $g \in C_0(\mathbb{R}^d)$ and any $\epsilon > 0$, there exists a closed rectangle $R \subseteq \mathbb{R}^d$ such that $|g(\mathbf{x})| < \epsilon$ for $\mathbf{x} \in \mathbb{R}^d \setminus R$. Moreover, $R$ is compact and $g$ is continuous so $|g|$ is bounded by some $M$ on $R$ by the Boundedness Theorem. Hence, it is bounded on the whole $\mathbb{R}^d$ (by $\max\{\epsilon, M\}$).
 
-    By Lemma \ref{lem:ito-diffusion-characteristics-m2}, $b_{ij}(s,\mathbf{X}(s)) \in \mathcal{M}^2$, so, together with the boundedness of $f_{x_i}(\mathbf{X}(s))$, we have that the integrands $f_{x_i}(\mathbf{X}(s))b_{ij}(s,\mathbf{X}(s)) \in \mathcal{M}^2$ in the previous equation are in $\mathcal{M}^2$. Therefore, by Theorem \ref{thm:stochastic-integral-expectation-m2} and by linearity of the expectation,
+    By Lemma~\ref{lem:ito-diffusion-characteristics-m2}, $b_{ij}(s,\mathbf{X}(s)) \in \mathcal{M}^2$, so, together with the boundedness of $f_{x_i}(\mathbf{X}(s))$, we have that the integrands $f_{x_i}(\mathbf{X}(s))b_{ij}(s,\mathbf{X}(s)) \in \mathcal{M}^2$ in the previous equation are in $\mathcal{M}^2$. Therefore, by Theorem~\ref{thm:stochastic-integral-expectation-m2} and by linearity of the expectation,
     \begin{align*}
       \mathbb{E}(f&(\mathbf{X}(t+h)) - f(\mathbf{X}(t)))\\
       &= \sum_{i=1}^{d} \mathbb{E}\left(\int_t^{t+h} f_{x_i}(\mathbf{X}(s)) a_i(s,\mathbf{X}(s)) \mathrm{d}s\right)\\
@@ -1449,7 +1449,7 @@ We can now state and prove the main result of this section. Note that it is also
         &\ \ \ \ \ + \frac{1}{2} \sum_{i,l,j=1}^{d} \int_{\mathbb{R}^d} f_{x_i x_l}(\mathbf{x}) b_{ij}(t,\mathbf{x}) b_{lj}(t,\mathbf{x}) \rho(\mathbf{x},t;\mathbf{X}(0),0) \mathrm{d}\mathbf{x}.
     \end{align*}
 
-    Using the Chapman-Kolmogorov Equation (Theorem \ref{thm:fp-chapman-kolmogorov}), we get
+    Using the Chapman-Kolmogorov Equation (Theorem~\ref{thm:fp-chapman-kolmogorov}), we get
     \begin{align*}
       \frac{\partial}{\partial t}&\mathbb{E}(f(\mathbf{X}(t)))\\
       &= \sum_{i=1}^{d} \int_{\mathbb{R}^d} \int_{\mathbb{R}^d} f_{x_i}(\mathbf{x}) a_i(t,\mathbf{x})\rho(\mathbf{x},t;\mathbf{y},s) \rho(\mathbf{y},s;\mathbf{X}(0),0) \mathrm{d}\mathbf{y} \mathrm{d}\mathbf{x}\\
@@ -1547,7 +1547,7 @@ For the rest of this section, we prove some results that will be used to show in
   If $\mathbf{X}$ is an It\^o diffusion such that the increments $\mathbf{X}(t) - \mathbf{X}(s)$ are independent from $\mathcal{F}^\mathbf{W}_s$ for all $0 \le s < t \le T$, then $\mathbf{X}$ is Markov.
 
   \begin{proof}
-    Let $f$ be a bounded Borel function. Take $f^*(x,y) = f(x+y)$. It is a bounded Borel function since $f$ is as well. Since $\mathbf{X}(s)$ is $\mathcal{F}^\mathbf{W}_s$-measurable and $\mathbf{X}(t) - \mathbf{X}(s)$ is independent from $\mathcal{F}^\mathbf{W}_s$, then, by Theorem \ref{thm:cond-exp-measurable-independent},
+    Let $f$ be a bounded Borel function. Take $f^*(x,y) = f(x+y)$. It is a bounded Borel function since $f$ is as well. Since $\mathbf{X}(s)$ is $\mathcal{F}^\mathbf{W}_s$-measurable and $\mathbf{X}(t) - \mathbf{X}(s)$ is independent from $\mathcal{F}^\mathbf{W}_s$, then, by Theorem~\ref{thm:cond-exp-measurable-independent},
     \begin{align*}
       \mathbb{E}(f(\mathbf{X}(t)) \mid \mathcal{F}^\mathbf{W}_s)
       &= \mathbb{E}(f^*(\mathbf{X}(s), \mathbf{X}(t) - \mathbf{X}(s)) \mid \mathcal{F}^\mathbf{W}_s)
@@ -1581,13 +1581,13 @@ For the rest of this section, we prove some results that will be used to show in
 
 \section{Local Volatility Model}\label{sec:local-vol}
 
-Dupire's work and the work from \textcite{pablo_amster_towards_2009} applies to a local volatility model, developed here. Since this section is not based on any reference as we only derive what we need to show Dupire's Equation (Theorem \ref{thm:dupire}) and its generalisation (Theorem \ref{thm:generalisation}), no references are given.
+Dupire's work and the work from \textcite{pablo_amster_towards_2009} applies to a local volatility model, developed here. Since this section is not based on any reference as we only derive what we need to show Dupire's Equation (Theorem~\ref{thm:dupire}) and its generalisation (Theorem~\ref{thm:generalisation}), no references are given.
 
 We specialise the multi-asset Black-Scholes model developed before by restricting the risky assets to be It\^o diffusions, i.e.
 \begin{align*}
   \mathrm{d}S_i(t) = a_i(t,\mathbf{S}(t)) \mathrm{d}t + \sum_{j=1}^{d} b_{ij}(t,\mathbf{S}(t)) \mathrm{d}W_j(t),
 \end{align*}
-for all $i=1,\ldots,d$ for some $a,b$ as in Theorem \ref{thm:sde-solution}. By Theorem \ref{thm:bs-solution}, the prices of the risky assets are strictly positive. We can thus take
+for all $i=1,\ldots,d$ for some $a,b$ as in Theorem~\ref{thm:sde-solution}. By Theorem~\ref{thm:bs-solution}, the prices of the risky assets are strictly positive. We can thus take
 \begin{align*}
   \mu_i(t,\mathbf{S}(t)) = \frac{a_i(t, \mathbf{S}(t))}{S_i(t)},
   && c_{ij}(t,\mathbf{S}(t)) = \frac{b_{ij}(t, \mathbf{S}(t))}{S_i(t)},
@@ -1596,7 +1596,7 @@ for $i,j=1,\ldots,d$ since the price of risky assets is strictly positive, so th
 \begin{align}\label{eq:local-dynamics}
   \mathrm{d}S_i(t) = \mu_i(t,\mathbf{S}(t)) S_i(t) \mathrm{d}t + \sum_{j=1}^{d} c_{ij}(t,\mathbf{S}(t)) S_i(t) \mathrm{d}W_j(t),
 \end{align}
-for all $i=1,\ldots,d$, where $\mu_i(t,\mathbf{S}(t)), c_{ij}(t,\mathbf{S}(t)), i,j=1,\ldots,d$ satisfy Assumptions \ref{ass:drift-vol-regularity} and \ref{ass:vol-matrix-invertible}. Such a model is called a \textit{local volatility model}.
+for all $i=1,\ldots,d$, where $\mu_i(t,\mathbf{S}(t)), c_{ij}(t,\mathbf{S}(t)), i,j=1,\ldots,d$ satisfy Assumptions~\ref{ass:drift-vol-regularity} and \ref{ass:vol-matrix-invertible}. Such a model is called a \textit{local volatility model}.
 
 The crucial property of such a model for our purposes is that prices of risky assets are Markov, as shown below.
 
@@ -1604,9 +1604,9 @@ The crucial property of such a model for our purposes is that prices of risky as
   The prices and discounted prices of the risky assets are Markov under the risk-neutral probability $Q$.
 
   \begin{proof}
-    By Theorem \ref{thm:bs-risk-neutral-dynamics-discounted}, the discounted prices $\widetilde{S}_i$, for $i=1,\ldots,d$, have zero drift. Moreover, by Assumption \ref{ass:drift-vol-regularity}, $\mathbf{C}(t,\mathbf{S}(t))$ is adapted and bounded, so it is in $\mathcal{M}^2$. Hence, by Lemma \ref{lem:fp-ito-diffusion-indep-increments}, $\widetilde{\mathbf{S}}$ has independent increments and, by Theorem \ref{thm:fp-ito-diffusion-markov}, $\widetilde{\mathbf{S}}$ is a Markov process.
+    By Theorem~\ref{thm:bs-risk-neutral-dynamics-discounted}, the discounted prices $\widetilde{S}_i$, for $i=1,\ldots,d$, have zero drift. Moreover, by Assumption~\ref{ass:drift-vol-regularity}, $\mathbf{C}(t,\mathbf{S}(t))$ is adapted and bounded, so it is in $\mathcal{M}^2$. Hence, by Lemma~\ref{lem:fp-ito-diffusion-indep-increments}, $\widetilde{\mathbf{S}}$ has independent increments and, by Theorem~\ref{thm:fp-ito-diffusion-markov}, $\widetilde{\mathbf{S}}$ is a Markov process.
 
-    Moreover, since $g(\mathbf{x}) = e^{\int_0^t r(s) \mathrm{d}s} \mathbf{x}$ is an invertible Borel function such that $\mathbf{S}(t) = g(\widetilde{\mathbf{S}}(t))$, then $\mathbf{S}$ is Markov as well by Theorem \ref{thm:fp-markov-composing}.
+    Moreover, since $g(\mathbf{x}) = e^{\int_0^t r(s) \mathrm{d}s} \mathbf{x}$ is an invertible Borel function such that $\mathbf{S}(t) = g(\widetilde{\mathbf{S}}(t))$, then $\mathbf{S}$ is Markov as well by Theorem~\ref{thm:fp-markov-composing}.
   \end{proof}
 \end{theorem}
 
@@ -1616,7 +1616,7 @@ We denote the transition function of $\mathbf{S}$ as $\nu$ and assume that it ha
   The price process of risky assets $\mathbf{S}$ admits a transition probability density $\rho(\mathbf{x},t;\mathbf{y},s)$ such that $\rho \in C^2$.
 \end{assumption}
 
-This implies that, in such a model, the Fokker-Planck Equation (Theorem \ref{thm:fokker-planck}) holds for $\rho$. Since it is used in the proof of Dupire's Equation and its generalisation, this justifies our restriction to local volatility models. We can express our previous pricing results in terms of $\rho$ as shown below.
+This implies that, in such a model, the Fokker-Planck Equation (Theorem~\ref{thm:fokker-planck}) holds for $\rho$. Since it is used in the proof of Dupire's Equation and its generalisation, this justifies our restriction to local volatility models. We can express our previous pricing results in terms of $\rho$ as shown below.
 
 \begin{theorem}\label{thm:local-derivative-pricing}
   Let $H_\text{payoff} = f(\mathbf{S}(T))$ be the payoff of some derivative for some Borel function $f : \mathbb{R}^d \to \mathbb{R}$.
@@ -1627,7 +1627,7 @@ This implies that, in such a model, the Fokker-Planck Equation (Theorem \ref{thm
   for all $t \in [0,T]$.
 
   \begin{proof}
-    Let $t \in [0,T]$. By Theorem \ref{thm:bs-derivative-pricing},
+    Let $t \in [0,T]$. By Theorem~\ref{thm:bs-derivative-pricing},
     \begin{align*}
       \widetilde{H}(t)
       &= \mathbb{E}_Q(\widetilde{H}(T) \mid \mathcal{F}^\mathbf{W}_t)\\
@@ -1637,7 +1637,7 @@ This implies that, in such a model, the Fokker-Planck Equation (Theorem \ref{thm
     \end{align*}
     since $\nu(\mathbf{\Gamma},T;\mathbf{S}(t),t) = P(\mathbf{S}(T) \in \mathbf{\Gamma} \mid \mathcal{F}^\mathbf{W}_t)$ by definition of Markov process.
 
-    But then, by Assumption \ref{ass:local-density},
+    But then, by Assumption~\ref{ass:local-density},
     \begin{align*}
       \widetilde{H}(t)
       &= e^{-\int_0^T r(s) \mathrm{d}s} \int_{\mathbb{R}^d} f(\mathbf{x}) \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x},
@@ -1663,7 +1663,7 @@ for all $t \in [0,T]$.
   for all $t \in [0,T]$.
 
   \begin{proof}
-    The payoff of the call option is $(\mathbf{w}^T \mathbf{S}(T) - K)^+$ so it can be expressed as $g(\mathbf{S}(T))$ where $g(\mathbf{x}) = (\mathbf{w}^T \mathbf{x} - K)^+$ is a Borel function so the result follows for $C_\mathbf{w}$ from Theorem \ref{thm:local-derivative-pricing}.
+    The payoff of the call option is $(\mathbf{w}^T \mathbf{S}(T) - K)^+$ so it can be expressed as $g(\mathbf{S}(T))$ where $g(\mathbf{x}) = (\mathbf{w}^T \mathbf{x} - K)^+$ is a Borel function so the result follows for $C_\mathbf{w}$ from Theorem~\ref{thm:local-derivative-pricing}.
 
     The same argument with $g(\mathbf{x}) = (K - \mathbf{w}^T \mathbf{x})$ gives us the result for $P_\mathbf{w}$.
   \end{proof}
@@ -1687,7 +1687,7 @@ We can view an option on $S$ as a basket option with a single weight of 1 so the
 
 In this section, we fix $t \ge 0$ and let $C(T,K)$ denote the price at time $t$ of a European call option on the underlying $S$ with expiry time $T$ and strike price $K$.
 
-In \textcite{dupire_pricing_1993}, the asymptotic behaviour of $C(T,K)$ and its partial derivatives is only mentioned in passing. Here, we first show some results about said behaviour before moving to proving Dupire's Equation itself. Just like in the paper, we merely assume the asymptotic behaviour of $\frac{\partial}{\partial T} C(T,K)$ (see Assumption \ref{ass:dupire-asymptotic-dT}). The paper proves the equation in the absence of interest rates for simplicity. Here, we do take them into account.
+In \textcite{dupire_pricing_1993}, the asymptotic behaviour of $C(T,K)$ and its partial derivatives is only mentioned in passing. Here, we first show some results about said behaviour before moving to proving Dupire's Equation itself. Just like in the paper, we merely assume the asymptotic behaviour of $\frac{\partial}{\partial T} C(T,K)$ (see Assumption~\ref{ass:dupire-asymptotic-dT}). The paper proves the equation in the absence of interest rates for simplicity. Here, we do take them into account.
 
 \begin{theorem}\label{thm:dupire-asymptotic}
   The function $K \mapsto C(T,K)$ vanishes almost surely at infinity, i.e.
@@ -1732,10 +1732,10 @@ In \textcite{dupire_pricing_1993}, the asymptotic behaviour of $C(T,K)$ and its 
     \begin{align*}
       e^{-\int_t^T r(s) \mathrm{d}s}& \int_K^\infty (-K) \rho(x,T;S(t),t)\mathrm{d}x\\
       &= e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty (x-K-x) \rho(x,T;S(t),t)\mathrm{d}x\\
-      &= C(T,K) - e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty x \rho(x,T;S(t),t)\mathrm{d}x \tag{by Corollary \ref{cor:local-option-pricing}}\\
+      &= C(T,K) - e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty x \rho(x,T;S(t),t)\mathrm{d}x \tag{by Corollary~\ref{cor:local-option-pricing}}\\
       &= C(T,K) - e^{-\int_t^T r(s) \mathrm{d}s} \mathbb{E}_Q(\mathbf{1}_{\{S(T) > K\}} S(T) \mid \mathcal{F}^\mathbf{W}_t).
     \end{align*}
-    As $K \to \infty$, $C(T,K)$ converges almost surely to 0 by Theorem \ref{thm:dupire-asymptotic}. Moreover, $\mathbf{1}_{\{S(T) > K\}} S(T)$ converges pointwise to 0. Hence,
+    As $K \to \infty$, $C(T,K)$ converges almost surely to 0 by Theorem~\ref{thm:dupire-asymptotic}. Moreover, $\mathbf{1}_{\{S(T) > K\}} S(T)$ converges pointwise to 0. Hence,
     \begin{align}
       \lim_{K \to \infty} \left(e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty (-K) \rho(x,T;S(t),t)\mathrm{d}x\right) = 0,\label{eq:dupire-asymptotic-int-K}
     \end{align}
@@ -1779,7 +1779,7 @@ In \textcite{dupire_pricing_1993}, the asymptotic behaviour of $C(T,K)$ and its 
     \begin{align*}
       \lim_{K \to \infty} \frac{\partial^2}{\partial K^2} (K^2 C(T,K)) = 0,
     \end{align*}
-    by \eqref{eq:dupire-asymptotic-int-K} and by Theorem \ref{thm:dupire-asymptotic}, then
+    by \eqref{eq:dupire-asymptotic-int-K} and by Theorem~\ref{thm:dupire-asymptotic}, then
     \begin{align*}
       &\lim_{K \to \infty} \left(K^2 \frac{\partial^2}{\partial K^2} C(T,K)\right)\\
       &= - 2\lim_{K \to \infty} C(T,K)
@@ -1787,11 +1787,11 @@ In \textcite{dupire_pricing_1993}, the asymptotic behaviour of $C(T,K)$ and its 
         + \lim_{K \to \infty} \frac{\partial^2}{\partial K^2} (K^2 C(T,K))\\
       &= 0,
     \end{align*}
-    by Theorem \ref{thm:dupire-asymptotic} and \eqref{eq:dupire-asymptotic-dK}
+    by Theorem~\ref{thm:dupire-asymptotic} and \eqref{eq:dupire-asymptotic-dK}
   \end{proof}
 \end{lemma}
 
-Considering Theorem \ref{thm:dupire-asymptotic}, it seems reasonable to make the following assumption.
+Considering Theorem~\ref{thm:dupire-asymptotic}, it seems reasonable to make the following assumption.
 
 \begin{assumption}\label{ass:dupire-asymptotic-dT}
   The partial derivative $\frac{\partial}{\partial T} C(T,K)$ also vanishes at infinity, i.e.
@@ -1810,7 +1810,7 @@ Having shown the asymptotic behavious of the call option price and its partial d
   \end{align*}
 
   \begin{proof}
-    By Corollary \ref{cor:local-option-pricing}, we have
+    By Corollary~\ref{cor:local-option-pricing}, we have
     \begin{align*}
       C(T,K) &= e^{-\int_t^T r(s) \mathrm{d}s} \int_{\mathbb{R}} \left(x - K\right)^+ \rho(x,T;S(t),t) \mathrm{d}x.
     \end{align*}
@@ -1831,7 +1831,7 @@ Having shown the asymptotic behavious of the call option price and its partial d
     \end{align}
     by the Fundamental Theorem of Calculus.
 
-    By the Fokker-Plank Equation (Theorem \ref{thm:fokker-planck}) with $a(t,x) \coloneqq r(t) x$ and $b(t,x) := c(t,x) x$ at the point $(K,T)$, we have
+    By the Fokker-Plank Equation (Theorem~\ref{thm:fokker-planck}) with $a(t,x) \coloneqq r(t) x$ and $b(t,x) := c(t,x) x$ at the point $(K,T)$, we have
     \begin{align*}
       \frac{\partial}{\partial T}&\rho(K,T;S(t),t)\\
       &= - \frac{\partial}{\partial K}[r(T) K \rho(K,T;S(t),t)]
@@ -1869,7 +1869,7 @@ Having shown the asymptotic behavious of the call option price and its partial d
         + \frac{1}{2} c(T,K)^2 K^2 \frac{\partial^2}{\partial K^2} C(T,K)\\
         &\ \ \ \ \ + e^{-\int_t^T r(s)\mathrm{d}s}\alpha(T) K + e^{-\int_t^T r(s)\mathrm{d}s}\beta(T).
     \end{align*}
-    Finally, when $K \to \infty$, all terms besides the constants of integration vanish by Lemma \ref{lem:dupire-asymptotic-dK} and Assumption \ref{ass:dupire-asymptotic-dT} so the constants must be zero themselves. That is,
+    Finally, when $K \to \infty$, all terms besides the constants of integration vanish by Lemma~\ref{lem:dupire-asymptotic-dK} and Assumption~\ref{ass:dupire-asymptotic-dT} so the constants must be zero themselves. That is,
     \begin{align*}
       \frac{\partial}{\partial T}C(T,K)
       &= - r(T) K \frac{\partial}{\partial K} C(T,K)
@@ -1893,7 +1893,7 @@ such that the risky assets have dynamics
 \begin{align*}
   \mathrm{d}S_i(t) &= r(t) S_i(t) \mathrm{d}t + \sum_{j=1}^{d} c_{ij}(t) S_i(t) \mathrm{d}W^Q_j(t),
 \end{align*}
-for $i=1,\ldots,d$, where $c_{ij}(t), i,j=1,\ldots,d$ are deterministic, as shown by Theorem \ref{thm:bs-risk-neutral-dynamics}. Note that, in that theorem, the volatility coefficients $c_{ij}, i,j=1,\ldots,d$ were stochastic while they are deterministic in this restriction of the local volatiliy model.
+for $i=1,\ldots,d$, where $c_{ij}(t), i,j=1,\ldots,d$ are deterministic, as shown by Theorem~\ref{thm:bs-risk-neutral-dynamics}. Note that, in that theorem, the volatility coefficients $c_{ij}, i,j=1,\ldots,d$ were stochastic while they are deterministic in this restriction of the local volatiliy model.
 
 \begin{theorem}\label{thm:generalisation}
   (\cite{pablo_amster_towards_2009}, Theorem 1)
@@ -1987,8 +1987,8 @@ where $V = \{ \mathbf{x} \in \mathbb{R}^d : \mathbf{w}^T \mathbf{x} \ge K \}$. H
 
 We now prove the theorem in much greater detail than in the paper but following the same structure.
 
-\begin{proof}[Proof of Theorem \ref{thm:generalisation}]
-  We begin by calculating the partial derivatives of $C(T,\mathbf{w})$ with respect to $w_i$ for any $i=1,\ldots,d$ and with respect to $T$ using the result from Lemma \ref{lem:generalisation-var-change}. For $i=1,\ldots,d$, we have
+\begin{proof}[Proof of Theorem~\ref{thm:generalisation}]
+  We begin by calculating the partial derivatives of $C(T,\mathbf{w})$ with respect to $w_i$ for any $i=1,\ldots,d$ and with respect to $T$ using the result from Lemma~\ref{lem:generalisation-var-change}. For $i=1,\ldots,d$, we have
   \begin{align}
     &\frac{\partial}{\partial w_i} C(T,\mathbf{w})\notag\\
     &= \frac{\partial}{\partial w_i} \left(e^{-\int_t^T r(s) \mathrm{d}s} \int_K^\infty \int_A \left(B - K\right) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \mathrm{d}\mathbf{Q} \mathrm{d}B\right)\notag\\
@@ -2031,7 +2031,7 @@ We now prove the theorem in much greater detail than in the paper but following 
         \frac{\partial}{\partial x_i}\left[x_i(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \right] \mathrm{d}\mathbf{Q} \mathrm{d}B.\label{eq:generalisation-dC-dw}
   \end{align}
 
-  As in the proof of Dupire's Equation, we make use of the Fokker-Planck Equation (Theorem \ref{thm:fokker-planck}). For all $\mathbf{x} \in \mathrm{Im}(\mathbf{S}(T))$, we have
+  As in the proof of Dupire's Equation, we make use of the Fokker-Planck Equation (Theorem~\ref{thm:fokker-planck}). For all $\mathbf{x} \in \mathrm{Im}(\mathbf{S}(T))$, we have
   \begin{align}
     &\sum_{i=1}^d \frac{\partial}{\partial x_i}[r(T) x_i \rho(\mathbf{x},T;\mathbf{S}(t),t)]\notag\\
       &= \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}[c_{ij}(T) x_i(T) c_{lj}(T) x_l(T) \rho(\mathbf{x},T;\mathbf{S}(t),t)]
@@ -2056,7 +2056,7 @@ We now prove the theorem in much greater detail than in the paper but following 
       &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c_{lj}(T) x_l(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\big] \Bigg) \mathrm{d}\mathbf{Q} \mathrm{d}B. \label{eq:generalisation-one-deriv}
   \end{align}
 
-  Next, we calculate the partial derivative of call prices with respect to expiry time. Using Lemma \ref{lem:generalisation-var-change} once again, we have
+  Next, we calculate the partial derivative of call prices with respect to expiry time. Using Lemma~\ref{lem:generalisation-var-change} once again, we have
   \begin{align*}
     \frac{\partial}{\partial T} &C(T,\mathbf{w})\\
     &= e^{-\int_t^T r(s) \mathrm{d}s} \frac{\partial}{\partial T}\int_K^\infty \int_A \left(B - K\right) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \mathrm{d}\mathbf{Q} \mathrm{d}B\\
@@ -2074,7 +2074,7 @@ We now prove the theorem in much greater detail than in the paper but following 
       &\ \ \ \ \ \ \ \Bigg( \frac{1}{2} \sum_{i,l,j=1}^{d} \frac{\partial^2}{\partial x_l \partial x_i}\big[c_{ij}(T) x_i(\mathbf{Q},B) \notag\\
       &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c_{lj}(T) x_l(\mathbf{Q},B) \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t)\big] \Bigg) \mathrm{d}\mathbf{Q} \mathrm{d}B.
   \end{align*}
-  Applying Lemma \ref{lem:generalisation-var-change} the other way around, we obtain
+  Applying Lemma~\ref{lem:generalisation-var-change} the other way around, we obtain
   \begin{align}
     \sum_{i=1}^{d} &r(T) e^{\int_t^T r(s) \mathrm{d}s} w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\notag\\
     &= e^{\int_t^T r(s) \mathrm{d}s} \frac{\partial}{\partial T} C(T,\mathbf{w}) - \frac{1}{2} \sum_{j=1}^{d} \int_V \left(\mathbf{w}^T \mathbf{x} - K\right) \notag\\
@@ -2137,7 +2137,7 @@ We now prove the theorem in much greater detail than in the paper but following 
   \end{align}
   since the volatility coefficients do not depend on $\mathbf{x}$, thus justifying the restriction made in this section.
 
-  Applying Lemma \ref{lem:generalisation-var-change} to \eqref{eq:generalisation-dC-dw}, we have
+  Applying Lemma~\ref{lem:generalisation-var-change} to \eqref{eq:generalisation-dC-dw}, we have
   \begin{align*}
     \frac{\partial}{\partial w_i} C(T,\mathbf{w})
     &= - \frac{1}{w_i}e^{-\int_t^T r(s) \mathrm{d}s}
@@ -2160,7 +2160,7 @@ We now prove the theorem in much greater detail than in the paper but following 
   \begin{align*}
     e^{\int_t^T r(s) \mathrm{d}s} &\frac{\partial^2}{\partial w_i \partial w_l} C(T,\mathbf{w})\\
     &= \frac{\partial}{\partial w_l} \int_V x_i \rho(\mathbf{x},T;\mathbf{S}(t),t) \mathrm{d}\mathbf{x}\\
-    &= \int_K^\infty \int_A \frac{\partial}{\partial w_l} \left(\frac{Q_i B}{w_i} \rho(\mathbf{x},T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \right) \mathrm{d}\mathbf{Q} \mathrm{d}B \tag{by Lemma \ref{lem:generalisation-var-change} and the Leibniz Integral Rule as before}\\
+    &= \int_K^\infty \int_A \frac{\partial}{\partial w_l} \left(\frac{Q_i B}{w_i} \rho(\mathbf{x},T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d} \right) \mathrm{d}\mathbf{Q} \mathrm{d}B \tag{by Lemma~\ref{lem:generalisation-var-change} and the Leibniz Integral Rule as before}\\
     &= \int_K^\infty \int_A \Bigg(
       \delta_{il} \frac{- Q_i B}{w_i w_l} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{B^{d-1}}{w_1 \cdots w_d}\\
       &\ \ \ \ \ \ \ \ \ + \frac{Q_i B}{w_i} \frac{\partial}{\partial x_l} \rho(\mathbf{x}(\mathbf{Q},B),T;\mathbf{S}(t),t) \frac{- Q_l B}{w_l^2} \frac{B^{d-1}}{w_1 \cdots w_d}\\
@@ -2170,7 +2170,7 @@ We now prove the theorem in much greater detail than in the paper but following 
       (1 + \delta_{il}) \frac{Q_i B}{w_i} \rho(\mathbf{x},T;\mathbf{S}(t),t)\\
       &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + \frac{Q_i B}{w_i} \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;\mathbf{S}(t),t) \frac{Q_l B}{w_l} \Bigg) \mathrm{d}\mathbf{Q} \mathrm{d}B\\
     &= -\frac{1}{w_l} \int_V \left( (1 + \delta_{il}) x_i \rho(\mathbf{x},T;\mathbf{S}(t),t)
-      + x_i x_l \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;\mathbf{S}(t),t) \right) \mathrm{d}\mathbf{x}, \tag{by Lemma \ref{lem:generalisation-var-change}}
+      + x_i x_l \frac{\partial}{\partial x_l} \rho(\mathbf{x},T;\mathbf{S}(t),t) \right) \mathrm{d}\mathbf{x}, \tag{by Lemma~\ref{lem:generalisation-var-change}}
   \end{align*}
   but
   \begin{align*}
@@ -2213,17 +2213,17 @@ We now prove the theorem in much greater detail than in the paper but following 
 
 % Give a numerical example of how Theorem 1 can be applied to recover aij. You can restrict to the simplest setting of a two dimensional Black-Scholes model.
 
-In order to show how the result from Theorem \ref{thm:generalisation} could be used in practice, we now present a scheme to approximate the price of a basket option using finite difference methods.
+In order to show how the result from Theorem~\ref{thm:generalisation} could be used in practice, we now present a scheme to approximate the price of a basket option using finite difference methods.
 
 In the case of Dupire's Equation, we can easily make $c(T,K)$ the subject as
 \begin{align}
   c(T,K) = \sqrt{\frac{\frac{\partial}{\partial T} C(T,K) + r(T) K \frac{\partial}{\partial K} C(T,K)}{\frac{1}{2}\frac{\partial^2}{\partial K^2} C(T,K)}},\label{eq:dupire-calibration}
 \end{align}
-so that, using Dupire's Equation, we can get an explicit scheme to calibrate the local volatility model in a fairly straightforward manner. This is not as easy in the case of the equation obtained in Theorem \ref{thm:generalisation} so we focus here instead on using this equation to price basket options.
+so that, using Dupire's Equation, we can get an explicit scheme to calibrate the local volatility model in a fairly straightforward manner. This is not as easy in the case of the equation obtained in Theorem~\ref{thm:generalisation} so we focus here instead on using this equation to price basket options.
 
 For the sake of comparison, we also use Monte Carlo simulations to price the same basket options in the C++ implementation. No effort is made here to optimise these methods and any concerns about errors or how fast and whether the method converges are out of scope. Implementations for both are provided in the accompanying C++ files. For convenience, the source code is also listed in the appendix.
 
-For both methods, we use the example of a European basket call option with expiry time $T^*$, strike price $K$ and weights $\mathbf{w}^*$, whose price at time 0 we want to approximate. Corresponding put options could then be priced using Put-Call Parity (Theorem \ref{thm:put-call-parity}).
+For both methods, we use the example of a European basket call option with expiry time $T^*$, strike price $K$ and weights $\mathbf{w}^*$, whose price at time 0 we want to approximate. Corresponding put options could then be priced using Put-Call Parity (Theorem~\ref{thm:put-call-parity}).
 
 \subsubsection{Finite Difference Methods}
 
@@ -2269,7 +2269,7 @@ or equivalently,
   &\ \ \ \ + o(h_x^2 + h_y^2).
 \end{align*}
 
-By Theorem \ref{thm:generalisation}, we have
+By Theorem~\ref{thm:generalisation}, we have
 \begin{align*}
   \frac{\partial}{\partial T} C(T,\mathbf{w})
   &= \sum_{i=1}^{d} r(T) w_i \frac{\partial}{\partial w_i} C(T,\mathbf{w})\\
@@ -2376,7 +2376,7 @@ where $\hat{\mathbf{S}}_l(T^*)$ denotes the $l$-th simulation as described above
 
 This method is implemented in \path{src/monte_carlo.h}.
 
-\subsubsection{Result}
+\subsubsection{Sanity Check}
 
 Running the program outputs the following, where we can see that the pricer using finite difference methods produces similar prices than the ones we get from Monte Carlo simulations, thus providing evidence that it works as expected.
 
@@ -2417,17 +2417,50 @@ PDE price:            40.6889
 \comment{I like numerical examples that constitute a `story'. Could the story be here that with change of parameter we converge to the BS model price with constant coefficients? }
 %%%%%%%%%%%%%
 
+\subsubsection{Volatility Smile}
+
+\begin{figure}
+  \caption{Implied volatility of optimised parametric models}
+  \includegraphics[width=1\textwidth]{graphs/fitted_models.png}
+  \label{fig:fitted-models}
+\end{figure}
+
+The motivation behind local volatility models was to account for the the volatility smile that occurs in market data but that the classic Black-Scholes model is not able to fit. Indeed, the implied volatility of options as a function of the strike price (or of the expiry time) is not constant in practice and typically forms a graph in the shape of a smile, giving it its name. If we were to plot the implied volatiliy of option prices obtained from the classic Black-Scholes model, we would of course obtain a constant graph since the volatility is constant in that model.
+
+Consider the model from Section~\ref{sec:generalisation} with two risky assets and a volatility matrix of the form
+\begin{align*}
+  \mathbf{C}(t) = \begin{bmatrix}
+    a_{11} + b_{11} t + c_{11} t^2 & a_{12} + b_{12} t + c_{12} t^2\\
+    a_{21} + b_{21} t + c_{21} t^2 & a_{22} + b_{22} t + c_{22} t^2
+  \end{bmatrix},
+\end{align*}
+for some parameters $a_{ij}, b_{ij}, c_{ij}, i,j=1,2$, with constant interest rate $r = 0.02$ and with initial prices $\mathbf{S}(0) = (100, 50)$.
+
+For each price of a basket call option with expiry time $T$, strike price $K$ and weights $\mathbf{w}$, as given by the pricer using Theorem~\ref{thm:generalisation}, we can calculate the implied volatility $\sigma_\text{BS}$ given by the classic Black-Scholes model seeing the option as a call option with the same expiry time and strike price but on the underlying $B(t) = \mathbf{w}^T \mathbf{S}(t)$ satisfying
+\begin{align*}
+  \mathrm{d}B(t) = r B(t) \mathrm{d}t + \sigma_\text{BS} B(t) \mathrm{d}W^Q(t).
+\end{align*}
+The details of this calculation are omitted since the classic Black-Scholes model is out of scope. Varying the strike price (or the expiry time), we can plot the graph of the implied volatility.
+
+We can optimise the parameters such that these graphs fit some volatility smile as closely as possible. Note that this is simply to demonstrate how the model is able to fit the volatility smile contrary to the classic Black-Scholes model, rather than showing how to actually calibrate the model in practice.
+
+The results are shown in Figure~\ref{fig:fitted-models}. In both cases, we set the weights to $\mathbf{w} = (1,2)$. On the left, we fix the expiry time to 1 with target $K \mapsto 0.0001 (K - 200)^2 + 0.25$, while, on the right, we fix the strike price to 200 with target $T \mapsto 0.5 (T - 0.5)^2 + 0.25$.
+
+In this example, we see that the model is able to fit the volatility smile as a function of the expiry time but not so much the smile as a funtion of the strike price. This is unsurprising considering that, in our model, the volatility matrix is only time-dependent contrary to a more general local volatility model where it can also depend on the asset prices.
+
+The code used to generate these results is available in the accompanying file \path{notebook.py} which uses bindings to the C++ code in \path{src/python.cpp}.
+
 \subsection{Caveats}
 
 Finally, we end by pointing to some limitations of the model presented here.
 
 The local volatility model assumes that the volatility coefficients are deterministic functions of time and asset prices. This non-parametric approach allows calibration to fit market data. For example, in the single-asset case, \eqref{eq:dupire-calibration} can be used to find a function $c(t,S(t))$ such that the option prices given by the model perfectly match the prices at which these options are traded. However, the model will need to be recalibrated as the market moves.
 
-To make matters worse, Theorem \ref{thm:generalisation} assumes that volatility coefficients depends on time only and not on asset prices. This is an unrealistic assumption and will reduce the ability of the model to capture the assets' dynamics.
+To make matters worse, Theorem~\ref{thm:generalisation} assumes that volatility coefficients depends on time only and not on asset prices. This is an unrealistic assumption and will reduce the ability of the model to capture the assets' dynamics.
 
 In the multi-asset case, we would also have to deal with the scarcity of market data. Indeed, calibration would require the price of many basket options with different weights but, in practice, not many of them are traded.
 
-Contrary to Dupire's Equation where we only have partial derivatives with respect to expiry time and strike price respectively, Theorem \ref{thm:generalisation} has many different partial derivatives. This implies that, as $d$ becomes larger, the number of nodes requried by numerical methods can grow very large. For example, in the method presented above, the number of nodes, and therefore the time complexity of the algorithm, is in $\Theta(n^{d+1})$ since the space $(T,\mathbf{w})$ has $d+1$ dimensions. This can quickly make the problem intractable.
+Contrary to Dupire's Equation where we only have partial derivatives with respect to expiry time and strike price respectively, Theorem~\ref{thm:generalisation} has many different partial derivatives. This implies that, as $d$ becomes larger, the number of nodes requried by numerical methods can grow very large. For example, in the method presented above, the number of nodes, and therefore the time complexity of the algorithm, is in $\Theta(n^{d+1})$ since the space $(T,\mathbf{w})$ has $d+1$ dimensions. This can quickly make the problem intractable.
 
 %%%%%%%%%%%%%
 \comment{the code could come with some description as to what the routines are responsible for and which parts of the thesis they are based on.}
@@ -2438,6 +2471,18 @@ Contrary to Dupire's Equation where we only have partial derivatives with respec
 \section{Appendix}
 
 \subsection{Source Code of Numerical Example}
+
+The code is written using templates to make it work with an arbitrary number of assets. It uses Boost uBLAS for vectors and matrices. Both pricers can work in parallel if OpenMP is available.
+
+The file \path{src/model.h} provides type definitions used in the rest, most notably \texttt{Model} and \texttt{BasketOption} which are just some simple \texttt{struct}s.
+
+The pricer using finite difference methods is implemented in \path{src/pde.h}, more specifically, in the function \texttt{PDE::pricer}, which takes the number of time steps and the parameters of the model and the basket call option and return its approximated price. The code follows the structure of the argument above and makes use of the class \texttt{TreeLayer} and iterators for bookeeping such that the function itself remains readable.
+
+Monte Carlo simulations are implemented in \path{src/monte_carlo.h} in the function \texttt{MonteCarlo::pricer} with a similar interface than \texttt{PDE::pricer}. Once again, the code follows the same structure than the argument above.
+
+Finally, the file \path{src/main.cpp} contains an example with the pricing of two basket options (in and out of the money) with both pricers to check that the given approximated prices are similar as expected.
+
+The code is provided with many comments to make it more digestable.
 
 \lstinputlisting[language=c++,caption=src/model.h]{src/model.h}
 \needspace{5cm}
