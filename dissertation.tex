@@ -2425,7 +2425,7 @@ PDE price:            40.6889
   \label{fig:fitted-models}
 \end{figure}
 
-The motivation behind local volatility models was to account for the the volatility smile that occurs in market data but that the classic Black-Scholes model is not able to fit. Indeed, the implied volatility of options as a function of the strike price (or of the expiry time) is not constant in practice and typically forms a graph in the shape of a smile, giving it its name. If we were to plot the implied volatiliy of option prices obtained from the classic Black-Scholes model, we would of course obtain a constant graph since the volatility is constant in that model.
+The motivation behind local volatility models was to account for the volatility smile that occurs in market data but that the classic Black-Scholes model is not able to fit. Indeed, the implied volatility of options as a function of the strike price (or of the expiry time) is not constant in practice and typically forms a graph in the shape of a smile, giving it its name. If we were to plot the implied volatiliy of option prices obtained from the classic Black-Scholes model, we would of course obtain a constant graph since the volatility is constant in that model.
 
 Consider the model from Section~\ref{sec:generalisation} with two risky assets and a volatility matrix of the form
 \begin{align*}
@@ -2436,19 +2436,19 @@ Consider the model from Section~\ref{sec:generalisation} with two risky assets a
 \end{align*}
 for some parameters $a_{ij}, b_{ij}, c_{ij}, i,j=1,2$, with constant interest rate $r = 0.02$ and with initial prices $\mathbf{S}(0) = (100, 50)$.
 
-For each price of a basket call option with expiry time $T$, strike price $K$ and weights $\mathbf{w}$, as given by the pricer using Theorem~\ref{thm:generalisation}, we can calculate the implied volatility $\sigma_\text{BS}$ given by the classic Black-Scholes model seeing the option as a call option with the same expiry time and strike price but on the underlying $B(t) = \mathbf{w}^T \mathbf{S}(t)$ satisfying
+For each price of a basket call option with expiry time $T$, strike price $K$ and weights $\mathbf{w}$, as given by the pricer using Theorem~\ref{thm:generalisation}, we can calculate the implied volatility $\sigma_\text{BS}$ given by the classic Black-Scholes model, viewing the basket option as a call option with the same expiry time and strike price but on the underlying $B(t)$ satisfying
 \begin{align*}
   \mathrm{d}B(t) = r B(t) \mathrm{d}t + \sigma_\text{BS} B(t) \mathrm{d}W^Q(t).
 \end{align*}
 The details of this calculation are omitted since the classic Black-Scholes model is out of scope. Varying the strike price (or the expiry time), we can plot the graph of the implied volatility.
 
-We can optimise the parameters such that these graphs fit some volatility smile as closely as possible. Note that this is simply to demonstrate how the model is able to fit the volatility smile contrary to the classic Black-Scholes model, rather than showing how to actually calibrate the model in practice.
+We can optimise the parameters such that these graphs fit some volatility smile as closely as possible. Note that this is simply to demonstrate how the model is able to fit the volatility smile contrary to the classic Black-Scholes model, rather than showing how to actually calibrate our model in practice.
 
 The results are shown in Figure~\ref{fig:fitted-models}. In both cases, we set the weights to $\mathbf{w} = (1,2)$. On the left, we fix the expiry time to 1 with target $K \mapsto 0.0001 (K - 200)^2 + 0.25$, while, on the right, we fix the strike price to 200 with target $T \mapsto 0.5 (T - 0.5)^2 + 0.25$.
 
-In this example, we see that the model is able to fit the volatility smile as a function of the expiry time but not so much the smile as a funtion of the strike price. This is unsurprising considering that, in our model, the volatility matrix is only time-dependent contrary to a more general local volatility model where it can also depend on the asset prices.
+In this example, we see that the model is able to fit the volatility smile as a function of the expiry time but not so much the smile as a function of the strike price. This is unsurprising considering that, in our model, the volatility matrix is time-dependent only contrary to a more general local volatility model where it also depends on the asset prices.
 
-The code used to generate these results is available in the accompanying file \path{notebook.py} which uses bindings to the C++ code in \path{src/python.cpp}.
+The code used to generate these results is available in the accompanying file \path{notebook.py} which uses bindings to the C++ pricer in \path{src/python.cpp}.
 
 \subsection{Caveats}
 
