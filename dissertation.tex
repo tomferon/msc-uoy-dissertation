@@ -200,8 +200,6 @@ Finally, we present a discretisation of the PDE from Theorem~\ref{thm:generalisa
 
 \section{Preliminaries}\label{sec:preliminaries}
 
-% Develop a preliminaries section, in which the tools of stochastic Ito calculus are introduced. Assume that your reader has background in the standard undergraduate modules in mathematics (including analysis, measure theory, probability theory and statistics), but introduce all the notions concerning stochastic processes from scratch. This section should not contain any proofs. Simply set up and state the needed results, providing citations to sources. While developing this section, restrict to the setup needed for the model from [2].
-
 This section establishes the preliminaries of stochastic calculus required by further sections without proofs. See \textcite{capinski_stochastic_2012} and \textcite{capinski_blackscholes_2012} for further details.
 
 In the following, we implicitly assume that we work in a probability space $(\Omega, \mathcal{F}, P)$ unless stated otherwise. We also restrict ourselves to the time interval $[0,T]$ for some $T$ as it is sufficient in this context.
@@ -1306,8 +1304,6 @@ We denote the price of a European basket call option with weights $\mathbf{w}$ b
 
 \section{The Fokker-Planck Equation}\label{sec:fokker-planck}
 
-% Introduce the Fokker-Planck equation. Use [4] as a reference.
-
 In this section, we depart somewhat from financial mathematics to show a key result: the Fokker-Planck equation. This result is at the core of the proofs of Dupire's Equation and its generalisation to multiple assets, which are the main results shown in this dissertation.
 
 This section is based on \textcite{pavliotis_stochastic_2014}. We work in a filtered probability space $(\Omega, \mathcal{F}, \mathcal{F}^\mathbf{W}_t, P)$ without stating it explicitly as to not clutter the argument unnecessarily.
@@ -1673,9 +1669,6 @@ For the remaining of this dissertation, we restrict ourselves to local volatilit
 
 \section{Dupire's Equation}\label{sec:dupire}
 
-% Give a detailed derivation of the Dupire’s equation (equation starting with ∂C = on page 171 in [2]). ∂T
-% Use section 2 from [2] and the section ‘The continuous time theory’ from [3] as a source for the proof.
-
 In the case where $d=1$, i.e. there is one risky asset driven by a unique Wiener process, an interesting result was derived by \textcite{dupire_pricing_1993} for local volatility models making use of the fact that, in such models, the price of the risky asset is a Markov process.
 
 Since we work in a single-asset specialisation of the local volatility model developed in the previous section, we simply write $S$ for the risky asset, with dynamics
@@ -1880,8 +1873,6 @@ Having shown the asymptotic behavious of the call option price and its partial d
 \end{theorem}
 
 \section{Generalisation to Multiple Assets}\label{sec:generalisation}
-
-% Provide the setup and give a detailed proof of Theorem 1 from [2]. This should be based on section 3 from [2]
 
 Since, contrary to Dupire's Equation in the single-asset case, the partial differential equation that is satisfied by the prices of European basket call options will turn out to involve partial derivatives with respect to the expiry time $T$ and to the weights $w_i, i=1,\ldots,d$, we fix $t$ and $K$ and denote by $C(T,\mathbf{w})$ the price at time $t$ of a European basket call option with expiry time $T$, strike price $K$ and weights $\mathbf{w}$.
 
@@ -2210,8 +2201,6 @@ We now prove the theorem in much greater detail than in the paper but following 
 \end{proof}
 
 \subsection{Numerical Example}
-
-% Give a numerical example of how Theorem 1 can be applied to recover aij. You can restrict to the simplest setting of a two dimensional Black-Scholes model.
 
 In order to show how the result from Theorem~\ref{thm:generalisation} could be used in practice, we now present a scheme to approximate the price of a basket option using finite difference methods.
 
