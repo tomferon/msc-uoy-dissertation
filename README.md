@@ -1,3 +1,5 @@
+This README file gives some details about how to build and run the code accompanying the dissertation.
+
 # How to run
 
 The following commands should be run in the directory of this README file.
