@@ -1243,6 +1243,8 @@ There exists an important relation between the prices of corresponding call and 
   \end{proof}
 \end{theorem}
 
+At any time $t$, we say that a call option on the underlying $U(t)$ is \textit{in the money} if $U(t) > K$, \textit{at the money} if $U(t) = K$ and \textit{out of the money} if $U(t) < K$. For put options, we say that it is \textit{in the money} if $U(t) < K$, \textit{at the money} if $U(t) = K$ and \textit{out of the money} if $U(t) > K$.
+
 We can show that such derivatives are replicable and that we can thus price them using the results developed above.
 
 \begin{theorem}\label{thm:bs-option-pricing}
@@ -2419,7 +2421,7 @@ Consider the model from Section~\ref{sec:generalisation} with two risky assets a
     a_7 + a_8 t + a_9 t^2 & a_{10} + a_{11} t + a_{12} t^2
   \end{bmatrix},
 \end{align*}
-for some parameters $\mathbf{a} = (a_1, \ldots, a_{12})$, with constant interest rate $r = 0.02$ and with initial prices $\mathbf{S}(0) = (100, 50)$.
+for some parameters $\mathbf{a} = (a_1, \ldots, a_{12})$, with constant interest rate $r = 0.02$ and initial prices $\mathbf{S}(0) = (100, 50)$.
 
 For each price of a basket call option with expiry time $T$, strike price $K$ and weights $\mathbf{w}$, as given by the pricer using Theorem~\ref{thm:generalisation} or by market data, we can calculate the implied volatility $\sigma_\text{BS}$ given by the classic Black-Scholes model, viewing the basket option as a call option with the same expiry time and strike price but on the underlying $B(t)$ satisfying
 \begin{align*}
@@ -2427,7 +2429,7 @@ For each price of a basket call option with expiry time $T$, strike price $K$ an
 \end{align*}
 The details of the calculation of the implied volatility from the price of a call option are omitted here since the classic Black-Scholes model is out of scope. Varying the strike price (or the expiry time), we can plot the graph of the implied volatility.
 
-In particular, for any choice of parameters $\mathbf{a}$, we can fix $T=1$ and $\mathbf{w}=(1,2)$ and use the C++ pricer to approximate the option prices $C(1,K)$ for $K=100,105,\ldots,300$ and, for each of the option prices obtained, calculate the implied volatility $\sigma_\text{BS}^\mathbf{a}(K)$.
+In particular, for any choice of parameters $\mathbf{a}$, we can fix $T=1$ and $\mathbf{w}=(1,2)$ and use the method described in Point~\ref{sec:finite-difference} to approximate the option prices $C(1,K)$ for $K=100,105,\ldots,300$ and, for each of the option prices obtained, calculate the implied volatility $\sigma_\text{BS}^\mathbf{a}(K)$.
 
 Since we do not have actual market data, let us pretend, for the sake of this example, that the implied volatility of the prices of the options traded on the market with expiry time $T=1$, weights $\mathbf{w}=(1,2)$ and strike price $K$, are given by $\sigma^\text{market}_\text{BS}(K) = 0.0001 (K - 200)^2 + 0.25$ for each $K=100,105,\ldots,300$. This polynomial has a smile shape with the lowest implied volatility at the money so it is somewhat representative of what we can expect from actual market data.
 
