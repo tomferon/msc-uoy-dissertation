@@ -136,28 +136,32 @@ Supervisor: Maciej J. Capi\'nski
 
 \pagebreak
 
+%%%%%%%%%%%%%
+\comment{a section "Introduction" should start here }
+%%%%%%%%%%%%%
+
 The classic Black-Scholes model assumes that the volatility is constant. This has the advantage that the model is simple and interesting results can be derived, most notably the Black-Scholes formula that allows us to find the price of European options given a certain volatility. By inverting this relation, we can also find the so-called \textit{implied volatility} from prices of traded European options. Unfortunately, the implied volatility is not constant and, in fact, vary as a function of expiry time or of strike price. These relationships are both referred to as the \textit{volatility smile} due to the shape of their graphs.
 
 Several extensions of the Black-Scholes model have been proposed to solve this discrepancy. In particular, \textit{local volatility models} have the advantage of being simpler than \textit{stochastic volatility models} while still being able to fit the volatility smile. In such a model, \textcite{dupire_pricing_1993} has shown that the prices of European call options satisfy a partial differential equation, the so-called \textit{Dupire Equation}.
 
 Later, \textcite{amster_towards_2009} attempted to generalise Dupire's Equation to multiple assets.
 %%%%%%%%%%%%%
-\comment{the following is a rather complicated sentence. Brake into two?}
+%\comment{the following is a rather complicated sentence. Brake into two?}
 %%%%%%%%%%%%%
 They showed that the prices of European \textit{basket} call options, i.e. options whose underlying is a basket of assets with fixed weights, also satisfy some partial differential equation. This PDE is related to Dupire's Equation but has a different form. Indeed, it has partial derivatives with respect to expiry time and weights while Dupire's Equation has partial derivates with respect to expiry time and strike price. Moreover, the PDE holds if the volatility is time-dependent only. Nonetheless, we will refer to it as the \textit{generalisation} of Dupire's Equation here for simplicity. %%%%%%%%%%%%%
-\comment{from this paragraph it is not clear why it should not be called rightfully a generalisation. The use of the term `Nonetheless' is unclear.}
+%\comment{from this paragraph it is not clear why it should not be called rightfully a generalisation. The use of the term `Nonetheless' is unclear.}
 %%%%%%%%%%%%%
 
 The goal of this dissertation is to present the necessary background for these results and to present them in detail, taking particular care to make each step explicit.
 
 We begin by establishing the prerequisites about stochastic processes and stochastic calculus in Section~\ref{sec:preliminaries}. Most results in this section are stated without proofs but references are provided in each case. The \textit{multi-asset Black-Scholes model with variable coefficients} is then presented in Section~\ref{sec:black-scholes}, where we also define many concepts and show important results to \textit{price} basket options. In Section~\ref{sec:fokker-planck}, we define \textit{Markov processes} and derive the \textit{Fokker-Planck Equation} and the conditions for a Markov process to satisfy it.
 %%%%%%%%%%%%%
-\comment{It is not clear if in this section the Dupire's Equation is derived. Moreover, it would be good to describe the ideas involved for this derivation. I would say that we could use a paragraph for this. }
+%\comment{It is not clear if in this section the Dupire's Equation is derived. Moreover, it would be good to describe the ideas involved for this derivation. I would say that we could use a paragraph for this. }
 %%%%%%%%%%%%%
 
 Section~\ref{sec:local-vol} presents a restriction of the model developed in Section~\ref{sec:black-scholes} where the volatility coefficients are deterministic functions of the time and the prices of the risky assets, the so-called \textit{local volatility model}. We show that, in this model, the prices of the risky assets satisfy the Fokker-Planck Equation.
 %%%%%%%%%%%%%
-\comment{it is not clear what we mean by `restriction'. This thesis is about a generalisation. An uninformed reader will be confused.}
+%\comment{it is not clear what we mean by `restriction'. This thesis is about a generalisation. An uninformed reader will be confused.}
 %%%%%%%%%%%%%
 
 This key property of local volatility models is used to prove Dupire's Equation in Section~\ref{sec:dupire} in the single-asset case. Indeed, we will see that the second-order partial derivative of the call option price with respect to the strike price is equal to the transition probability density of the price of the underlying asset, which itself satisfies the Fokker-Planck Equation. This leads to a PDE satisfied by call option prices.
@@ -179,7 +183,7 @@ Lemma~\ref{lem:ito-diffusion-characteristics-m2} was needed in the proof of Theo
 
 The construction of a risk-neutral probability for the multi-asset Black-Scholes model in Theorem~\ref{thm:bs-risk-neutral-prob} is based on \textcite{capinski_blackscholes_2012} where the existence of such a probability measure is only shown in the case of deterministic drift and volatility coefficients. We extend it here for stochastic coefficients that are bounded by a deterministic constant. We also provide a more detailed proof.
 %%%%%%%%%%%%%
-\comment{I would reverse the order. The issue is that in CK the proof is for constant coefficients and you derived the result for stochastic ones. This {\em is} a difference, not just a question of going into details. You are underselling what is done.}
+%\comment{I would reverse the order. The issue is that in CK the proof is for constant coefficients and you derived the result for stochastic ones. This {\em is} a difference, not just a question of going into details. You are underselling what is done.}
 %%%%%%%%%%%%%
 
 The multi-asset Black-Scholes model with variable coefficients is presented here based on \textcite{capinski_blackscholes_2012}. Most results from this reference are concerned with the classic Black-Scholes model (single asset, constant coefficients). Here, they are extended and the proofs are adapted to the more general model. More specifically, this is the case for Theorem~\ref{thm:bs-risk-neutral-dynamics}, Theorem~\ref{thm:bs-risk-neutral-dynamics-discounted}, Theorem~\ref{thm:bs-repl-strat-derivative-prices}, Theorem~\ref{thm:bs-replicability} and Theorem~\ref{thm:bs-derivative-pricing}.
@@ -2300,7 +2304,7 @@ where $\mathbf{A}(T) = \frac{1}{2} C(T) C(T)^T$, thus giving us an explicit form
 
 Moreover, we can simply let
 %%%%%%%%%%%%%
-\comment{juts a note that in my letex "$\coloneq$" produces :- .}
+%\comment{juts a note that in my letex "$\coloneq$" produces :- .}
 %%%%%%%%%%%%%
 \begin{align}
   \hat{C}(0, \mathbf{w})
@@ -2314,7 +2318,7 @@ Therefore, we can approximate $C(T^*, \mathbf{w}^*)$ by computing $\hat{C}(T^*, 
 
 C++ does not lend itself well to recursion due to the creation of a new stack frame for each function call, potentially resulting in a stack overflow. Moreover, most nodes are required by several others so we would have to implement memoisation to avoid recomputing the same node several times.
 %%%%%%%%%%%%%
-\comment{it does not? Why, in what sense? We can write recursive formulae in any language I think. I am sure that there is an issue here, but it might not be clear from this short comment.}
+%\comment{it does not? Why, in what sense? We can write recursive formulae in any language I think. I am sure that there is an issue here, but it might not be clear from this short comment.}
 %%%%%%%%%%%%%
 Therefore, we instead compute the values of the nodes at expiry time 0 using \eqref{eq:fd-chat-base} and then loop over each subsequent expiry time step $k h_T$ for $k=1,\ldots,n$ to compute the values $\hat{C}(k h_T, \mathbf{w})$ for each $\mathbf{w}$ using \eqref{eq:fd-chat-recur} and using the values from the previous loop iteration. The process ends with computing the desired $\hat{C}(T^*, \mathbf{w}^*)$.
 
@@ -2370,7 +2374,7 @@ This method is implemented in \path{src/monte_carlo.h}.
 Running the program outputs the following, where we can see that the pricer using finite difference methods produces similar prices than the ones we get from Monte Carlo simulations, thus providing evidence that it works as expected.
 
 %%%%%%%%%%%%%
-\comment{without knowing all the parameters the picture is not full.}
+%\comment{without knowing all the parameters the picture is not full.}
 %%%%%%%%%%%%%
 
 {\small
@@ -2403,13 +2407,17 @@ PDE price:            40.6889
 }
 
 %%%%%%%%%%%%%
-\comment{I like numerical examples that constitute a `story'. Could the story be here that with change of parameter we converge to the BS model price with constant coefficients? }
+%\comment{I like numerical examples that constitute a `story'. Could the story be here that with change of parameter we converge to the BS model price with constant coefficients? }
 %%%%%%%%%%%%%
 
 \subsubsection{Volatility Smile}
 
 \begin{figure}
-  \caption{Implied volatility of optimised parametric models}
+  \caption{Implied volatility of optimised parametric models
+  %%%%%%%%%%%%%
+\comment{What is Model1 and Model2? }
+%%%%%%%%%%%%%
+  }
   \includegraphics[width=1\textwidth]{graphs/fitted_models.png}
   \label{fig:fitted-models}
 \end{figure}
@@ -2431,9 +2439,19 @@ For each price of a basket call option with expiry time $T$, strike price $K$ an
 \end{align*}
 The details of this calculation are omitted since the classic Black-Scholes model is out of scope. Varying the strike price (or the expiry time), we can plot the graph of the implied volatility.
 
+%%%%%%%%%%%%%
+\comment{To compute the implied volatility we need to use some option prices. Without knowing these it is hard to see how the plots were produced. I suggest to write out the parameters of the model which is used in this example and the option prices used for the computation of the implied volatility.}
+%%%%%%%%%%%%%
+
 We can optimise the parameters such that these graphs fit some volatility smile as closely as possible. Note that this is simply to demonstrate how the model is able to fit the volatility smile contrary to the classic Black-Scholes model, rather than showing how to actually calibrate our model in practice.
 
-The results are shown in Figure~\ref{fig:fitted-models}. In both cases, we set the weights to $\mathbf{w} = (1,2)$. On the left, we fix the expiry time to 1 with target $K \mapsto 0.0001 (K - 200)^2 + 0.25$, while, on the right, we fix the strike price to 200 with target $T \mapsto 0.5 (T - 0.5)^2 + 0.25$.
+The results are shown in Figure~\ref{fig:fitted-models}. In both cases, we set the weights to $\mathbf{w} = (1,2)$. On the left, we fix the expiry time to 1 with target $K \mapsto 0.0001 (K - 200)^2 + 0.25$
+%%%%%%%%%%%%%
+\comment{it is not clear where the $K \mapsto 0.0001 (K - 200)^2 + 0.25$ came from. Why such formula?}
+%%%%%%%%%%%%%
+, while, on the right, we fix the strike price to 200 with target $T \mapsto 0.5 (T - 0.5)^2 + 0.25$. %%%%%%%%%%%%%
+\comment{same here. It is not clear why such curve is taken.}
+%%%%%%%%%%%%%
 
 In this example, we see that the model is able to fit the volatility smile as a function of the expiry time but not so much the smile as a function of the strike price. This is unsurprising considering that, in our model, the volatility matrix is time-dependent only contrary to a more general local volatility model where it also depends on the asset prices.
 
@@ -2452,7 +2470,7 @@ In the multi-asset case, we would also have to deal with the scarcity of market 
 Contrary to Dupire's Equation where we only have partial derivatives with respect to expiry time and strike price respectively, Theorem~\ref{thm:generalisation} has many different partial derivatives. This implies that, as $d$ becomes larger, the number of nodes requried by numerical methods can grow very large. For example, in the method presented above, the number of nodes, and therefore the time complexity of the algorithm, is in $\Theta(n^{d+1})$ since the space $(T,\mathbf{w})$ has $d+1$ dimensions. This can quickly make the problem intractable.
 
 %%%%%%%%%%%%%
-\comment{the code could come with some description as to what the routines are responsible for and which parts of the thesis they are based on.}
+%\comment{the code could come with some description as to what the routines are responsible for and which parts of the thesis they are based on.}
 %%%%%%%%%%%%%
 
 \pagebreak
