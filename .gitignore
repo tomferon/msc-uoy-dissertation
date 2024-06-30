@@ -17,4 +17,5 @@
 meetings.adoc
 .cache
 build
+graphs/*.png
 
